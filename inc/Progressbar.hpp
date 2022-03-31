@@ -19,7 +19,7 @@ public:
     void draw(sf::RenderWindow& window);
     void resize(sf::RenderWindow& window);
 
-private:
+protected:
     sf::RectangleShape bar;
     sf::RectangleShape background;
 };

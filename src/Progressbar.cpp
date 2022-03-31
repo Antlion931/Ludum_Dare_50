@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 #include "Progressbar.hpp"
 
@@ -53,7 +52,8 @@ void Progressbar::draw(sf::RenderWindow& window)
 
 void Progressbar::resize(sf::RenderWindow& window)
 {
-    
+    background.setScale(resolution -> getVector2fScale());
+    bar.setScale(resolution -> getVector2fScale());
 }
 
 void Progressbar::setPosition(float x, float y)

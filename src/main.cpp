@@ -5,15 +5,18 @@
 #include "stuff.hpp"
 #include "Progressbar.hpp"
 #include "MouseChangeableProgressbar.hpp"
+#include "Resolution.hpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(840, 600), "GAME", sf::Style::Close | sf::Style::Resize | sf::Style::Titlebar);
+    Resolution resolution(Resolution::resolution::_1280x720);
+    sf::RenderWindow window(resolution.getDefault(), "GAME", sf::Style::Close | sf::Style::Titlebar);
 
     std::vector<stuff*> stuffs;
 
     MouseChangeableProgressbar testBar(400.0f, 20.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
     testBar.setPosition(30.0f, 60.0f);
+    testBar.resolution = &resolution;
 
     stuffs.push_back(&testBar);
 
@@ -27,18 +30,6 @@ int main()
                 case sf::Event::Closed:
                     window.close();
                 break;
-
-                case sf::Event::Resized:
-                {
-                    sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-                    window.setView(sf::View(visibleArea));
-
-                    for(stuff* s : stuffs)
-                    {
-                        s -> resize(window);
-                    }
-                }
-                break;
             }
         }
 
@@ -48,8 +39,6 @@ int main()
         {
             s -> draw(window);
         }
-
-        testBar.update(window);
         
         window.display();
     }

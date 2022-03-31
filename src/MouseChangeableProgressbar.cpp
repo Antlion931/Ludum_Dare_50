@@ -13,6 +13,8 @@ void MouseChangeableProgressbar::update(sf::RenderWindow& window)
     {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
         sf::Vector2f bodySize = getSize();
+        bodySize.x *= resolution->getScale();
+        bodySize.y *= resolution->getScale();
         sf::Vector2f bodyPosition = getPosition();
 
         bool IsMouseBetweenPositionX = (mousePosition.x >= bodyPosition.x) && (mousePosition.x <= bodyPosition.x + bodySize.x);
