@@ -1,5 +1,5 @@
-#include "Button.h"
-#include "Toolkit.h"
+#include "Button.hpp"
+#include "Toolkit.hpp"
 
 
 Button::Button(sf::Vector2f position, sf::Vector2f size) : buttonState(State::NOT_HOVERED)

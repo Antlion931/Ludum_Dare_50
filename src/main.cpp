@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "Node.hpp"
-#include "Button.h"
-#include "TextButton.h"
+#include "Button.hpp"
+#include "TextButton.hpp"
 
 int main()
 {
