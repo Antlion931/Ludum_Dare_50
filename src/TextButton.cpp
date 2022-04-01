@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-#include "TextButton.h"
-=======
 #include "TextButton.hpp"
 >>>>>>> acf5311044db40575f174f9389541c634871b73c
 
@@ -39,17 +36,10 @@ void TextButton::adjustText()
 	text.setPosition(x,y);
 }
 
-<<<<<<< HEAD
-void TextButton::onDraw(sf::RenderTarget& target, const sf::Transform& transform) const
-{
-	target.draw(box, transform);
-	target.draw(text, transform);
-=======
 void TextButton::onDraw(sf::RenderTarget& target) const
 {
 	target.draw(box, m_global_transform.getTransform());
 	target.draw(text, m_global_transform.getTransform());
->>>>>>> acf5311044db40575f174f9389541c634871b73c
 }
 
 
