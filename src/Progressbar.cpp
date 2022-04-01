@@ -44,22 +44,21 @@ void Progressbar::setProgress(float newProgress)
     bar.setSize(newBarSize);
 }
 
-void Progressbar::draw(sf::RenderWindow& window)
+void Progressbar::onDraw(sf::RenderTarget& target, const sf::Transform& transform) const
 {
-    window.draw(background);
-    window.draw(bar);
+    target.draw(background, transform);
+    target.draw(bar, transform);
 }
 
-void Progressbar::resize(Resolution resolution)
+void Progressbar::onResize(Resolution resolution)
 {
-    background.setScale(resolution .getVector2fScale());
+    background.setScale(resolution.getVector2fScale());
     bar.setScale(resolution.getVector2fScale());
 }
 
-void Progressbar::setPosition(float x, float y)
+void Progressbar::setPosition(sf::Vector2f positon)
 {
-    background.setPosition(x, y);
-    bar.setPosition(x, y);
+    m_transform.translate(positon);
 }
 
 sf::Vector2f Progressbar::getPosition()

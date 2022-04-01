@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Progressbar.hpp"
-#include "stuff.hpp"
+#include "Node.hpp"
 
 class MouseChangeableProgressbar : public Progressbar
 {

@@ -2,6 +2,7 @@
 
 #include "MouseChangeableProgressbar.hpp"
 #include "Progressbar.hpp"
+#include "Toolkit.hpp"
 
 MouseChangeableProgressbar::MouseChangeableProgressbar(float width, float height, sf::Color backgroundColor, sf::Color fillColor)
 : Progressbar(width, height, backgroundColor, fillColor)
@@ -13,16 +14,11 @@ void MouseChangeableProgressbar::update(sf::RenderWindow& window)
     {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
         sf::Vector2f bodySize = getSize();
-        bodySize.x *= background.getScale().x;
-        bodySize.y *= background.getScale().y;
         sf::Vector2f bodyPosition = getPosition();
 
-        bool IsMouseBetweenPositionX = (mousePosition.x >= bodyPosition.x) && (mousePosition.x <= bodyPosition.x + bodySize.x);
-        bool isMouseBetweenPositionY = (mousePosition.y >= bodyPosition.y) && (mousePosition.y <= bodyPosition.y + bodySize.y);
-
-        if( IsMouseBetweenPositionX && isMouseBetweenPositionY)
+        if(clamp(background, mousePosition))
         {
-            float newProgress = (mousePosition.x - bodyPosition.x) / bodySize.x;
+            float newProgress = (mousePosition.x - bodyPosition.x) / (bodySize.x * background.getScale().x);
             setProgress(newProgress);
         }
     }

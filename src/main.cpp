@@ -2,22 +2,52 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "stuff.hpp"
 #include "Progressbar.hpp"
 #include "MouseChangeableProgressbar.hpp"
 #include "Resolution.hpp"
+#include "Node.hpp"
+#include "Button.hpp"
+#include "TextButton.hpp"
 
 int main()
 {
     Resolution resolution(Resolution::resolution::_1280x720);
     sf::RenderWindow window(resolution.getDefault(), "GAME", sf::Style::Close | sf::Style::Titlebar);
 
-    std::vector<stuff*> stuffs;
+    sf::Font font;
 
-    MouseChangeableProgressbar testBar(800.0f, 20.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    testBar.setPosition(30.0f, 60.0f);
+    if (!font.loadFromFile("res/Comic_Book.otf"))
+    {
+        std::cerr << "font errore!\n";
+        return 0;
+    }
+    
+    sf::Text buttonText("place holder", font);
+    buttonText.setFillColor(sf::Color::Red);
+    buttonText.setCharacterSize(20);
 
-    stuffs.push_back(&testBar);
+    Node root;
+    
+    buttonText.setString("1280 x 720");
+    std::shared_ptr<TextButton> _1280x720button = std::make_shared<TextButton>(TextButton({ 50,100 }, { 200,100 }, buttonText));
+
+    buttonText.setString("1336 x 768");
+    std::shared_ptr<TextButton> _1336x768button = std::make_shared<TextButton>(TextButton({ 300,100 }, { 200,100 }, buttonText));
+
+    buttonText.setString("1600 x 900");
+    std::shared_ptr<TextButton> _1600x900button = std::make_shared<TextButton>(TextButton({ 550,100 }, { 200,100 }, buttonText));
+
+    buttonText.setString("1900 x 1080");
+    std::shared_ptr<TextButton> _1900x1080button = std::make_shared<TextButton>(TextButton({ 800,100 }, { 200,100 }, buttonText));
+
+    std::shared_ptr<MouseChangeableProgressbar> progressbar = std::make_shared<MouseChangeableProgressbar>(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
+    root.addChild(_1280x720button);
+    root.addChild(_1336x768button);
+    root.addChild(_1600x900button);
+    root.addChild(_1900x1080button);
+    root.addChild(progressbar);
+
+    progressbar -> setPosition({100, 100});
 
     while(window.isOpen())
     {
@@ -32,37 +62,36 @@ int main()
             }
         }
 
-        window.clear();
 
-        for(stuff* s : stuffs)
-        {
-            s -> draw(window);
-        }
+        progressbar->update(window);
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        if(_1280x720button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1280x720, window);
-            testBar.resize(resolution);
+            root.resize(resolution);
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+        if(_1336x768button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1336x768, window);
-            testBar.resize(resolution);
+            root.resize(resolution);
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+        if(_1600x900button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1600x900, window);
-            testBar.resize(resolution);
+            root.resize(resolution);
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        if(_1900x1080button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1920x1080, window);
-            testBar.resize(resolution);
+            root.resize(resolution);
         }
-        testBar.update(window);
+
+        window.clear();
+
+        root.draw(window);
         
         window.display();
     }

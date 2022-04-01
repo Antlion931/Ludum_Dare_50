@@ -3,9 +3,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "Resolution.hpp"
-#include "stuff.hpp"
+#include "Node.hpp"
 
-class Progressbar : public stuff
+class Progressbar : public Node
 {
 public:
     Progressbar(float width, float height, sf::Color backgroundColor, sf::Color fillColor);
@@ -13,12 +13,12 @@ public:
     float getProgress();
     void setProgress(float newProgress);
     void changeProgress(float change);
-    void setPosition(float x, float y);
+    void setPosition(sf::Vector2f position);
     sf::Vector2f getPosition();
     sf::Vector2f getSize();
     void setSize(float width, float height);
-    void draw(sf::RenderWindow& window);
-    void resize(Resolution resolution);
+    virtual void onDraw(sf::RenderTarget& target, const sf::Transform& transform) const;
+    virtual void onResize(Resolution resolution);
 
 protected:
     sf::RectangleShape bar;
