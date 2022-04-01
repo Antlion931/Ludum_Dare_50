@@ -98,6 +98,8 @@ int main()
     settings->addChild(resolutionSettings);
 
     resolutionSettings->translate({ 100, 100 });
+
+    ComisBookText.setCharacterSize(20);
         
     ComisBookText.setString("_1280 x 720");
     std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 50,200 }, { 200,100 }, ComisBookText));
@@ -120,7 +122,7 @@ int main()
     resolutionSettings->addChild(_1900x1080button);
 
     ComisBookText.setString("GO BACK");
-    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 1050,200 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 350,500 }, { 200,100 }, ComisBookText));
     _1900x1080button->setName("Go Back Button");
     resolutionSettings->addChild(goBackButton);
 
