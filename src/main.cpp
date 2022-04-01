@@ -8,10 +8,10 @@
 #include "Node.hpp"
 #include "Button.hpp"
 #include "TextButton.hpp"
-<<<<<<< HEAD
-=======
 #include "Container.hpp"
->>>>>>> 86446ff06695ba1d4ca7b86f825c3189c3434de6
+#include "LevelLoader.hpp"
+
+#include "MovingCircle.hpp"
 
 int main()
 {
@@ -20,26 +20,30 @@ int main()
 
     sf::Font font;
 
-<<<<<<< HEAD
-    sf::Text text("przycisk", font);
-    text.setFillColor(sf::Color::Red);
-    text.setCharacterSize(50);
-    
-    if (!font.loadFromFile("rsc/Comic_Book.otf"))
-=======
     if (!font.loadFromFile("res/Comic_Book.otf"))
     {
         std::cerr << "font errore!\n";
         return 0;
     }
-    
+
     sf::Text buttonText("place holder", font);
     buttonText.setFillColor(sf::Color::Red);
     buttonText.setCharacterSize(20);
 
-    Node* root = new Node();
+    std::shared_ptr<MovingCircle> circle = std::make_shared<MovingCircle>(MovingCircle({ 100,100 }, 100));
+    circle->setVelocity({ 10.f,10.f });
+
+    std::unique_ptr<LevelLoader> root = std::make_unique<LevelLoader>(LevelLoader());
     root->setName("root");
-    
+
+    std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
+    std::shared_ptr<Node> secondaryMenu = std::make_shared<Node>(Node());
+        
+    root->addLevel(mainMenu);
+    root->addLevel(secondaryMenu);
+
+    secondaryMenu->addChild(circle);
+
     buttonText.setString("1280 x 720");
     std::shared_ptr<TextButton> _1280x720button = std::make_shared<TextButton>(TextButton({ 50,200 }, { 200,100 }, buttonText));
     _1280x720button->setName("_1280x720button");
@@ -66,113 +70,86 @@ int main()
     container->addChild(_1336x768button);
     container->addChild(_1600x900button);
     container->addChild(_1900x1080button);
-    root->addChild(progressbar);
-    root->addChild(container);
+    mainMenu->addChild(progressbar);
+    mainMenu->addChild(container);
 
-    container -> translate({100, 100});
-    progressbar -> translate({100, 100});
+    container->translate({ 100, 100 });
+    progressbar->translate({ 100, 100 });
 
     sf::Text text("przycisk", font);
     text.setFillColor(sf::Color::Red);
     text.setCharacterSize(50);
 
-    root->printTree();
-    
+    mainMenu->printTree();
+
     if (!font.loadFromFile("res/Comic_Book.otf"))
->>>>>>> 86446ff06695ba1d4ca7b86f825c3189c3434de6
     {
         std::cerr << "font errore!\n";
         return 0;
     }
-<<<<<<< HEAD
 
-
-    Node root;
-    std::shared_ptr<Node> player = std::make_shared<Node>(Node()); 
-    std::shared_ptr<TextButton> button = std::make_shared<TextButton>(TextButton({ 100,100 }, { 300,200 }, text));
-    root.addChild(player);
-    player->addChild(button);
-    
-=======
->>>>>>> 86446ff06695ba1d4ca7b86f825c3189c3434de6
- 
-    while(window.isOpen())
+    sf::Clock deltaClock;
+    while (window.isOpen())
     {
         sf::Event event;
-        while(window.pollEvent(event))
+        while (window.pollEvent(event))
         {
             switch (event.type)
             {
-                case sf::Event::Closed:
-                    window.close();
+            case sf::Event::Closed:
+                window.close();
+                break;
+
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Num1)
+                {
+                    root->setLevel(0);
+                }
+                else if (event.key.code == sf::Keyboard::Num2)
+                {
+                    root->setLevel(1);
+                }
                 break;
             }
         }
 
-<<<<<<< HEAD
-                case sf::Event::Resized:
-                {
-                    sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-                    window.setView(sf::View(visibleArea));
-                }
-                break;
-
-                case sf::Event::KeyPressed:
-                {
-                    if (event.key.code == sf::Keyboard::Right)
-                    {
-                        //player->move({0.0,10.0});
-                        player->move({10.0,0.0});
-                    }
-
-                    if (event.key.code == sf::Keyboard::Up)
-                    {
-                        player->rotate(30.0);
-                    }
-
-                    if (event.key.code == sf::Keyboard::Down)
-                    {
-                        player->scale({2.0,0.5});
-                    }
-                }
-            }
-=======
 
         progressbar->update(window);
 
-        if(_1280x720button->isPressed(window))
+        if (_1280x720button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1280x720, window);
             root->resize(resolution);
             _1280x720button->printDebug();
->>>>>>> 86446ff06695ba1d4ca7b86f825c3189c3434de6
         }
 
-        if(_1336x768button->isPressed(window))
+        if (_1336x768button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1336x768, window);
             root->resize(resolution);
             _1280x720button->printDebug();
         }
 
-        if(_1600x900button->isPressed(window))
+        if (_1600x900button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1600x900, window);
             root->resize(resolution);
             _1280x720button->printDebug();
         }
 
-        if(_1900x1080button->isPressed(window))
+        if (_1900x1080button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1920x1080, window);
             root->resize(resolution);
             _1280x720button->printDebug();
         }
 
+        sf::Time delta = deltaClock.restart();
         window.clear();
 
+        root->update(delta);
         root->draw(window);
-        
+
         window.display();
     }
 }

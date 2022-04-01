@@ -4,11 +4,13 @@
 #include <iostream>
 #include "Resolution.hpp"
 
+
 class Node
 {
 public:
     void updateTransform();
     void draw(sf::RenderTarget &target) const;
+    void update(const sf::Time &delta);
     void resize(Resolution resolution);
 
     void addChild(std::shared_ptr<Node> child);
@@ -33,6 +35,7 @@ public:
 
 protected:
     virtual void onDraw(sf::RenderTarget &target) const {}
+    virtual void onUpdate(const sf::Time& delta) {};
     virtual void onResize(Resolution resolution) {}
     virtual void onDrawDebug(sf::RenderTarget &target) const {}
     // virtual void onResize(sf::RenderTarget& target) {};

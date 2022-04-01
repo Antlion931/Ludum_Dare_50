@@ -39,12 +39,6 @@ bool Button::isPressed(sf::RenderWindow& window)
 	return false;
 }
 
-<<<<<<< HEAD
-void Button::onDraw(sf::RenderTarget& target) const
-{
-	target.draw(box,m_global_transform.getTransform());
-=======
-
 void Button::onDraw(sf::RenderTarget& target) const
 {
 	target.draw(box,m_global_transform.getTransform());
@@ -52,5 +46,4 @@ void Button::onDraw(sf::RenderTarget& target) const
 
 void Button::onResize(Resolution resolution) {
 
->>>>>>> 86446ff06695ba1d4ca7b86f825c3189c3434de6
 }

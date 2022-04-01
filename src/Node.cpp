@@ -32,6 +32,15 @@ void Node::draw(sf::RenderTarget &target) const
 
 }
 
+
+void Node::update(const sf::Time& delta)
+{
+    onUpdate(delta);
+
+    for(auto &child : m_children)
+        child->update(delta);
+}
+
 void Node::resize(Resolution resolution)
 {
     onResize(resolution);
