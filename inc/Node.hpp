@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <iostream>
+#include "Resolution.hpp"
 
 class Node
 {
@@ -22,10 +23,15 @@ public:
 
     void scale(sf::Vector2f vec);
 
+    void setScale(sf::Vector2f vec);
+
     sf::Transformable getGlobalTransform() const;
+
+    void resize(Resolution resolution);
 
 protected:
     virtual void onDraw(sf::RenderTarget &target) const {}
+    virtual void onResize(Resolution resolution) {}
     // virtual void onResize(sf::RenderTarget& target) {};
 
     const Node* parent = NULL;

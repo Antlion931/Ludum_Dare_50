@@ -22,9 +22,21 @@ void Node::draw(sf::RenderTarget &target) const
     // let the node draw itself
     onDraw(target);
 
-    // draw its children
-    for (auto &child : m_children)
-        child->draw(target);
+    for(auto &child : m_children)
+    {
+        child ->draw(target);
+    }
+
+}
+
+void Node::resize(Resolution resolution)
+{
+    onResize(resolution);
+
+    for(auto &child : m_children)
+    {
+        child ->resize(resolution);
+    }
 }
 
 void Node::addChild(std::shared_ptr<Node> child)
@@ -60,6 +72,12 @@ void Node::rotate(float deegres)
 void Node::scale(sf::Vector2f vec)
 {
     m_local_transform.scale(vec);
+    updateTransform();
+}
+
+void Node::setScale(sf::Vector2f vec)
+{
+    m_local_transform.setScale(vec);
     updateTransform();
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Button.hpp"
+#include "Resolution.hpp"
 
 class TextButton : public Button
 {
@@ -20,10 +21,10 @@ protected:
 	void onReleased() override;
 
 	void onDraw(sf::RenderTarget& target) const override;
+	void onResize(Resolution resolution) override;
 
 private:
 	//void resize();
 	void adjustText();
 	// offset + wielkosc liter
 };
-

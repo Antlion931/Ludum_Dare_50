@@ -13,9 +13,6 @@ bool Button::isPressed(sf::RenderWindow& window)
 {
 	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
 	{
-		
-		buttonState = State::HOVERED;
-		onEntered();
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
 			onPressed();
@@ -24,7 +21,13 @@ bool Button::isPressed(sf::RenderWindow& window)
 		else if (buttonState == State::PRESSED)
 		{
 			onReleased();
+			buttonState = State::HOVERED;
 			return true;
+		}
+		else
+		{
+			onEntered();
+			buttonState = State::HOVERED;
 		}
 	}
 	else
@@ -40,4 +43,8 @@ bool Button::isPressed(sf::RenderWindow& window)
 void Button::onDraw(sf::RenderTarget& target) const
 {
 	target.draw(box,m_global_transform.getTransform());
+}
+
+void Button::onResize(Resolution resolution) {
+
 }

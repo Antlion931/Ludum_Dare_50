@@ -2,15 +2,52 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "Progressbar.hpp"
+#include "MouseChangeableProgressbar.hpp"
+#include "Resolution.hpp"
 #include "Node.hpp"
 #include "Button.hpp"
 #include "TextButton.hpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(840, 600), "GAME", sf::Style::Close | sf::Style::Resize | sf::Style::Titlebar);
+    Resolution resolution(Resolution::resolution::_1280x720);
+    sf::RenderWindow window(resolution.getDefault(), "GAME", sf::Style::Close | sf::Style::Titlebar);
 
     sf::Font font;
+
+    if (!font.loadFromFile("res/Comic_Book.otf"))
+    {
+        std::cerr << "font errore!\n";
+        return 0;
+    }
+    
+    sf::Text buttonText("place holder", font);
+    buttonText.setFillColor(sf::Color::Red);
+    buttonText.setCharacterSize(20);
+
+    Node root;
+    
+    buttonText.setString("1280 x 720");
+    std::shared_ptr<TextButton> _1280x720button = std::make_shared<TextButton>(TextButton({ 50,200 }, { 200,100 }, buttonText));
+
+    buttonText.setString("1336 x 768");
+    std::shared_ptr<TextButton> _1336x768button = std::make_shared<TextButton>(TextButton({ 300,200 }, { 200,100 }, buttonText));
+
+    buttonText.setString("1600 x 900");
+    std::shared_ptr<TextButton> _1600x900button = std::make_shared<TextButton>(TextButton({ 550,200 }, { 200,100 }, buttonText));
+
+    buttonText.setString("1900 x 1080");
+    std::shared_ptr<TextButton> _1900x1080button = std::make_shared<TextButton>(TextButton({ 800,200 }, { 200,100 }, buttonText));
+
+    std::shared_ptr<MouseChangeableProgressbar> progressbar = std::make_shared<MouseChangeableProgressbar>(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
+    root.addChild(_1280x720button);
+    root.addChild(_1336x768button);
+    root.addChild(_1600x900button);
+    root.addChild(_1900x1080button);
+    root.addChild(progressbar);
+
+    progressbar -> move({100, 100});
 
     sf::Text text("przycisk", font);
     text.setFillColor(sf::Color::Red);
@@ -21,14 +58,6 @@ int main()
         std::cerr << "font errore!\n";
         return 0;
     }
-
-
-    Node root;
-    std::shared_ptr<Node> player = std::make_shared<Node>(Node()); 
-    std::shared_ptr<TextButton> button = std::make_shared<TextButton>(TextButton({ 0,0 }, { 300,200 }, text));
-    root.addChild(player);
-    player->addChild(button);
-    
  
     while(window.isOpen())
     {
@@ -40,36 +69,36 @@ int main()
                 case sf::Event::Closed:
                     window.close();
                 break;
-
-                case sf::Event::Resized:
-                {
-                    sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-                    window.setView(sf::View(visibleArea));
-                }
-                break;
-
-                case sf::Event::KeyPressed:
-                {
-                    if (event.key.code == sf::Keyboard::Right)
-                    {
-                        //player->move({0.0,10.0});
-                        player->move({10.0,0.0});
-                    }
-
-                    if (event.key.code == sf::Keyboard::Up)
-                    {
-                        player->rotate(30.0);
-                    }
-
-                    if (event.key.code == sf::Keyboard::Down)
-                    {
-                        player->scale({2.0,0.5});
-                    }
-                }
             }
         }
 
-        button->isPressed(window);
+
+        progressbar->update(window);
+
+        if(_1280x720button->isPressed(window))
+        {
+            std::cout << "a\n";
+            resolution.changeResolution(Resolution::resolution::_1280x720, window);
+            root.resize(resolution);
+        }
+
+        if(_1336x768button->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_1336x768, window);
+            root.resize(resolution);
+        }
+
+        if(_1600x900button->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_1600x900, window);
+            root.resize(resolution);
+        }
+
+        if(_1900x1080button->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_1920x1080, window);
+            root.resize(resolution);
+        }
 
         window.clear();
 
