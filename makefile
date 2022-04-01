@@ -1,4 +1,4 @@
-bin/main: main.o Progressbar.o MouseChangeableProgressbar.o Resolution.o Button.o TextButton.o Node.o Toolkit.o
+bin/main: main.o Container.o Progressbar.o MouseChangeableProgressbar.o Resolution.o Button.o TextButton.o Node.o Toolkit.o
 	g++ *.o -o bin/main -lsfml-graphics -lsfml-window -lsfml-system
 
 main.o: src/main.cpp inc/Progressbar.hpp inc/MouseChangeableProgressbar.hpp inc/Resolution.hpp inc/Node.hpp inc/Button.hpp inc/TextButton.hpp
@@ -24,6 +24,9 @@ TextButton.o: src/TextButton.cpp inc/Button.hpp inc/TextButton.hpp inc/Node.hpp
 
 Node.o: src/Node.cpp inc/Node.hpp
 	g++ -c src/Node.cpp -lsfml-graphics -lsfml-window -I inc
+
+Container.o: src/Container.cpp inc/Container.hpp
+	g++ -c src/Container.cpp -lsfml-graphics -lsfml-window -I inc
 
 clear:
 	rm *.o bin/main

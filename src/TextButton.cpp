@@ -43,7 +43,6 @@ void TextButton::onDraw(sf::RenderTarget& target) const
 
 void TextButton::onResize(Resolution resolution)
 {
-	setScale(resolution.getVector2fScale());
 }
 
 void TextButton::onPressed()

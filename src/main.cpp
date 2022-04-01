@@ -8,6 +8,7 @@
 #include "Node.hpp"
 #include "Button.hpp"
 #include "TextButton.hpp"
+#include "Container.hpp"
 
 int main()
 {
@@ -39,14 +40,19 @@ int main()
 
     buttonText.setString("1900 x 1080");
     std::shared_ptr<TextButton> _1900x1080button = std::make_shared<TextButton>(TextButton({ 800,200 }, { 200,100 }, buttonText));
-
+    
     std::shared_ptr<MouseChangeableProgressbar> progressbar = std::make_shared<MouseChangeableProgressbar>(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
-    root.addChild(_1280x720button);
-    root.addChild(_1336x768button);
-    root.addChild(_1600x900button);
-    root.addChild(_1900x1080button);
-    root.addChild(progressbar);
+    
+    std::shared_ptr<Container> container = std::make_shared<Container>();
 
+    container->addChild(_1280x720button);
+    container->addChild(_1336x768button);
+    container->addChild(_1600x900button);
+    container->addChild(_1900x1080button);
+    root.addChild(progressbar);
+    root.addChild(container);
+
+    container -> move({100, 100});
     progressbar -> move({100, 100});
 
     sf::Text text("przycisk", font);
@@ -77,7 +83,6 @@ int main()
 
         if(_1280x720button->isPressed(window))
         {
-            std::cout << "a\n";
             resolution.changeResolution(Resolution::resolution::_1280x720, window);
             root.resize(resolution);
         }

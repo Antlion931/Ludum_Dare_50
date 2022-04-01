@@ -21,7 +21,7 @@ public:
 	bool isPressed(sf::RenderWindow& window);
 
 	virtual void onDraw(sf::RenderTarget& target) const override;
-	virtual void onResize(Resolution resolution);
+	virtual void onResize(Resolution resolution) override;
 
 protected:
 	sf::RectangleShape box;
