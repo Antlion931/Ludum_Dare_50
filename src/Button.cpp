@@ -1,6 +1,5 @@
 #include "Button.hpp"
 #include "Toolkit.hpp"
->>>>>>> acf5311044db40575f174f9389541c634871b73c
 
 
 Button::Button(sf::Vector2f position, sf::Vector2f size) : buttonState(State::NOT_HOVERED)
@@ -12,7 +11,7 @@ Button::Button(sf::Vector2f position, sf::Vector2f size) : buttonState(State::NO
 
 bool Button::isPressed(sf::RenderWindow& window)
 {
-	if (clamp(box, m_combined_transform.getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
+	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{

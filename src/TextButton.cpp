@@ -1,5 +1,4 @@
 #include "TextButton.hpp"
->>>>>>> acf5311044db40575f174f9389541c634871b73c
 
 
 #define min(a,b) ((a)<(b)?(a):(b))
