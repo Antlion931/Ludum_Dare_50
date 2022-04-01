@@ -46,3 +46,8 @@ sf::Transformable combineTransforms(const sf::Transformable &parent, const sf::T
 	result.setPosition(parent.getTransform() * child.getPosition());
 	return result;
 }
+
+std::ostream& operator<< (std::ostream& out, sf::Vector2f const& vec)
+{
+	return out << vec.x << " " << vec.y;
+}
