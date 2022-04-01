@@ -10,6 +10,7 @@
 #include "TextButton.hpp"
 #include "Container.hpp"
 #include "LevelLoader.hpp"
+#include "TextureLoader.hpp"
 
 #include "MovingCircle.hpp"
 
@@ -81,6 +82,7 @@ int main()
     text.setCharacterSize(50);
 
     mainMenu->printTree();
+    TextureLoader tl;
 
     if (!font.loadFromFile("res/Comic_Book.otf"))
     {
@@ -146,7 +148,18 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
-
+        //TEST
+        sf::Sprite sprite;
+        sf::Sprite sprite2;
+        sprite.setTexture(*tl.returnTexture(0));
+        sprite2.setTexture(*tl.returnTexture(1));
+        sprite.setScale(sf::Vector2f(0.1f,0.1f));
+        sprite.setPosition(sf::Vector2f(10.f,50.f));
+        sprite2.setScale(sf::Vector2f(0.1f,0.1f));
+        sprite2.setPosition(sf::Vector2f(40.f,100.f));
+        window.draw(sprite);
+        window.draw(sprite2);
+        //
         root->update(delta);
         root->draw(window);
 

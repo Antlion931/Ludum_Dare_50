@@ -16,10 +16,11 @@ MOUSECHANGEABLEPROGRESSBAR_HEADERS = $(PROGRESSBAR_HEADERS) $(TOOLKIT_HEADERS) i
 
 BUTTON_HEADERS = $(NODE_HEADERS) inc/Button.hpp
 TEXTBUTTON_HEADERS = $(BUTTON_HEADERS) inc/TextButton.hpp
+TEXTURELOADER_HEADERS = inc/TextureLoader.hpp
 
 MAIN_HEADERS = $(MOUSECHANGEABLEPROGRESSBAR_HEADERS) $(TEXTBUTTON_HEADERS) $(CONTAINER_HEADERS) $(RESOLUTION_HEADERS) $(TOOLKIT_HEADERS) $(LEVELLOADER_HEADERS)
 
-bin/main: main.o Container.o Progressbar.o MouseChangeableProgressbar.o Resolution.o Button.o TextButton.o Node.o Toolkit.o LevelLoader.o DynamicNode.o MovingCircle.o
+bin/main: main.o Container.o Progressbar.o MouseChangeableProgressbar.o Resolution.o Button.o TextButton.o Node.o Toolkit.o LevelLoader.o TextureLoader.o DynamicNode.o MovingCircle.o
 	g++ *.o -o bin/main $(FLAGS)
 
 main.o: src/main.cpp $(MAIN_HEADERS)
@@ -33,6 +34,9 @@ DynamicNode.o: src/DynamicNode.cpp $(DYNAMICNODE_HEADERS)
 
 LevelLoader.o: src/LevelLoader.cpp $(LEVELLOADER_HEADERS)
 	g++ -c src/LevelLoader.cpp $(FLAGS)
+
+TextureLoader.o: src/TextureLoader.cpp $(TEXTURELOADER_HEADERS)
+	g++ -c src/TextureLoader.cpp $(FLAGS)
 
 Toolkit.o: src/Toolkit.cpp $(TOOLKIT_HEADERS)
 	g++ -c src/Toolkit.cpp $(FLAGS)
