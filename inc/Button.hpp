@@ -1,7 +1,6 @@
 #pragma once
 #include "Node.hpp"
 #include <string>
-
 #include "Resolution.hpp"
 
 class Button : public Node
@@ -21,8 +20,8 @@ public:
 	
 	bool isPressed(sf::RenderWindow& window);
 
-	virtual void onDraw(sf::RenderTarget& target, const sf::Transform& transform) const;
-	virtual void onResize(Resolution resolution);
+	virtual void onDraw(sf::RenderTarget& target) const override;
+	virtual void onResize(Resolution resolution) override;
 
 protected:
 	sf::RectangleShape box;

@@ -20,7 +20,7 @@ protected:
 	void onCancelled() override;
 	void onReleased() override;
 
-	void onDraw(sf::RenderTarget& target, const sf::Transform& transform) const override;
+	void onDraw(sf::RenderTarget& target) const override;
 	void onResize(Resolution resolution) override;
 
 private:

@@ -1,5 +1,4 @@
 #include "TextButton.hpp"
-#include "iostream"
 
 
 #define min(a,b) ((a)<(b)?(a):(b))
@@ -36,17 +35,14 @@ void TextButton::adjustText()
 	text.setPosition(x,y);
 }
 
-void TextButton::onDraw(sf::RenderTarget& target, const sf::Transform& transform) const
+void TextButton::onDraw(sf::RenderTarget& target) const
 {
-	target.draw(box, transform);
-	target.draw(text, transform);
+	target.draw(box, m_global_transform.getTransform());
+	target.draw(text, m_global_transform.getTransform());
 }
 
 void TextButton::onResize(Resolution resolution)
 {
-	box.setScale(resolution.getVector2fScale());
-
-	text.setScale(resolution.getVector2fScale());
 }
 
 void TextButton::onPressed()

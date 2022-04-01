@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 #include "Progressbar.hpp"
 
@@ -44,21 +45,16 @@ void Progressbar::setProgress(float newProgress)
     bar.setSize(newBarSize);
 }
 
-void Progressbar::onDraw(sf::RenderTarget& target, const sf::Transform& transform) const
+void Progressbar::onDraw(sf::RenderTarget& target) const
 {
-    target.draw(background, transform);
-    target.draw(bar, transform);
+    target.draw(background, m_global_transform.getTransform());
+    target.draw(bar, m_global_transform.getTransform());
 }
 
 void Progressbar::onResize(Resolution resolution)
 {
     background.setScale(resolution.getVector2fScale());
     bar.setScale(resolution.getVector2fScale());
-}
-
-void Progressbar::setPosition(sf::Vector2f positon)
-{
-    m_transform.translate(positon);
 }
 
 sf::Vector2f Progressbar::getPosition()

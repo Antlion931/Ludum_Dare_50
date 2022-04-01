@@ -4,17 +4,15 @@
 
 Button::Button(sf::Vector2f position, sf::Vector2f size) : buttonState(State::NOT_HOVERED)
 {
-	m_transform.translate(position);
+	m_local_transform.setPosition(position);
 	box.setSize(size);
 }
 
+
 bool Button::isPressed(sf::RenderWindow& window)
 {
-	if (clamp(box, m_combined_transform.getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
+	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
 	{
-		
-		
-		onEntered();
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
 			onPressed();
@@ -23,10 +21,12 @@ bool Button::isPressed(sf::RenderWindow& window)
 		else if (buttonState == State::PRESSED)
 		{
 			onReleased();
+			buttonState = State::HOVERED;
 			return true;
 		}
 		else
 		{
+			onEntered();
 			buttonState = State::HOVERED;
 		}
 	}
@@ -39,12 +39,12 @@ bool Button::isPressed(sf::RenderWindow& window)
 	return false;
 }
 
-void Button::onResize(Resolution resolution)
+
+void Button::onDraw(sf::RenderTarget& target) const
 {
-	box.setScale(resolution.getVector2fScale());
+	target.draw(box,m_global_transform.getTransform());
 }
 
-void Button::onDraw(sf::RenderTarget& target, const sf::Transform& transform) const
-{
-	target.draw(box,transform);
+void Button::onResize(Resolution resolution) {
+
 }

@@ -29,3 +29,25 @@ bool clamp(sf::RectangleShape a, sf::Vector2i b)
 		b.y <= position.y + size.y &&
 		b.y >= position.y;
 }
+
+sf::Vector2f dot(const sf::Vector2f a, const sf::Vector2f b)
+	{
+		sf::Vector2f result;
+		result.x = a.x * b.x;
+		result.y = a.y * b.y;
+		return result;
+	}
+
+sf::Transformable combineTransforms(const sf::Transformable &parent, const sf::Transformable &child)
+{
+	sf::Transformable result;
+	result.setScale(dot(parent.getScale(),child.getScale()));
+	result.setRotation(parent.getRotation() + child.getRotation());
+	result.setPosition(parent.getTransform() * child.getPosition());
+	return result;
+}
+
+std::ostream& operator<< (std::ostream& out, sf::Vector2f const& vec)
+{
+	return out << vec.x << " " << vec.y;
+}
