@@ -34,7 +34,7 @@ bool Button::isPressed(sf::RenderWindow& window)
 	else
 	{
 		buttonState = State::NOT_HOVERED;
-		onCancelled();
+		onNotHovered();
 	}
 	
 	return false;

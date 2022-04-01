@@ -11,8 +11,8 @@
 #include "Container.hpp"
 #include "LevelLoader.hpp"
 #include "TextureLoader.hpp"
-
 #include "MovingCircle.hpp"
+#include "ColoredButton.hpp"
 
 int main()
 {
@@ -28,7 +28,6 @@ int main()
     }
 
     sf::Text buttonText("place holder", font);
-    buttonText.setFillColor(sf::Color::Red);
     buttonText.setCharacterSize(20);
 
     std::shared_ptr<MovingCircle> circle = std::make_shared<MovingCircle>(MovingCircle({ 100,100 }, 100));
@@ -46,7 +45,7 @@ int main()
     secondaryMenu->addChild(circle);
 
     buttonText.setString("1280 x 720");
-    std::shared_ptr<TextButton> _1280x720button = std::make_shared<TextButton>(TextButton({ 50,200 }, { 200,100 }, buttonText));
+    std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 50,200 }, { 200,100 }, buttonText));
     _1280x720button->setName("_1280x720button");
 
     buttonText.setString("1336 x 768");
@@ -60,6 +59,7 @@ int main()
     buttonText.setString("1900 x 1080");
     std::shared_ptr<TextButton> _1900x1080button = std::make_shared<TextButton>(TextButton({ 800,200 }, { 200,100 }, buttonText));
     _1900x1080button->setName("_1900x1080button");
+    
 
     std::shared_ptr<MouseChangeableProgressbar> progressbar = std::make_shared<MouseChangeableProgressbar>(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
     progressbar->setName("progressbar");
@@ -148,18 +148,7 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
-        //TEST
-        sf::Sprite sprite;
-        sf::Sprite sprite2;
-        sprite.setTexture(*tl.returnTexture(0));
-        sprite2.setTexture(*tl.returnTexture(1));
-        sprite.setScale(sf::Vector2f(0.1f,0.1f));
-        sprite.setPosition(sf::Vector2f(10.f,50.f));
-        sprite2.setScale(sf::Vector2f(0.1f,0.1f));
-        sprite2.setPosition(sf::Vector2f(40.f,100.f));
-        window.draw(sprite);
-        window.draw(sprite2);
-        //
+        
         root->update(delta);
         root->draw(window);
 
