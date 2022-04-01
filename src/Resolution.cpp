@@ -5,9 +5,11 @@
 Resolution::Resolution(resolution _defaultResolution) : defaultResolution(_defaultResolution), currentResolution(_defaultResolution)
 {}
 
-void Resolution::changeResolution(resolution newResolution)
+void Resolution::changeResolution(resolution newResolution, sf::RenderWindow& window)
 {
     currentResolution = newResolution;
+    window.setSize(getSize());
+    window.setView(getView());
 }
 
 float Resolution::getScale()

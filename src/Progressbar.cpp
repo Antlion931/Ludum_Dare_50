@@ -50,10 +50,10 @@ void Progressbar::draw(sf::RenderWindow& window)
     window.draw(bar);
 }
 
-void Progressbar::resize(sf::RenderWindow& window)
+void Progressbar::resize(Resolution resolution)
 {
-    background.setScale(resolution -> getVector2fScale());
-    bar.setScale(resolution -> getVector2fScale());
+    background.setScale(resolution .getVector2fScale());
+    bar.setScale(resolution.getVector2fScale());
 }
 
 void Progressbar::setPosition(float x, float y)

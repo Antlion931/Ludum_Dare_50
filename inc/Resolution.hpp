@@ -12,14 +12,14 @@ public:
         _1920x1080 = 1920
     };
     Resolution(resolution defaultResolution);
-    void changeResolution(resolution newResolution);
+    void changeResolution(resolution newResolution, sf::RenderWindow& window);
     float getScale();
     sf::Vector2f getVector2fScale();
-    sf::Vector2u getSize();
     sf::VideoMode getDefault();
-    sf::View getView();
 
 private:
+    sf::Vector2u getSize();
+    sf::View getView();
     resolution defaultResolution;
     resolution currentResolution;
 };

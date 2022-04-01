@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Resolution.hpp"
 #include "stuff.hpp"
 
 class Progressbar : public stuff
@@ -17,7 +18,7 @@ public:
     sf::Vector2f getSize();
     void setSize(float width, float height);
     void draw(sf::RenderWindow& window);
-    void resize(sf::RenderWindow& window);
+    void resize(Resolution resolution);
 
 protected:
     sf::RectangleShape bar;
