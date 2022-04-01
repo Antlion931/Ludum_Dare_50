@@ -41,6 +41,9 @@ void TextButton::onDraw(sf::RenderTarget& target) const
 	target.draw(text, m_global_transform.getTransform());
 }
 
+void TextButton::onResize(Resolution resolution)
+{
+}
 
 void TextButton::onPressed()
 {
