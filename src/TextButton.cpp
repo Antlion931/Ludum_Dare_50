@@ -1,14 +1,18 @@
 #include "TextButton.hpp"
 
 
+
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
 
 TextButton::TextButton(sf::Vector2f position, sf::Vector2f size,
-	sf::Text _text) : Button(position, size), text(_text)
+	sf::Text _text) : Button(position, size), text(_text), 
+	onPressedFontStyle(sf::Color::Black, sf::Color::Red, 2), onReleasedFontStyle(sf::Color::Red, sf::Color::Black, 0.0),
+	onEnteredFontStyle(sf::Color::Blue, sf::Color::Black, 0.0), onNotHoveredFontStyle(sf::Color::Yellow, sf::Color::Black, 4)
 {
 	adjustText();
+
 }
 
 void TextButton::setText(std::string _text)
@@ -47,17 +51,47 @@ void TextButton::onResize(Resolution resolution)
 
 void TextButton::onPressed()
 {
-	box.setFillColor(sf::Color::Blue);
-}
+	text.setFillColor(onPressedFontStyle.fillColor);
+	text.setOutlineColor(onPressedFontStyle.outlineColor);
+	text.setOutlineThickness(onPressedFontStyle.outlineThickness);
+	
+}	
 void TextButton::onEntered()
 {
-	box.setFillColor(sf::Color::Green);
+	text.setFillColor(onEnteredFontStyle.fillColor);
+	text.setOutlineColor(onEnteredFontStyle.outlineColor);
+	text.setOutlineThickness(onEnteredFontStyle.outlineThickness);
 }
-void TextButton::onCancelled()
+void TextButton::onNotHovered()
 {
-	box.setFillColor(sf::Color::White);
+	text.setFillColor(onNotHoveredFontStyle.fillColor);
+	text.setOutlineColor(onNotHoveredFontStyle.outlineColor);
+	text.setOutlineThickness(onNotHoveredFontStyle.outlineThickness);
 }
 void TextButton::onReleased()
 {
-	box.setFillColor(sf::Color::Red);
+	text.setFillColor(onReleasedFontStyle.fillColor);
+	text.setOutlineColor(onReleasedFontStyle.outlineColor);
+	text.setOutlineThickness(onReleasedFontStyle.outlineThickness);
 }
+
+
+void TextButton::setOnPressedFontStyle(Style style)
+{
+	onPressedFontStyle = style;
+}
+void TextButton::setOnEnteredFontStyle(Style style)
+{
+	onEnteredFontStyle = style;
+}
+	
+void TextButton::setOnNotHoveredFontStyle(Style style)
+{
+	onNotHoveredFontStyle = style;
+}
+void TextButton::setOnReleasedFontStyle(Style style)
+{
+	onReleasedFontStyle = style;
+}
+
+

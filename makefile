@@ -6,15 +6,17 @@ NODE_HEADERS = $(RESOLUTION_HEADERS) $(TOOLKIT_HEADERS) inc/Node.hpp
 
 CONTAINER_HEADERS = $(NODE_HEADERS) inc/Container.hpp
 
+STYLE_HEADERS = inc/Style.hpp
+
 PROGRESSBAR_HEADERS = $(NODE_HEADERS) $(RESOLUTION_HEADERS) inc/Progressbar.hpp
 MOUSECHANGEABLEPROGRESSBAR_HEADERS = $(PROGRESSBAR_HEADERS) $(TOOLKIT_HEADERS) inc/MouseChangeableProgressbar.hpp
 
 BUTTON_HEADERS = $(NODE_HEADERS) inc/Button.hpp
-TEXTBUTTON_HEADERS = $(BUTTON_HEADERS) inc/TextButton.hpp
+TEXTBUTTON_HEADERS = $(BUTTON_HEADERS) $(STYLE_HEADERS) inc/TextButton.hpp
 
 MAIN_HEADERS = $(MOUSECHANGEABLEPROGRESSBAR_HEADERS) $(TEXTBUTTON_HEADERS) $(CONTAINER_HEADERS) $(RESOLUTION_HEADERS) $(TOOLKIT_HEADERS)
 
-bin/main: main.o Container.o Progressbar.o MouseChangeableProgressbar.o Resolution.o Button.o TextButton.o Node.o Toolkit.o
+bin/main: main.o Container.o Progressbar.o MouseChangeableProgressbar.o Resolution.o Button.o TextButton.o Node.o Toolkit.o Style.o ColoredButton.o
 	g++ *.o -o bin/main $(FLAGS)
 
 main.o: src/main.cpp $(MAIN_HEADERS)
@@ -43,6 +45,12 @@ Node.o: src/Node.cpp $(NODE_HEADERS)
 
 Container.o: src/Container.cpp $(CONTAINER_HEADERS)
 	g++ -c src/Container.cpp $(FLAGS)
+
+Style.o: src/Style.cpp $(STYLE_HEADERS)
+	g++ -c src/Style.cpp $(FLAGS)
+
+ColoredButton.o: src/ColoredButton.cpp
+	g++ -c src/ColoredButton.cpp $(FLAGS)
 
 clear:
 	rm *.o bin/main

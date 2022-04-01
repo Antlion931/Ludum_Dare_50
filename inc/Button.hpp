@@ -28,6 +28,6 @@ protected:
 
 	virtual void onPressed() {};
 	virtual void onEntered() {};
-	virtual void onCancelled() {};
+	virtual void onNotHovered() {};
 	virtual void onReleased() {};
 };

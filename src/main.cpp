@@ -9,6 +9,7 @@
 #include "Button.hpp"
 #include "TextButton.hpp"
 #include "Container.hpp"
+#include "ColoredButton.hpp"
 
 int main()
 {
@@ -24,14 +25,13 @@ int main()
     }
     
     sf::Text buttonText("place holder", font);
-    buttonText.setFillColor(sf::Color::Red);
     buttonText.setCharacterSize(20);
 
     Node* root = new Node();
     root->setName("root");
     
     buttonText.setString("1280 x 720");
-    std::shared_ptr<TextButton> _1280x720button = std::make_shared<TextButton>(TextButton({ 50,200 }, { 200,100 }, buttonText));
+    std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 50,200 }, { 200,100 }, buttonText));
     _1280x720button->setName("_1280x720button");
 
     buttonText.setString("1336 x 768");
@@ -45,6 +45,7 @@ int main()
     buttonText.setString("1900 x 1080");
     std::shared_ptr<TextButton> _1900x1080button = std::make_shared<TextButton>(TextButton({ 800,200 }, { 200,100 }, buttonText));
     _1900x1080button->setName("_1900x1080button");
+    
 
     std::shared_ptr<MouseChangeableProgressbar> progressbar = std::make_shared<MouseChangeableProgressbar>(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200));
     progressbar->setName("progressbar");
