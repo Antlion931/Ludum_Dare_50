@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "MouseChangeableProgressbar.hpp"
-#include "Progressbar.hpp"
 #include "Toolkit.hpp"
 
 MouseChangeableProgressbar::MouseChangeableProgressbar(float width, float height, sf::Color backgroundColor, sf::Color fillColor)
