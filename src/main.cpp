@@ -15,6 +15,7 @@
 #include "ColoredButton.hpp"
 #include "Player.hpp"
 #include "Music.hpp"
+#include "SoundSystem.hpp"
 
 enum
 {
