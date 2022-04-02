@@ -2,8 +2,9 @@
 #include <iostream>
 #include "Character.hpp"
 #include "Animation.hpp"
+#include "SoundSystem.hpp"
 
-Character::Character(sf::Vector2f position, sf::Vector2f size, float _speed) : speed(_speed), body(size)
+Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed) : soundSystem(_soundSystem), speed(_speed), body(size)
 {
     currentState = IDLE;
     previousState = IDLE;
@@ -81,8 +82,6 @@ void Character::onUpdate(const sf::Time &delta)
 void Character::setCorrectAnimation()
 {
 
-    std::cout << currentState << std::endl;
-
     if(currentState != previousState)
     {
         previousState = currentState;
@@ -118,10 +117,16 @@ void Character::kill()
     if(currentState != DEAD)
     {
         currentState = DYING;
+        soundSystem.playSound(dyingSoundName);
     }
 }
 
 void Character::onDraw(sf::RenderTarget &target) const
 {
     target.draw(body,m_global_transform.getTransform());
+}
+
+void Character::setDyingSoundName(std::string _dyingSoundName)
+{
+    dyingSoundName = _dyingSoundName;
 }

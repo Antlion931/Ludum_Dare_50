@@ -28,6 +28,7 @@ GAME
 
 int main()
 {
+    std::srand(std::time(NULL));
     Resolution resolution(Resolution::resolution::_1280x720);
     sf::RenderWindow window(resolution.getDefault(), "GAME", sf::Style::Close | sf::Style::Titlebar);
 
@@ -44,6 +45,8 @@ int main()
 
     std::unique_ptr<LevelLoader> root = std::make_unique<LevelLoader>(LevelLoader());
     root->setName("root");
+
+    SoundSystem GLOBAL_SOUND_SYSTEM;
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
@@ -93,15 +96,16 @@ int main()
     test->setName("Test");
     root->addLevel(test);
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
     test->addChild(player);
 
-    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.08);
-    player->setRunAnimation("./res/textures/Player/2-Run", 0.05);
+    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
+    player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
     player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
     player->setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
     player->setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
+    player->setDyingSoundName("gunShot.wav");
 
     ComisBookText.setString("KILL");
     ComisBookText.setCharacterSize(90);
@@ -246,6 +250,8 @@ int main()
         {
             player->kill();
         }
+
+        GLOBAL_SOUND_SYSTEM.update();
 
         sf::Time delta = deltaClock.restart();
         window.clear();
