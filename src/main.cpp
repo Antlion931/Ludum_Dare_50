@@ -226,7 +226,6 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
-
         root->update(delta);
         root->draw(window);
 
