@@ -19,5 +19,5 @@ public:
     std::shared_ptr<sf::Texture> getTileSet();
 
 protected:
-    void onDraw(sf::RenderTarget &target) const override;
+    void onDraw(sf::RenderTarget &target) override;
 };

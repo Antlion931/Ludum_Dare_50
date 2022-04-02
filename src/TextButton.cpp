@@ -39,7 +39,7 @@ void TextButton::adjustText()
 	text.setPosition(x,y);
 }
 
-void TextButton::onDraw(sf::RenderTarget& target) const
+void TextButton::onDraw(sf::RenderTarget& target)
 {
 	target.draw(box, m_global_transform.getTransform());
 	target.draw(text, m_global_transform.getTransform());

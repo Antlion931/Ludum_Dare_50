@@ -19,7 +19,7 @@ void Node::updateTransform()
     }
 }
 
-void Node::draw(sf::RenderTarget &target) const
+void Node::draw(sf::RenderTarget &target)
 {
     if (!visible)
         return;

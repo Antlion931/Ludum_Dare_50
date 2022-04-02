@@ -8,7 +8,7 @@ MovingCircle::MovingCircle(sf::Vector2f position, float radius)
 }
 
 
-void MovingCircle::onDraw(sf::RenderTarget& target) const
+void MovingCircle::onDraw(sf::RenderTarget& target)
 {
 	target.draw(circle,m_global_transform.getTransform());
 }

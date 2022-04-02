@@ -42,7 +42,7 @@ bool Button::isPressed(sf::RenderWindow& window)
 	return false;
 }
 
-void Button::onDraw(sf::RenderTarget& target) const
+void Button::onDraw(sf::RenderTarget& target)
 {
 	target.draw(box,m_global_transform.getTransform());
 }

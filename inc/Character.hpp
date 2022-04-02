@@ -28,7 +28,7 @@ protected:
         DEAD
     };
 
-    void onDraw(sf::RenderTarget &target) const override;
+    void onDraw(sf::RenderTarget &target) override;
 
     std::shared_ptr<Animation> currentAnimation;
     sf::RectangleShape body;
