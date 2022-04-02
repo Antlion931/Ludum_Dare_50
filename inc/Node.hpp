@@ -23,6 +23,8 @@ public:
     void scale(sf::Vector2f vec);
     void setScale(sf::Vector2f vec);
 
+    void translateGlobal(sf::Vector2f vec) {translate(m_global_transform.getInverseTransform() * vec);}
+
     std::string getName() {return name;}
     void setName(std::string new_name) {name = new_name;}
     void printTree(int depth);
@@ -36,6 +38,7 @@ public:
 protected:
     virtual void onDraw(sf::RenderTarget &target) const {}
     virtual void onUpdate(const sf::Time& delta) {};
+    virtual void onTransform() {};
     virtual void onResize(Resolution resolution) {}
     virtual void onDrawDebug(sf::RenderTarget &target) const {}
     // virtual void onResize(sf::RenderTarget& target) {};

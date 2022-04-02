@@ -1,5 +1,5 @@
-
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
 #include "Toolkit.hpp"
 
@@ -50,4 +50,14 @@ sf::Transformable combineTransforms(const sf::Transformable &parent, const sf::T
 std::ostream& operator<< (std::ostream& out, sf::Vector2f const& vec)
 {
 	return out << vec.x << " " << vec.y;
+}
+
+float length(const sf::Vector2f a) 
+{
+	return std::sqrt(a.x * a.x + a.y * a.y);
+}
+
+sf::Vector2f norm(const sf::Vector2f a)
+{
+	return a / length(a);
 }

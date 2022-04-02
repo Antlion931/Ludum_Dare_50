@@ -11,6 +11,8 @@ void Node::updateTransform()
     else
         m_global_transform = m_local_transform;
 
+    onTransform();
+
     for (auto &child : m_children)
     {
         child->updateTransform();

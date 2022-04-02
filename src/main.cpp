@@ -13,6 +13,7 @@
 #include "TextureLoader.hpp"
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
+#include "Collision.hpp"
 
 enum
 {
@@ -86,8 +87,16 @@ int main()
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     root->addLevel(test);
 
-    //jak chcesz coś przetestować to twórz obiekty tutaj
+    std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer()); 
 
+    std::shared_ptr<Collidable> kolizja_test_1 = std::make_shared<Collidable>(Collidable());
+    kolizja_test_1->setCollider(test_layer, {0,0}, 50.0);
+    test->addChild(kolizja_test_1);
+
+    std::shared_ptr<Collidable> kolizja_test_2 = std::make_shared<Collidable>(Collidable());
+    kolizja_test_2->translate({10.0, 10.0});
+    kolizja_test_2->setCollider(test_layer, {0,0}, 50.0);
+    test->addChild(kolizja_test_2);
     //===================================================================================================SETTINGS
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
@@ -151,6 +160,8 @@ int main()
                 {
                     root->setLevel(1);
                 }
+                else if (event.key.code == sf::Keyboard::Space)
+                    kolizja_test_2->translateGlobal(kolizja_test_2->scanCollisions().move_vector);
                 break;
             }
         }
