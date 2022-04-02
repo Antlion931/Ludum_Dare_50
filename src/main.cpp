@@ -18,6 +18,7 @@
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
 #include "TileMap.hpp"
+#include "Chunk.hpp"
 
 enum
 {
@@ -91,19 +92,12 @@ int main()
 
     //====================================================================================================TESTING
     TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<TileMap> outsideTileMap = 
-    std::make_shared<TileMap>(TileMap(sf::Vector2i(32,32), tileSets.returnTexture("outdoors.png")));
-    for(int i = 0; i < 32; i++)
-    {
-        for(int j = 0; j < 32; j++)
-            outsideTileMap ->setTile({i,j}, 2);
-    }
-    //outsideTileMap->setTile({1,1}, 2);
-    outsideTileMap->setName("TileMap");
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
+    chunk->setName("Chunk");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     test->setName("Test");
-    test->addChild(outsideTileMap);
+    test->addChild(chunk);
     root->addLevel(test);
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
