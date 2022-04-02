@@ -79,16 +79,21 @@ void Collider::onDrawDebug(sf::RenderTarget &target) const
 
 Collidable::CollisionResult Collidable::scanCollisions () 
 {
+    std::shared_ptr<Collider> last_collision = nullptr;
+    sf::Vector2f move_vector = {0,0};
     for (const auto& coll : scan_layer->list) 
     {
         if (coll != collider)
         {
             sf::Vector2f result = collider->checkCollision(*coll);
             if(result != sf::Vector2f(0.0,0.0))
-                return {coll, result};
+            {
+                move_vector = move_vector + result;
+                last_collision = coll;
+            }
         }
     }
-    return {NULL, {0,0}};
+    return {last_collision, move_vector};
 }
 
 

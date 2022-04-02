@@ -98,10 +98,15 @@ int main()
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     test_container->addChild(player);
 
-    std::shared_ptr<Collidable> obstacle = std::make_shared<Collidable>(Collidable());
-    obstacle->setCollider(test_layer, {0, 0}, 50.0);
-    obstacle->setTranslation({500, 500});
-    test_container->addChild(obstacle);
+    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
+    obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_1->setTranslation({500, 500});
+    test_container->addChild(obstacle_1);
+
+    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
+    obstacle_2->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_2->setTranslation({550, 500});
+    test_container->addChild(obstacle_2);
 
     test->addChild(test_container);
 
