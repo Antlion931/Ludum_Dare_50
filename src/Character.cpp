@@ -3,16 +3,16 @@
 #include "Character.hpp"
 #include "Animation.hpp"
 
-Character::Character(sf::Vector2f position, float radius, float _speed) : MovingCircle(position, radius), speed(_speed)
+Character::Character(sf::Vector2f position, sf::Vector2f size, float _speed) : speed(_speed), body(size)
 {
     currentState = IDLE;
     previousState = IDLE;
     idleAnimation = nullptr;
     runAnimation = nullptr;
     punchAnimation = nullptr;
-    sitAnimation = nullptr;
     deadAnimation = nullptr;
     currentAnimation = nullptr;
+    body.setPosition(position);
 }
 
 Character::~Character()
@@ -20,19 +20,7 @@ Character::~Character()
     delete idleAnimation;
     delete runAnimation;
     delete punchAnimation;
-    delete sitAnimation;
     delete deadAnimation;
-}
-
-bool Character::isColidedWith(sf::CircleShape _circle)
-{
-    float distanceBetween = std::sqrt(std::pow(circle.getPosition().x - circle.getPosition().x, 2)  + std::pow(circle.getPosition().y - circle.getPosition().y, 2));
-
-    if(distanceBetween <= circle.getRadius() + _circle.getRadius())
-    {
-        return true;
-    }
-    return false;
 }
 
 void Character::setIdleAnimation(std::string directoryPath, float _animationSpeed)
@@ -46,11 +34,6 @@ void Character::setRunAnimation(std::string directoryPath, float _animationSpeed
     runAnimation = new Animation(directoryPath, _animationSpeed);
 }
 
-void Character::setSitAnimation(std::string directoryPath, float _animationSpeed)
-{
-    sitAnimation =  new Animation(directoryPath, _animationSpeed);
-}
-
 void Character::setPunchAnimation(std::string directoryPath, float _animationSpeed)
 {
     punchAnimation = new Animation(directoryPath, _animationSpeed);
@@ -59,6 +42,11 @@ void Character::setPunchAnimation(std::string directoryPath, float _animationSpe
 void Character::setDeadAnimation(std::string directoryPath, float _animationSpeed)
 {
     deadAnimation = new Animation(directoryPath, _animationSpeed);
+}
+
+void Character::setDyingAnimation(std::string directoryPath, float _animationSpeed)
+{
+    dyingAnimation = new Animation(directoryPath, _animationSpeed);
 }
 
 void Character::onUpdate(const sf::Time &delta)
@@ -85,11 +73,16 @@ void Character::onUpdate(const sf::Time &delta)
 
     setCorrectAnimation();
     currentAnimation->update(delta, isFaceingRight); 
-    circle.setTexture(currentAnimation -> getTexture());
+
+    body.setTexture(currentAnimation -> getTexture());
+    body.setTextureRect(currentAnimation->getIntRect());
 }
 
 void Character::setCorrectAnimation()
 {
+
+    std::cout << currentState << std::endl;
+
     if(currentState != previousState)
     {
         previousState = currentState;
@@ -103,12 +96,12 @@ void Character::setCorrectAnimation()
                 currentAnimation = runAnimation;
             break;
 
-            case SIT:
-                currentAnimation = sitAnimation;
-            break;
-
             case PUNCH:
                 currentAnimation = punchAnimation;
+            break;
+
+            case DYING:
+                currentAnimation = dyingAnimation;
             break;
 
             case DEAD:
@@ -118,4 +111,17 @@ void Character::setCorrectAnimation()
 
         currentAnimation->reset();
     }
+}
+
+void Character::kill()
+{
+    if(currentState != DEAD)
+    {
+        currentState = DYING;
+    }
+}
+
+void Character::onDraw(sf::RenderTarget &target) const
+{
+    target.draw(body,m_global_transform.getTransform());
 }

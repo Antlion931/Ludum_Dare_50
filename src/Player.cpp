@@ -5,55 +5,87 @@
 
 void Player::onUpdate(const sf::Time &delta)
 {
-
     if(false) //TODO: add cheching visible;
     {
         return;
     }
-
-    sf::Vector2f signs(1,1);
     velocity = {0,0};
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        velocity.x = speed;
-        isFaceingRight = false;
-        signs.x = -1;
-    }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if(currentState == DYING)
     {
-        velocity.x = speed;
-        isFaceingRight = true;
-    }
+        currentTime += delta.asSeconds();
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        if(currentTime > dyingTime)
+        {
+            currentTime = 0.0f;
+            currentState = DEAD;
+        }
+    }
+    else if(currentState == PUNCH)
     {
-        velocity.y = speed;
-        signs.y = -1;
-    }
+        currentTime += delta.asSeconds();
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        if(currentTime > punchTime)
+        {
+            currentTime = 0.0f;
+            currentState = IDLE;
+        }
+    }
+    else if(currentState != DEAD)
     {
-        velocity.y = speed;
-    }
+        currentState = IDLE;
 
-    if(velocity.x > 0.0f && velocity.y > 0.0f)
-    {
-        velocity.x /= std::sqrt(2);
-        velocity.y /= std::sqrt(2);
-    }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            velocity.x -= speed;
+            isFaceingRight = false;
+            currentState = RUN;
+        }
 
-    velocity.x *= signs.x;
-    velocity.y *= signs.y;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            velocity.x += speed;
+            currentState = RUN;
+
+            isFaceingRight = true;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        {
+            velocity.y -= speed;
+            currentState = RUN;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            velocity.y += speed;
+            currentState = RUN;
+
+        }
+
+        if(std::abs(velocity.x) > 0.0f && std::abs(velocity.y > 0.0f))
+        {
+            velocity.x /= std::sqrt(2);
+            velocity.y /= std::sqrt(2);
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            currentState = PUNCH;
+        }
+    }
 
     translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
     setCorrectAnimation();
 
     currentAnimation->update(delta, isFaceingRight);
 
-    circle.setTexture(currentAnimation -> getTexture());
-    circle.setTextureRect(currentAnimation -> getIntRect());
+    body.setTexture(currentAnimation -> getTexture());
+    body.setTextureRect(currentAnimation->getIntRect());
 }
 
-Player::Player(sf::Vector2f position, float radius, float _speed) : Character(position, radius, _speed)
-{}
+Player::Player(sf::Vector2f position, sf::Vector2f size, float _speed, float _punchTime, float _dyingTime) : 
+Character(position, size, _speed), punchTime(_punchTime), dyingTime(_dyingTime)
+{
+    currentTime = 0.0f;
+}
