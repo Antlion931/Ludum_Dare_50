@@ -3,6 +3,7 @@
 
 TileMap::TileMap(sf::Vector2i _size, std::shared_ptr<sf::Texture> _tileSet) : size(_size), tileSet(_tileSet)
 {
+    vertices.setPrimitiveType(sf::Quads);
     vertices.resize(size.x * size.y * 4);
     for (unsigned int i = 0; i < size.x; ++i)
         for (unsigned int j = 0; j < size.y; ++j)
@@ -42,10 +43,12 @@ sf::Vector2i TileMap::getSize()
     return size;
 }
 
+
 std::shared_ptr<sf::Texture> TileMap::getTileSet()
 {
     return tileSet;
 }
+
 
 void TileMap::onDraw(sf::RenderTarget &target) const
 {
