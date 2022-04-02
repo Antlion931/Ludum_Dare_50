@@ -83,7 +83,7 @@ Collidable::CollisionResult Collidable::scanCollisions ()
     sf::Vector2f move_vector = {0,0};
     for (const auto& coll : scan_layer->list) 
     {
-        if (coll != collider)
+        if (coll != collider && coll->isActive())
         {
             sf::Vector2f result = collider->checkCollision(*coll);
             if(result != sf::Vector2f(0.0,0.0))
