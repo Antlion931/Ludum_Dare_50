@@ -14,6 +14,8 @@
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
 #include "Player.hpp"
+#include "Music.hpp"
+#include "SoundSystem.hpp"
 #include "Animation.hpp"
 
 enum
@@ -45,10 +47,12 @@ int main()
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
+    mainMenu->setName("Main Menu");
     root->addLevel(mainMenu);
+    root->setLevel(0);
 
     std::shared_ptr<Container> mainMenuButtons = std::make_shared<Container>();
-    mainMenuButtons->setName("Resolution Settings");
+    mainMenuButtons->setName("Main Menu Buttons");
     mainMenu->addChild(mainMenuButtons);
 
     ComisBookText.setString("PLAY");
@@ -86,6 +90,7 @@ int main()
 
     //====================================================================================================TESTING
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
+    test->setName("Test");
     root->addLevel(test);
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
@@ -114,6 +119,7 @@ int main()
     //===================================================================================================SETTINGS
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
+    settings -> setName("Settings");
     root->addLevel(settings);
 
     std::shared_ptr<Container> resolutionSettings = std::make_shared<Container>();
@@ -176,6 +182,14 @@ int main()
                 {
                     root->setLevel(1);
                 }
+                else if (event.key.code == sf::Keyboard::Num3)
+                {
+                    std::cout << "button _1920x1080 is: " << (_1900x1080button->isActive() ? "active\n" : "inactive\n");
+                }
+                else if (event.key.code == sf::Keyboard::Space)
+                {
+                    root->printTree();
+                }
                 break;
             }
         }
@@ -191,21 +205,21 @@ int main()
         {
             resolution.changeResolution(Resolution::resolution::_1336x768, window);
             root->resize(resolution);
-            _1280x720button->printDebug();
+            _1336x768button->printDebug();
         }
 
         if (_1600x900button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1600x900, window);
             root->resize(resolution);
-            _1280x720button->printDebug();
+            _1600x900button->printDebug();
         }
 
         if (_1900x1080button->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1920x1080, window);
             root->resize(resolution);
-            _1280x720button->printDebug();
+            _1900x1080button->printDebug();
         }
 
         if(playButton->isPressed(window))
@@ -235,7 +249,6 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
-
         root->update(delta);
         root->draw(window);
 

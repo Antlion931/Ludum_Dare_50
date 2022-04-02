@@ -5,15 +5,16 @@
 
 Animation::Animation(std::string directoryPath, float _animationSpeed) : loader(directoryPath), animationSpeed(_animationSpeed)
 {
-    currentIndex = 0;
+    currentIndex = "1.png";
     currentTime = 0;
-    intRect.height = loader.returnTexture(0)->getSize().y;
-    intRect.width = loader.returnTexture(0)->getSize().x;
+    intRect.height = loader.returnTexture("1.png")->getSize().y;
+    intRect.width = loader.returnTexture("1.png")->getSize().x;
 }
 
 sf::Texture* Animation::getTexture()
 {
     return loader.returnTexture(currentIndex);
+    return nullptr;
 }
 
 void Animation::update(const sf::Time& delta, bool isFacedRight)
@@ -21,12 +22,13 @@ void Animation::update(const sf::Time& delta, bool isFacedRight)
     currentTime += delta.asSeconds();
     intRect.top = 0;
 
+        std::cout<<currentIndex<<std::endl;
     if(currentTime > animationSpeed)
     {
-        currentIndex++;
-        if(currentIndex >= loader.getAmountOfTestures())
+        currentIndex = std::to_string(std::stoi(currentIndex)+1).append(".png");
+        if(std::stoi(currentIndex) >= loader.getAmountOfTextures())
         {
-            currentIndex = 0;
+            currentIndex = "1.png";
         } 
         currentTime -= animationSpeed;
     }
@@ -45,7 +47,7 @@ void Animation::update(const sf::Time& delta, bool isFacedRight)
 
 void Animation::reset()
 {
-    currentIndex = 0;
+    currentIndex = "1.png";
     currentTime = 0.0;
 }
 
