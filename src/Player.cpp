@@ -110,29 +110,37 @@ void Player::onUpdate(const sf::Time &delta)
 
     
     translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
+    translate(scanCollisions().move_vector);
     setCorrectAnimation();
 
     currentAnimation->update(delta, isFaceingRight);
 
-    body.setTexture(currentAnimation -> getTexture());
+    body.setTexture(currentAnimation -> getTexture().get());
     body.setTextureRect(currentAnimation->getIntRect());
 
     float snipersVelocityMultiplayer = 5;
 
     if(currentState != IDLE)
     {
-        headPosition.x = m_local_transform.getPosition().x + body.getSize().x * 1.5 + rand()%17 - 8;
-        headPosition.y = m_local_transform.getPosition().y + body.getSize().y * 1.29 + rand()%17 - 8;
-        snipersVelocityMultiplayer = 100;
+        headPosition = m_local_transform.getPosition();
+        headPosition.x -= 100 + rand()%11 - 5;
+        headPosition.y -= 115 + rand()%11 - 5;
+        snipersVelocityMultiplayer = 30;
     }
-    else if(std::abs(headPosition.x - snipersRedDot->m_local_transform.getPosition().x) + std::abs(headPosition.y - snipersRedDot->m_local_transform.getPosition().y) < 1)
+    else if(headPosition.x - snipersRedDot->m_local_transform.getPosition().x + headPosition.y - snipersRedDot->m_local_transform.getPosition().y < 0.1)
     {
-        headPosition.x = m_local_transform.getPosition().x + body.getSize().x * 1.5 + rand()%17 - 8;
-        headPosition.y = m_local_transform.getPosition().y + body.getSize().y * 1.29 + rand()%17 - 8;
+        headPosition = m_local_transform.getPosition();
+        headPosition.x -= 100 + rand()%11 - 5;
+        headPosition.y -= 115 + rand()%11 - 5;
     }
 
-    snipersRedDot->velocity.x = snipersVelocityMultiplayer * (headPosition.x - snipersRedDot->m_local_transform.getPosition().x);
-    snipersRedDot->velocity.y = snipersVelocityMultiplayer * (headPosition.y - snipersRedDot->m_local_transform.getPosition().y);
+    sf::Vector2f newVelocity(headPosition - snipersRedDot->m_local_transform.getPosition());
+    newVelocity.x *= snipersVelocityMultiplayer;
+    newVelocity.y *= snipersVelocityMultiplayer;
+
+    snipersRedDot->setVelocity(newVelocity);
+
+    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
 
 Player::Player(SoundSystem& soundSystem,sf::Vector2f position, sf::Vector2f size, float _speed, float _punchTime, float _dyingTime) : 
@@ -141,12 +149,14 @@ Character(soundSystem, position, size, _speed), punchTime(_punchTime), dyingTime
     snipersRedDot = std::make_shared<MovingCircle>(MovingCircle(position, 3));
     snipersRedDot->setName("snipers red dot");
     currentTime = 0.0f;
-    snipersRedDot->circle.setFillColor(sf::Color::Red);
+    snipersRedDot->circle.setFillColor(sf::Color(255, 0, 0, 255));
     addChild(snipersRedDot);
-    snipersRedDot->translate(m_local_transform.getPosition() + sf::Vector2f(body.getSize().x / 2, body.getSize().y / 2 - 10 ));
+    
+    headPosition = m_local_transform.getPosition();
+    headPosition.x -= 100 + rand()%11 - 5;
+    headPosition.y -= 100 + rand()%11 - 5;
 
-    headPosition.x = m_local_transform.getPosition().x + body.getSize().x * 1.4 + rand()%17 - 8;
-    headPosition.y = m_local_transform.getPosition().y + body.getSize().y * 1.4 + rand()%17 - 8;
+    snipersRedDot->setTranslation(m_local_transform.getPosition() - sf::Vector2f(100, 100));
 }
 
 void Player::onDraw(sf::RenderTarget &target) const

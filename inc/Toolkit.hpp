@@ -4,6 +4,10 @@
 
 sf::Vector2f dot(const sf::Vector2f a, const sf::Vector2f b);
 
+sf::Vector2f norm(const sf::Vector2f a);
+
+float length(const sf::Vector2f a);
+
 sf::Transformable combineTransforms(const sf::Transformable &parent, const sf::Transformable &child);
 // check whether b is in bounds of a
 bool clamp(sf::RectangleShape a, sf::Vector2f b);

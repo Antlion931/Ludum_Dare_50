@@ -13,10 +13,12 @@
 #include "TextureLoader.hpp"
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
+#include "Collision.hpp"
 #include "Player.hpp"
 #include "Music.hpp"
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
+#include "TileMap.hpp"
 
 enum
 {
@@ -92,13 +94,43 @@ int main()
     mainMenuButtons->addChild(testButton);
 
     //====================================================================================================TESTING
+    TextureLoader tileSets("./res/textures/TileSets");
+    std::shared_ptr<TileMap> outsideTileMap = 
+    std::make_shared<TileMap>(TileMap(sf::Vector2i(32,32), tileSets.returnTexture("outdoors.png")));
+    for(int i = 0; i < 32; i++)
+    {
+        for(int j = 0; j < 32; j++)
+            outsideTileMap ->setTile({i,j}, 2);
+    }
+    //outsideTileMap->setTile({1,1}, 2);
+    outsideTileMap->setName("TileMap");
+
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     test->setName("Test");
+    test->addChild(outsideTileMap);
     root->addLevel(test);
+
+
+    std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
+    std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
-    test->addChild(player);
+    player->setCollider(test_layer, {0.0, 0.0}, 40.0);
+    test_container->addChild(player);
+
+
+    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
+    obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_1->setTranslation({500, 500});
+    test_container->addChild(obstacle_1);
+
+    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
+    obstacle_2->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_2->setTranslation({550, 500});
+    test_container->addChild(obstacle_2);
+
+    test->addChild(test_container);
 
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
@@ -117,9 +149,7 @@ int main()
     killButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     killButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     test->addChild(killButton);
-    
-    //jak chcesz coś przetestować to twórz obiekty tutaj
-
+ 
     //===================================================================================================SETTINGS
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
@@ -255,9 +285,15 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
+
+        //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
+        //sf::Sprite test(*outsideTileMap->getTileSet());
+
+
         root->update(delta);
         root->draw(window);
 
+        //window.draw(test);
         window.display();
     }
 }

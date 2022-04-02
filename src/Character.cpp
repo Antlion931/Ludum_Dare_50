@@ -13,41 +13,37 @@ Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vecto
     punchAnimation = nullptr;
     deadAnimation = nullptr;
     currentAnimation = nullptr;
-    body.setPosition(position);
+    setTranslation(position);
 }
 
 Character::~Character()
 {
-    delete idleAnimation;
-    delete runAnimation;
-    delete punchAnimation;
-    delete deadAnimation;
 }
 
 void Character::setIdleAnimation(std::string directoryPath, float _animationSpeed)
 {
-    idleAnimation = new Animation(directoryPath, _animationSpeed);
+    idleAnimation = std::make_shared<Animation>(Animation(directoryPath, _animationSpeed));
     currentAnimation = idleAnimation;
 }
 
 void Character::setRunAnimation(std::string directoryPath, float _animationSpeed)
 {
-    runAnimation = new Animation(directoryPath, _animationSpeed);
+    runAnimation = std::make_shared<Animation>(Animation(directoryPath, _animationSpeed));
 }
 
 void Character::setPunchAnimation(std::string directoryPath, float _animationSpeed)
 {
-    punchAnimation = new Animation(directoryPath, _animationSpeed);
+    punchAnimation = std::make_shared<Animation>(Animation(directoryPath, _animationSpeed));
 }
 
 void Character::setDeadAnimation(std::string directoryPath, float _animationSpeed)
 {
-    deadAnimation = new Animation(directoryPath, _animationSpeed);
+    deadAnimation = std::make_shared<Animation>(Animation(directoryPath, _animationSpeed));
 }
 
 void Character::setDyingAnimation(std::string directoryPath, float _animationSpeed)
 {
-    dyingAnimation = new Animation(directoryPath, _animationSpeed);
+    dyingAnimation = std::make_shared<Animation>(Animation(directoryPath, _animationSpeed));
 }
 
 void Character::onUpdate(const sf::Time &delta)
@@ -75,8 +71,9 @@ void Character::onUpdate(const sf::Time &delta)
     setCorrectAnimation();
     currentAnimation->update(delta, isFaceingRight); 
 
-    body.setTexture(currentAnimation -> getTexture());
+    body.setTexture(currentAnimation -> getTexture().get());
     body.setTextureRect(currentAnimation->getIntRect());
+    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
 
 void Character::setCorrectAnimation()
@@ -123,7 +120,7 @@ void Character::kill()
 
 void Character::onDraw(sf::RenderTarget &target) const
 {
-    target.draw(body,m_global_transform.getTransform());
+    target.draw(body,getGlobalTransform().getTransform());
 }
 
 void Character::setDyingSoundName(std::string _dyingSoundName)

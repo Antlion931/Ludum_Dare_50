@@ -11,6 +11,8 @@ void Node::updateTransform()
     else
         m_global_transform = m_local_transform;
 
+    onTransform();
+
     for (auto &child : m_children)
     {
         child->updateTransform();
@@ -133,6 +135,13 @@ void Node::printDebug() const {
     std::cout << "Global rot: " << m_global_transform.getRotation() << "\n"; 
     std::cout << "Global scale: " << m_global_transform.getScale() << "\n"; 
     std::cout << "\n";
+}
+
+void Node::onDrawDebug(sf::RenderTarget &target) const
+{
+    sf::CircleShape point = sf::CircleShape(3.0);
+    point.setFillColor(sf::Color(150,50,50,100));
+    target.draw(point, getGlobalTransform().getTransform());
 }
 
 void Node::setActive(bool _active)

@@ -3,7 +3,7 @@
 #include <memory>
 #include <iostream>
 #include "Resolution.hpp"
-
+#include "Toolkit.hpp"
 
 class Node
 {
@@ -44,8 +44,9 @@ public:
 protected:
     virtual void onDraw(sf::RenderTarget &target) const {}
     virtual void onUpdate(const sf::Time& delta) {};
+    virtual void onTransform() {};
     virtual void onResize(Resolution resolution) {}
-    virtual void onDrawDebug(sf::RenderTarget &target) const {}
+    virtual void onDrawDebug(sf::RenderTarget &target) const;
     // virtual void onResize(sf::RenderTarget& target) {};
 
     const Node* parent = NULL;

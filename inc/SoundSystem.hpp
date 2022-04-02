@@ -8,6 +8,7 @@ class SoundSystem{
     public:
         SoundSystem();
         void playSound(std::string _fileName);
+        void playSound(std::string _fileName, sf::Vector2f _position); // Spacial sounds require mono audio files. Also sf::Listener::setPosition() has to be set to the players position.
         void update();
         void setVolume(float _volume);
         float returnVolume() const;

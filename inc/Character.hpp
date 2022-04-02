@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <memory>
 #include "DynamicNode.hpp"
 #include "Animation.hpp"
 #include "SoundSystem.hpp"
@@ -33,7 +34,7 @@ protected:
 
     void onDraw(sf::RenderTarget &target) const override;
 
-    Animation* currentAnimation;
+    std::shared_ptr<Animation> currentAnimation;
     sf::RectangleShape body;
 
     void onUpdate(const sf::Time &delta) override;
@@ -44,13 +45,14 @@ protected:
     State previousState;
     float speed;
 
-    Animation* idleAnimation;
-    Animation* runAnimation;
-    Animation* punchAnimation;
-    Animation* dyingAnimation;
-    Animation* deadAnimation;
+    std::shared_ptr<Animation> idleAnimation;
+    std::shared_ptr<Animation> runAnimation;
+    std::shared_ptr<Animation> punchAnimation;
+    std::shared_ptr<Animation> dyingAnimation;
+    std::shared_ptr<Animation> deadAnimation;
 
-    SoundSystem& soundSystem;
+
     std::string dyingSoundName;
+    SoundSystem& soundSystem;
 };
 
