@@ -12,7 +12,7 @@ void TextureLoader::loadTextures(){
     for(const auto &entry: fs::directory_iterator(path)){
         std::cout << "Loading: " << entry.path() << " | id: "<< textureCount << std::endl;
         sf::Texture texture;
-        if(!texture.loadFromFile(entry.path())){
+        if(!texture.loadFromFile(entry.path().string())){
             std::cerr << "Problem occured while loading texture ;<";
             continue;
         }

@@ -12,6 +12,8 @@ Button::Button(sf::Vector2f position, sf::Vector2f size) : buttonState(State::NO
 
 bool Button::isPressed(sf::RenderWindow& window)
 {
+	if (!active)
+		return 0;
 	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
