@@ -18,6 +18,7 @@
 #include "Music.hpp"
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
+#include "TileMap.hpp"
 
 enum
 {
@@ -90,8 +91,20 @@ int main()
     mainMenuButtons->addChild(testButton);
 
     //====================================================================================================TESTING
+    TextureLoader tileSets("./res/textures/TileSets");
+    std::shared_ptr<TileMap> outsideTileMap = 
+    std::make_shared<TileMap>(TileMap(sf::Vector2i(32,32), tileSets.returnTexture("outdoors.png")));
+    for(int i = 0; i < 32; i++)
+    {
+        for(int j = 0; j < 32; j++)
+            outsideTileMap ->setTile({i,j}, 2);
+    }
+    //outsideTileMap->setTile({1,1}, 2);
+    outsideTileMap->setName("TileMap");
+
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     test->setName("Test");
+    test->addChild(outsideTileMap);
     root->addLevel(test);
 
     std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
@@ -265,9 +278,15 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
+
+        //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
+        //sf::Sprite test(*outsideTileMap->getTileSet());
+
+
         root->update(delta);
         root->draw(window);
 
+        //window.draw(test);
         window.display();
     }
 }

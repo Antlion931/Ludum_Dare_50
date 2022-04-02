@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 
+
 #include <iostream>
 #include "Animation.hpp"
 
@@ -11,7 +12,7 @@ Animation::Animation(std::string directoryPath, float _animationSpeed) : loader(
     intRect.width = loader.returnTexture("1.png")->getSize().x;
 }
 
-sf::Texture* Animation::getTexture()
+std::shared_ptr<sf::Texture> Animation::getTexture()
 {
     return loader.returnTexture(currentIndex);
     return nullptr;
@@ -22,7 +23,7 @@ void Animation::update(const sf::Time& delta, bool isFacedRight)
     currentTime += delta.asSeconds();
     intRect.top = 0;
 
-        std::cout<<currentIndex<<std::endl;
+    //std::cout<<currentIndex<<std::endl;
     if(currentTime > animationSpeed)
     {
         currentIndex = std::to_string(std::stoi(currentIndex)+1).append(".png");
