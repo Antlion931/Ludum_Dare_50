@@ -12,7 +12,7 @@ Character::Character(sf::Vector2f position, sf::Vector2f size, float _speed) : s
     punchAnimation = nullptr;
     deadAnimation = nullptr;
     currentAnimation = nullptr;
-    body.setPosition(position);
+    setTranslation(position);
 }
 
 Character::~Character()
@@ -72,6 +72,7 @@ void Character::onUpdate(const sf::Time &delta)
 
     body.setTexture(currentAnimation -> getTexture().get());
     body.setTextureRect(currentAnimation->getIntRect());
+    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
 
 void Character::setCorrectAnimation()
@@ -117,7 +118,7 @@ void Character::kill()
     }
 }
 
-void Character::onDraw(sf::RenderTarget &target) const
+void Character::onDraw(sf::RenderTarget &target)
 {
-    target.draw(body,m_global_transform.getTransform());
+    target.draw(body,getGlobalTransform().getTransform());
 }

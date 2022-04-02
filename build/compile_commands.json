@@ -1,0 +1,77 @@
+[
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Button.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Button.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Button.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/ColoredButton.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/ColoredButton.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/ColoredButton.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Container.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Container.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Container.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/DynamicNode.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/DynamicNode.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/DynamicNode.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/LevelLoader.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/LevelLoader.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/LevelLoader.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/MouseChangeableProgressbar.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/MouseChangeableProgressbar.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/MouseChangeableProgressbar.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/MovingCircle.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/MovingCircle.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/MovingCircle.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Node.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Node.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Node.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Progressbar.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Progressbar.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Progressbar.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Resolution.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Resolution.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Resolution.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Style.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Style.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Style.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/TextButton.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/TextButton.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/TextButton.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/TextureLoader.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/TextureLoader.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/TextureLoader.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Toolkit.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Toolkit.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/Toolkit.cpp"
+},
+{
+  "directory": "/home/dawiderter/Ludum_Dare_50/build",
+  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/main.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/main.cpp",
+  "file": "/home/dawiderter/Ludum_Dare_50/src/main.cpp"
+}
+]

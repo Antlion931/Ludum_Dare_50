@@ -76,12 +76,14 @@ void Player::onUpdate(const sf::Time &delta)
     }
 
     translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
+    translate(scanCollisions().move_vector);
     setCorrectAnimation();
 
     currentAnimation->update(delta, isFaceingRight);
 
     body.setTexture(currentAnimation -> getTexture().get());
     body.setTextureRect(currentAnimation->getIntRect());
+    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
 
 Player::Player(sf::Vector2f position, sf::Vector2f size, float _speed, float _punchTime, float _dyingTime) : 

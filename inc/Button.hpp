@@ -21,7 +21,7 @@ public:
 	
 	bool isPressed(sf::RenderWindow& window);
 
-	virtual void onDraw(sf::RenderTarget& target) const override;
+	virtual void onDraw(sf::RenderTarget& target) override;
 	//virtual void onUpdate();
 	virtual void onResize(Resolution resolution) override;
 

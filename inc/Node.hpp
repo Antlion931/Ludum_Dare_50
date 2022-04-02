@@ -3,13 +3,13 @@
 #include <memory>
 #include <iostream>
 #include "Resolution.hpp"
-
+#include "Toolkit.hpp"
 
 class Node
 {
 public:
     void updateTransform();
-    void draw(sf::RenderTarget &target) const;
+    void draw(sf::RenderTarget &target);
     void update(const sf::Time &delta);
     void resize(Resolution resolution);
 
@@ -40,10 +40,11 @@ public:
     bool isVisible();
 
 protected:
-    virtual void onDraw(sf::RenderTarget &target) const {}
+    virtual void onDraw(sf::RenderTarget &target) {}
     virtual void onUpdate(const sf::Time& delta) {};
+    virtual void onTransform() {};
     virtual void onResize(Resolution resolution) {}
-    virtual void onDrawDebug(sf::RenderTarget &target) const {}
+    virtual void onDrawDebug(sf::RenderTarget &target) const;
     // virtual void onResize(sf::RenderTarget& target) {};
 
     const Node* parent = NULL;

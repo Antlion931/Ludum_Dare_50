@@ -20,6 +20,16 @@ void SoundSystem::playSound(std::string _fileName){
     soundQueque.back().setVolume(volume);
     soundQueque.back().play();
 }
+void SoundSystem::playSound(std::string _fileName, sf::Vector2f _position){
+    soundQueque.push_back(sf::Sound(soundBuffer.at(_fileName)));
+    sf::Sound &ref = soundQueque.back();
+    ref.setRelativeToListener(true);
+    ref.setPosition(_position.x,0.f,_position.y);   //TOTWEAK
+    ref.setMinDistance(50.f);   //TOTWEAK
+    ref.setAttenuation(1.f);    //TOTWEAK
+    ref.play();
+}
+
 
 void SoundSystem::update(){
     for(int i=0; i<soundQueque.size(); i++)

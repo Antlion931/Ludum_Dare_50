@@ -13,12 +13,14 @@
 #include "TextureLoader.hpp"
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
+#include "Collision.hpp"
 #include "Player.hpp"
 #include "Music.hpp"
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
 #include "TileMap.hpp"
 #include "Chunk.hpp"
+#include "Y-sort.hpp"
 
 enum
 {
@@ -100,9 +102,29 @@ int main()
     test->addChild(chunk);
     root->addLevel(test);
 
+    std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
+
+    std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
+
+    std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
+
     std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
-    test->addChild(player);
+    player->setCollider(test_layer, {0.0, 0.0}, 40.0);
+    ysort->addChild(player);
+
+    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
+    obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_1->setTranslation({500, 500});
+    ysort->addChild(obstacle_1);
+
+    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
+    obstacle_2->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_2->setTranslation({550, 500});
+    ysort->addChild(obstacle_2);
+
+    test->addChild(test_container);
+    test_container->addChild(ysort);
 
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.08);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.05);
@@ -120,9 +142,12 @@ int main()
     killButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     killButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     test->addChild(killButton);
-    
-    //jak chcesz coś przetestować to twórz obiekty tutaj
 
+    test->setName("Test");
+    ysort->addChild(chunk);
+    chunk->translate({200.0, 200.0});
+    root->addLevel(test);
+ 
     //===================================================================================================SETTINGS
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
