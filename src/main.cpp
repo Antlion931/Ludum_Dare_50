@@ -101,7 +101,7 @@ int main()
     player->setRunAnimation("./res/textures/Player/2-Run", 0.04);
     
     //jak chcesz coś przetestować to twórz obiekty tutaj
-
+    
     //===================================================================================================SETTINGS
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
