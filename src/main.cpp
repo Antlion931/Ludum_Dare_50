@@ -89,9 +89,21 @@ int main()
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     root->addLevel(test);
 
+    std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
+
+    std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
+
     std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
-    test->addChild(player);
+    player->setCollider(test_layer, {0.0, 0.0}, 40.0);
+    test_container->addChild(player);
+
+    std::shared_ptr<Collidable> obstacle = std::make_shared<Collidable>(Collidable());
+    obstacle->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle->setTranslation({500, 500});
+    test_container->addChild(obstacle);
+
+    test->addChild(test_container);
 
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.08);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.05);

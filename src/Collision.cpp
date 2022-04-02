@@ -45,7 +45,7 @@ sf::Vector2f Collider::CircleCircle(Collider const &other)
 
     if (length(s_center - o_center) < s_r + o_r)
     {
-        return norm(s_center - o_center) * (o_r + s_r);
+        return (norm(s_center - o_center) * (o_r + s_r - length(s_center - o_center)));
     }
     else
     {
@@ -67,9 +67,12 @@ sf::Vector2f Collider::RectangleRectangle(Collider const &other)
 }
 void Collider::onDrawDebug(sf::RenderTarget &target) const
 {
+    Node::onDrawDebug(target);
     if (collision_type == ShapeType::CIRCLE)
     {
         sf::CircleShape debug_circle = sf::CircleShape(shape_info.radius);
+        debug_circle.setFillColor(sf::Color(20, 100, 100, 50));
+        debug_circle.move(-shape_info.radius, -shape_info.radius);
         target.draw(debug_circle, getGlobalTransform().getTransform());
     }
 }

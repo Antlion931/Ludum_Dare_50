@@ -1,6 +1,7 @@
 #pragma once
-#include "Container.hpp"
-class DynamicNode : public Container
+#include "Collision.hpp"
+
+class DynamicNode : public Collidable
 {
 protected:
 	sf::Vector2f velocity;
