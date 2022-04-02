@@ -1,5 +1,6 @@
 #pragma once
 #include "DynamicNode.hpp"
+
 class MovingCircle : public DynamicNode
 {
 public:
