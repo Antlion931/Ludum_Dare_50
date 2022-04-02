@@ -14,6 +14,7 @@
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
 #include "Player.hpp"
+#include "Animation.hpp"
 
 enum
 {
@@ -90,6 +91,9 @@ int main()
     std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, 50, 600));
     player->setName("Player");
     test->addChild(player);
+
+    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.04);
+    player->setRunAnimation("./res/textures/Player/2-Run", 0.04);
     
     //jak chcesz coś przetestować to twórz obiekty tutaj
 

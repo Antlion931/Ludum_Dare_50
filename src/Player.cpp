@@ -5,6 +5,7 @@
 
 void Player::onUpdate(const sf::Time &delta)
 {
+
     if(false) //TODO: add cheching visible;
     {
         return;
@@ -15,12 +16,14 @@ void Player::onUpdate(const sf::Time &delta)
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         velocity.x = speed;
+        isFaceingRight = false;
         signs.x = -1;
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         velocity.x = speed;
+        isFaceingRight = true;
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -44,7 +47,12 @@ void Player::onUpdate(const sf::Time &delta)
     velocity.y *= signs.y;
 
     translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
-    std::cout << velocity.x * delta.asSeconds() << " " << velocity.y * delta.asSeconds() << std::endl;
+    setCorrectAnimation();
+
+    currentAnimation->update(delta, isFaceingRight);
+
+    circle.setTexture(currentAnimation -> getTexture());
+    circle.setTextureRect(currentAnimation -> getIntRect());
 }
 
 Player::Player(sf::Vector2f position, float radius, float _speed) : Character(position, radius, _speed)
