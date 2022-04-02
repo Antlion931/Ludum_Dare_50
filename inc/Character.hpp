@@ -1,33 +1,36 @@
 #pragma once
 #include <iostream>
-#include "MovingCircle.hpp"
+#include "DynamicNode.hpp"
 #include "Animation.hpp"
 
-class Character : public MovingCircle
+class Character : public DynamicNode
 {
 public:
-    bool isColidedWith(sf::CircleShape _circle);
-    Character(sf::Vector2f position, float radius, float _speed);
+    Character(sf::Vector2f position, sf::Vector2f size, float _speed);
     ~Character();
 
     void setIdleAnimation(std::string directoryPath, float _animationSpeed);
     void setRunAnimation(std::string directoryPath, float _animationSpeed);
-    void setSitAnimation(std::string directoryPath, float _animationSpeed);
     void setPunchAnimation(std::string directoryPath, float _animationSpeed);
+    void setDyingAnimation(std::string directoryPath, float _animationSpeed);
     void setDeadAnimation(std::string directoryPath, float _animationSpeed);
+    void kill();
 
+    
 protected:
     enum State
     {
         IDLE,
         RUN,
-        SIT,
         PUNCH,
+        DYING,
         DEAD
     };
 
+    void onDraw(sf::RenderTarget &target) const override;
 
     Animation* currentAnimation;
+    sf::RectangleShape body;
 
     void onUpdate(const sf::Time &delta) override;
     void setCorrectAnimation();
@@ -39,8 +42,8 @@ protected:
 
     Animation* idleAnimation;
     Animation* runAnimation;
-    Animation* sitAnimation;
     Animation* punchAnimation;
+    Animation* dyingAnimation;
     Animation* deadAnimation;
 };
 
