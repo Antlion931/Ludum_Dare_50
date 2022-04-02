@@ -23,7 +23,7 @@ void Animation::update(const sf::Time& delta, bool isFacedRight)
     currentTime += delta.asSeconds();
     intRect.top = 0;
 
-        std::cout<<currentIndex<<std::endl;
+    //std::cout<<currentIndex<<std::endl;
     if(currentTime > animationSpeed)
     {
         currentIndex = std::to_string(std::stoi(currentIndex)+1).append(".png");

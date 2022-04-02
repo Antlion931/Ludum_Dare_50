@@ -77,7 +77,7 @@ void Character::onUpdate(const sf::Time &delta)
 void Character::setCorrectAnimation()
 {
 
-    std::cout << currentState << std::endl;
+    //std::cout << currentState << std::endl;
 
     if(currentState != previousState)
     {

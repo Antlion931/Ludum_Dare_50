@@ -40,10 +40,6 @@ int main()
         return 0;
     }
 
-    TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<TileMap> outsideTileMap = 
-    std::make_shared<TileMap>(TileMap(sf::Vector2i(16,16), tileSets.returnTexture("outdoors.png")));
-
     sf::Text ComisBookText("place holder", font);
     ComisBookText.setCharacterSize(20);
 
@@ -94,8 +90,20 @@ int main()
     mainMenuButtons->addChild(testButton);
 
     //====================================================================================================TESTING
+    TextureLoader tileSets("./res/textures/TileSets");
+    std::shared_ptr<TileMap> outsideTileMap = 
+    std::make_shared<TileMap>(TileMap(sf::Vector2i(32,32), tileSets.returnTexture("outdoors.png")));
+    for(int i = 0; i < 32; i++)
+    {
+        for(int j = 0; j < 32; j++)
+            outsideTileMap ->setTile({i,j}, 2);
+    }
+    //outsideTileMap->setTile({1,1}, 2);
+    outsideTileMap->setName("TileMap");
+
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     test->setName("Test");
+    test->addChild(outsideTileMap);
     root->addLevel(test);
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
@@ -253,11 +261,16 @@ int main()
         }
 
         sf::Time delta = deltaClock.restart();
-        
         window.clear();
+
+        //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
+        //sf::Sprite test(*outsideTileMap->getTileSet());
+
+
         root->update(delta);
         root->draw(window);
 
+        //window.draw(test);
         window.display();
     }
 }
