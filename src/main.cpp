@@ -14,6 +14,8 @@
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
 #include "Collision.hpp"
+#include "Player.hpp"
+#include "Animation.hpp"
 
 enum
 {
@@ -87,16 +89,27 @@ int main()
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     root->addLevel(test);
 
-    std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer()); 
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
+    player->setName("Player");
+    test->addChild(player);
 
-    std::shared_ptr<Collidable> kolizja_test_1 = std::make_shared<Collidable>(Collidable());
-    kolizja_test_1->setCollider(test_layer, {0,0}, 50.0);
-    test->addChild(kolizja_test_1);
+    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.08);
+    player->setRunAnimation("./res/textures/Player/2-Run", 0.05);
+    player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
+    player->setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
+    player->setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
 
-    std::shared_ptr<Collidable> kolizja_test_2 = std::make_shared<Collidable>(Collidable());
-    kolizja_test_2->translate({10.0, 10.0});
-    kolizja_test_2->setCollider(test_layer, {0,0}, 50.0);
-    test->addChild(kolizja_test_2);
+    ComisBookText.setString("KILL");
+    ComisBookText.setCharacterSize(90);
+    std::shared_ptr<ColoredButton> killButton = std::make_shared<ColoredButton>(ColoredButton({ 800,50 }, { 300,100 }, ComisBookText));
+    killButton->setName("kill button");
+    killButton->setOnNotHoveredButtonStyle(Style(sf::Color(200, 200, 200), sf::Color(180, 180, 180), 10));
+    killButton->setOnEntredButtonStyle(Style(sf::Color(210, 210, 210), sf::Color(190, 190, 190), 20));
+    killButton->setOnPressedButtonStyle(Style(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 5));
+    killButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
+    killButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
+    test->addChild(killButton);
+ 
     //===================================================================================================SETTINGS
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
@@ -107,6 +120,8 @@ int main()
     settings->addChild(resolutionSettings);
 
     resolutionSettings->translate({ 100, 100 });
+
+    ComisBookText.setCharacterSize(20);
         
     ComisBookText.setString("_1280 x 720");
     std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 50,200 }, { 200,100 }, ComisBookText));
@@ -129,7 +144,7 @@ int main()
     resolutionSettings->addChild(_1900x1080button);
 
     ComisBookText.setString("GO BACK");
-    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 1050,200 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 350,500 }, { 200,100 }, ComisBookText));
     _1900x1080button->setName("Go Back Button");
     resolutionSettings->addChild(goBackButton);
 
@@ -160,9 +175,6 @@ int main()
                 {
                     root->setLevel(1);
                 }
-                else if (event.key.code == sf::Keyboard::Space)
-                    kolizja_test_2->translateGlobal(kolizja_test_2->scanCollisions().move_vector);
-                break;
             }
         }
 
@@ -212,6 +224,11 @@ int main()
         if(goBackButton->isPressed(window))
         {
             root->setLevel(MAIN_MENU);
+        }
+
+        if(killButton->isPressed(window))
+        {
+            player->kill();
         }
 
         sf::Time delta = deltaClock.restart();

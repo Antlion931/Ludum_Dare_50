@@ -6,6 +6,8 @@ include_directories(src)
 
 file(GLOB_RECURSE SRC "src/*.cpp")
 
+set (CMAKE_CXX_FLAGS -std=c++20)
+
 add_executable(main ${SRC})
 target_link_libraries(main sfml-graphics sfml-window sfml-system sfml-audio)
 target_link_libraries(main ${OPENGL_LIBRARIES})

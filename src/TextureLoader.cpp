@@ -8,8 +8,7 @@ namespace fs = std::filesystem;
 void TextureLoader::loadTextures(){
 
     std::cout << "      | Loading Textures |" << std::endl;
-    std::string path = "./res/textures/";
-    for(const auto &entry: fs::directory_iterator(path)){
+    for(const auto &entry: fs::directory_iterator(directoryPath)){
         std::cout << "Loading: " << entry.path() << " | id: "<< textureCount << std::endl;
         sf::Texture texture;
         if(!texture.loadFromFile(entry.path())){
@@ -24,3 +23,8 @@ void TextureLoader::loadTextures(){
 sf::Texture* TextureLoader::returnTexture(int id){ 
     return &textures.at(id);
 };
+
+int TextureLoader::getAmountOfTestures()
+{
+    return textures.size();
+}
