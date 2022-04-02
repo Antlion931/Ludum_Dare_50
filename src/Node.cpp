@@ -21,6 +21,8 @@ void Node::updateTransform()
 
 void Node::draw(sf::RenderTarget &target) const
 {
+    if (!visible)
+        return;
     // let the node draw itself
     onDraw(target);
 
@@ -37,6 +39,8 @@ void Node::draw(sf::RenderTarget &target) const
 
 void Node::update(const sf::Time& delta)
 {
+    if (!active)
+        return;
     onUpdate(delta);
 
     for(auto &child : m_children)
@@ -57,6 +61,8 @@ void Node::addChild(std::shared_ptr<Node> child)
 {
     m_children.push_back(child);
     child->parent = this;
+    child->setActive(active);
+    child->setVisible(visible);
     child->updateTransform();
 }
 
@@ -68,7 +74,7 @@ void Node::removeChild(std::shared_ptr<Node> child)
 
 void Node::printTree(int depth)
 {   
-    std::cout << std::string(depth, ' ') << "-" << getName() << "\n";
+    std::cout << std::string(depth * 4, ' ') << "-" << getName() << "(" << isActive() << ")\n";
     for(auto &child : m_children)
     {
         child -> printTree(depth+1);
@@ -136,4 +142,30 @@ void Node::onDrawDebug(sf::RenderTarget &target) const
     sf::CircleShape point = sf::CircleShape(3.0);
     point.setFillColor(sf::Color(150,50,50,100));
     target.draw(point, getGlobalTransform().getTransform());
+}
+
+void Node::setActive(bool _active)
+{
+    active = _active;
+    for (auto& child : m_children)
+    {
+        child->setActive(_active);
+    }
+}
+void Node::setVisible(bool _visible)
+{
+    visible = _visible;
+    for (auto& child : m_children)
+    {
+        child->setVisible(visible);
+    }
+}
+
+bool Node::isActive()
+{
+    return active;
+}
+bool Node::isVisible()
+{
+    return visible;
 }

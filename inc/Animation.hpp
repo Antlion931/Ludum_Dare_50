@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
 #include "TextureLoader.hpp"
 
 class Animation
@@ -15,7 +14,7 @@ public:
 
 protected:
 
-    int currentIndex;
+    std::string currentIndex;
     float currentTime;
     float animationSpeed;
     TextureLoader loader;

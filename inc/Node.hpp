@@ -33,6 +33,11 @@ public:
     bool debug_visible = true;
     virtual void printDebug() const;
 
+    void setActive(bool _active);
+    void setVisible(bool _visible);
+
+    bool isActive();
+    bool isVisible();
 
 protected:
     virtual void onDraw(sf::RenderTarget &target) const {}
@@ -46,6 +51,9 @@ protected:
     sf::Transformable m_local_transform;
     sf::Transformable m_global_transform;
     std::vector<std::shared_ptr<Node>> m_children;
+
+    bool active = 1;
+    bool visible = 1;
 
 private:
     std::string name;

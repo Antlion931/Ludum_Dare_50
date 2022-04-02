@@ -3,28 +3,26 @@
 #include<string>
 #include<iostream>
 #include<filesystem>
-namespace fs = std::filesystem;
 
 void TextureLoader::loadTextures(){
-
-    std::cout << "      | Loading Textures |" << std::endl;
-    for(const auto &entry: fs::directory_iterator(directoryPath)){
-        std::cout << "Loading: " << entry.path() << " | id: "<< textureCount << std::endl;
+    for(const auto &entry: std::filesystem::directory_iterator(directoryPath)){
         sf::Texture texture;
         if(!texture.loadFromFile(entry.path())){
-            std::cerr << "Problem occured while loading texture ;<";
+            std::cerr<<"Error while loading audio!"<<std::endl;
             continue;
-        }
-        textures.push_back(texture);
-        textureCount++;
+        };
+        std::string str = entry.path();
+        str.erase(0,directoryPath.length()+1);
+        textures.insert({str,texture});
+        std::cout << "Loaded Texture with id: " << str << std::endl;
     }
 };
 
-sf::Texture* TextureLoader::returnTexture(int id){ 
-    return &textures.at(id);
+sf::Texture* TextureLoader::returnTexture(std::string _fileName){
+    return &textures.at(_fileName);
 };
 
-int TextureLoader::getAmountOfTestures()
+int TextureLoader::getAmountOfTextures()
 {
     return textures.size();
 }

@@ -1,19 +1,19 @@
 #pragma once
 #include <iostream>
 #include<SFML/Graphics/Texture.hpp>
-#include<vector>
+#include<map>
+#include<string>
 class TextureLoader{
     public:
         TextureLoader(std::string _directoryPath){
             directoryPath = _directoryPath;
             loadTextures();
         }
-        sf::Texture* returnTexture(int id);
-        int getAmountOfTestures();
+        sf::Texture* returnTexture(std::string _fileName);
+        int getAmountOfTextures();
 
     private:
         void loadTextures();
-        std::vector<sf::Texture> textures;
+        std::map<std::string,sf::Texture> textures;
         std::string directoryPath;
-        int textureCount = 0;
 };

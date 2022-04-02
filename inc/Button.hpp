@@ -2,6 +2,7 @@
 #include "Node.hpp"
 #include <string>
 #include "Resolution.hpp"
+#include <functional>
 
 class Button : public Node
 {
@@ -21,6 +22,7 @@ public:
 	bool isPressed(sf::RenderWindow& window);
 
 	virtual void onDraw(sf::RenderTarget& target) const override;
+	//virtual void onUpdate();
 	virtual void onResize(Resolution resolution) override;
 
 protected:
