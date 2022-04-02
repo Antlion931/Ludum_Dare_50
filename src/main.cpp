@@ -13,6 +13,7 @@
 #include "TextureLoader.hpp"
 #include "MovingCircle.hpp"
 #include "ColoredButton.hpp"
+#include "Player.hpp"
 
 enum
 {
@@ -86,6 +87,10 @@ int main()
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     root->addLevel(test);
 
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, 50, 600));
+    player->setName("Player");
+    test->addChild(player);
+    
     //jak chcesz coś przetestować to twórz obiekty tutaj
 
     //===================================================================================================SETTINGS

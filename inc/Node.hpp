@@ -33,6 +33,7 @@ public:
     bool debug_visible = true;
     virtual void printDebug() const;
 
+
 protected:
     virtual void onDraw(sf::RenderTarget &target) const {}
     virtual void onUpdate(const sf::Time& delta) {};
