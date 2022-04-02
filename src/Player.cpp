@@ -80,7 +80,7 @@ void Player::onUpdate(const sf::Time &delta)
 
     currentAnimation->update(delta, isFaceingRight);
 
-    body.setTexture(currentAnimation -> getTexture());
+    body.setTexture(currentAnimation -> getTexture().get());
     body.setTextureRect(currentAnimation->getIntRect());
 }
 
