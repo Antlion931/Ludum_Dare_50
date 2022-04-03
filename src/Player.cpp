@@ -107,9 +107,8 @@ void Player::onUpdate(const sf::Time &delta)
             currentState = PUNCH;
         }
     }
-
     
-    translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
+    translate({velocity * delta.asSeconds()});
     translate(scanCollisions().move_vector);
     setCorrectAnimation();
 
@@ -135,20 +134,18 @@ void Player::onUpdate(const sf::Time &delta)
     }
 
     sf::Vector2f newVelocity(headPosition - snipersRedDot->m_local_transform.getPosition());
-    newVelocity.x *= snipersVelocityMultiplayer;
-    newVelocity.y *= snipersVelocityMultiplayer;
+    newVelocity *= snipersVelocityMultiplayer;
 
     snipersRedDot->setVelocity(newVelocity);
 
     body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
 
-Player::Player(SoundSystem& soundSystem,sf::Vector2f position, sf::Vector2f size, float _speed, float _punchTime, float _dyingTime) : 
-Character(soundSystem, position, size, _speed), punchTime(_punchTime), dyingTime(_dyingTime)
+Player::Player(SoundSystem& soundSystem,sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime, float _punchTime) : 
+Character(soundSystem, position, size, _speed, _dyingTime), punchTime(_punchTime)
 {
     snipersRedDot = std::make_shared<MovingCircle>(MovingCircle(position, 3));
     snipersRedDot->setName("snipers red dot");
-    currentTime = 0.0f;
     snipersRedDot->circle.setFillColor(sf::Color(255, 0, 0, 255));
     addChild(snipersRedDot);
     

@@ -4,7 +4,8 @@
 #include "Animation.hpp"
 #include "SoundSystem.hpp"
 
-Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed) : soundSystem(_soundSystem), speed(_speed), body(size)
+Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime) : 
+soundSystem(_soundSystem), speed(_speed), body(size), dyingTime(_dyingTime)
 {
     currentState = IDLE;
     previousState = IDLE;
@@ -14,6 +15,7 @@ Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vecto
     deadAnimation = nullptr;
     currentAnimation = nullptr;
     setTranslation(position);
+    currentTime = 0.0f;
 }
 
 Character::~Character()
@@ -111,8 +113,9 @@ void Character::setCorrectAnimation()
 
 void Character::kill()
 {
-    if(currentState != DEAD)
+    if(currentState != DEAD && currentState != DYING)
     {
+        currentTime = 0.0f;
         currentState = DYING;
         soundSystem.playSound(dyingSoundName);
     }

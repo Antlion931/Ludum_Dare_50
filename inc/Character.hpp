@@ -8,7 +8,7 @@
 class Character : public DynamicNode
 {
 public:
-    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed);
+    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime);
     ~Character();
 
     void setIdleAnimation(std::string directoryPath, float _animationSpeed);
@@ -31,6 +31,10 @@ protected:
         DYING,
         DEAD
     };
+
+
+    float dyingTime;
+    float currentTime;
 
     void onDraw(sf::RenderTarget &target) const override;
 
