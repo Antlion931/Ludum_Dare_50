@@ -26,6 +26,7 @@
 #include "Y-sort.hpp"
 #include "CameraController.hpp"
 #include "ButtonsContainer.hpp"
+#include "NPCContainer.hpp"
 
 enum
 {
@@ -87,38 +88,21 @@ int main()
     test->addChild(testButtons);
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
-
-    std::shared_ptr<NPC> testNPC1 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {400,400}, {100,100}, 100, 1));
-    testNPC1->setUpByName("Female");
-    testNPC1->setCollider(test_layer, {0.0, 25.0}, 30.0);
-    test_container->addChild(testNPC1);
-    ysort->addChild(testNPC1);
-
-    std::shared_ptr<NPC> testNPC2 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {500,400}, {100,100}, 100, 1));
-    testNPC2->setUpByName("Male");
-    test_container->addChild(testNPC2);
-    testNPC2->setCollider(test_layer, {0.0, 25.0}, 30.0);
-    ysort->addChild(testNPC2);
-
-    std::shared_ptr<NPC> testNPC3 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {600,400}, {100,100}, 100, 1));
-    testNPC3->setUpByName("Butcher");
-    test_container->addChild(testNPC3);
-    testNPC3->setCollider(test_layer, {0.0, 25.0}, 30.0);
-    ysort->addChild(testNPC3);
-
-    std::shared_ptr<NPC> testNPC4 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {700,400}, {100,100}, 100, 1));
-    test_container->addChild(testNPC4);
-    testNPC4->setUpByName("Herald");
-    testNPC4->setCollider(test_layer, {0.0, 25.0}, 30.0);
-    ysort->addChild(testNPC4);
-
+    std::shared_ptr<NPCContainer> test_NPCContainer = std::make_shared<NPCContainer>(NPCContainer(test_layer, ysort));
+    test_NPCContainer->setName("test NPCContainer");
+    test_NPCContainer->addChild(ysort);
+    test->addChild(test_NPCContainer);
+    
+    test_NPCContainer->makeNPC("Female", GLOBAL_SOUND_SYSTEM, {400,400}, {100,100});
+    test_NPCContainer->makeNPC("Male", GLOBAL_SOUND_SYSTEM, {500,400}, {100,100});
+    test_NPCContainer->makeNPC("Butcher", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
+    test_NPCContainer->makeNPC("Herald", GLOBAL_SOUND_SYSTEM, {700,400}, {100,100});
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 200, 0.55, 0.4));
     player->setName("Player");
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     ysort->addChild(player);
-
+    test_NPCContainer->addChild(player);
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
 
     std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
@@ -137,10 +121,6 @@ int main()
     obstacle_3->scale({2.0,2.0});
     ysort->addChild(obstacle_3);
 
-    test->addChild(test_container);
-    test_container->addChild(ysort);
-
-    test_container->addChild(player);
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.06);
     player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
@@ -178,6 +158,7 @@ int main()
     //========================================================================================GAME
     std::shared_ptr<Node> game = std::make_shared<Node>(Node());
     root->addLevel(game);
+    root->printTree();
 
     //=========================================================================================GAME LOOP
     sf::Clock deltaClock;
@@ -266,26 +247,6 @@ int main()
             player->kill();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
-        {
-            testNPC1->kill();
-        }
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
-        {
-            testNPC2->kill();
-        }
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
-        {
-            testNPC3->kill();
-        }
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
-        {
-            testNPC4->kill();
-        }
-
         GLOBAL_SOUND_SYSTEM.update();
 
         sf::Time delta = deltaClock.restart();
@@ -296,7 +257,7 @@ int main()
 
         sf::View finalView = window.getView();
         
-        std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
+        //std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
         if(cameraController->isActive())
             finalView.setCenter(cameraController->getView().getCenter());
         window.setView(finalView);

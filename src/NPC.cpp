@@ -60,7 +60,7 @@ void NPC::randomVelocityAndTimes()
     velocity.x /= 1000.0f;
     velocity.y = std::sqrt(pow(speed,2) - pow(velocity.x, 2));
 
-    waitTime = rand()%300 / 100.0f;
+    waitTime = rand()%500 / 100.0f;
     walkTime = rand()%500 / 100.0f;
 
     if(rand()%2)
