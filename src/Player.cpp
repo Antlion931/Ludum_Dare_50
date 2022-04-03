@@ -133,20 +133,20 @@ void Player::onDraw(sf::RenderTarget &target)
 void Player::randHeadPositon()
 {
     headPosition = m_local_transform.getPosition();
-    headPosition.x -= 100 + rand()%11 - 5;
-    headPosition.y -= 100 + rand()%11 - 5;
+    headPosition.x -= 100 + rand()%13 - 6;
+    headPosition.y -= 100 + rand()%13 - 6 + 20;
 }
 
 void Player::updateSinpersRedDot(const sf::Time& delta)
 {
-    float snipersVelocityMultiplayer = 5;
+    float snipersVelocityMultiplayer = 2;
 
     if(currentState != IDLE)
     {
         randHeadPositon();
         snipersVelocityMultiplayer = 30;
     }
-    else if(headPosition.x - snipersRedDot->m_local_transform.getPosition().x + headPosition.y - snipersRedDot->m_local_transform.getPosition().y < 0.1)
+    else if(headPosition.x - snipersRedDot->m_local_transform.getPosition().x + headPosition.y - snipersRedDot->m_local_transform.getPosition().y < 0.7)
     {
         randHeadPositon();
     }

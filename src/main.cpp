@@ -28,14 +28,7 @@
 #include "ButtonsContainer.hpp"
 #include "NPCCreator.hpp"
 #include "WorldView.hpp"
-
-enum
-{
-MAIN_MENU,
-TEST_PLAY,
-SETTINGS,
-GAME
-};
+#include "LevelSetUpper.hpp"
 
 int main()
 {
@@ -61,42 +54,28 @@ int main()
     root->setGame(game);
     
     std::shared_ptr<LevelLoader> GUI = std::make_shared<LevelLoader>(LevelLoader(4));
-    GUI->setName("gui");
+    GUI->setName("GUI");
     root->setGUI(GUI);
 
+    LevelSetUpper levelSetUpper(game, GUI, font);
+
     //================================================================================================MAIN MENU
-    std::shared_ptr<Node> mainMenuLevel = std::make_shared<Node>(Node());
-    mainMenuLevel->setName("main menu level");
-    game->addLevel(MAIN_MENU, mainMenuLevel);
+    std::shared_ptr<Node> mainMenuLevel;
+    std::shared_ptr<YSort> mainMenuYsort;
+    std::shared_ptr<Node> mainMenuLevelGUI;
+    std::shared_ptr<ButtonsContainer> mainMenuButtons;
+    levelSetUpper.setUp(mainMenuLevel, mainMenuYsort, mainMenuLevelGUI, mainMenuButtons, MAIN_MENU);
 
-    std::shared_ptr<YSort> mainMenuYsort = std::make_shared<YSort>(YSort());
-    mainMenuYsort->setName("main menu Ysort");
-    mainMenuLevel->addChild(mainMenuYsort);
-
-    std::shared_ptr<Node> mainMenuLevelGUI = std::make_shared<Node>(Node());
-    mainMenuLevelGUI ->setName("main menu level GUI");
-    GUI->addLevel(MAIN_MENU, mainMenuLevelGUI);
-
-    std::shared_ptr<ButtonsContainer> mainMenuButtons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
-    mainMenuButtons->setName("main menu buttons");
-    mainMenuLevelGUI->addChild(mainMenuButtons);
-
+    mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
+    mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
+    mainMenuButtons->makeColoredButton("TEST", 90, { 490,450 }, { 300,100 });
+    
     //====================================================================================================TESTING
-    std::shared_ptr<Node> testLevel = std::make_shared<Node>(Node());
-    testLevel->setName("test level");
-    game->addLevel(TEST_PLAY, testLevel);
-
-    std::shared_ptr<YSort> testYsort = std::make_shared<YSort>(YSort());
-    testYsort->setName("test Ysort");
-    testLevel->addChild(testYsort);
-
-    std::shared_ptr<Node> testLevelGUI = std::make_shared<Node>(Node());
-    testLevelGUI->setName("test level GUI");
-    GUI->addLevel(TEST_PLAY, testLevelGUI);
-
-    std::shared_ptr<ButtonsContainer> testButtons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
-    testButtons->setName("test buttons");
-    testLevelGUI->addChild(testButtons);
+    std::shared_ptr<Node> testLevel;
+    std::shared_ptr<YSort> testYsort;
+    std::shared_ptr<Node> testLevelGUI;
+    std::shared_ptr<ButtonsContainer> testButtons;
+    levelSetUpper.setUp(testLevel, testYsort, testLevelGUI, testButtons, TEST_PLAY); 
 
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
@@ -113,7 +92,7 @@ int main()
     test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
     test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND_SYSTEM, {700,400}, {100,100});
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 200, 0.55, 0.4));
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 400, 0.55, 0.4));
     player->setName("Player");
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
@@ -150,21 +129,11 @@ int main()
     chunk->translate({200.0, 200.0});
  
     //===================================================================================================SETTINGS
-    std::shared_ptr<Node> settingsLevel = std::make_shared<Node>(Node());
-    settingsLevel->setName("settings level");
-    game->addLevel(SETTINGS, settingsLevel);
-
-    std::shared_ptr<YSort> settingsYsort = std::make_shared<YSort>(YSort());
-    settingsYsort->setName("game Ysort");
-    settingsLevel->addChild(settingsYsort);
-
-    std::shared_ptr<Node> settingsLevelGUI = std::make_shared<Node>(Node());
-    settingsLevelGUI -> setName("settings level GUI");
-    GUI->addLevel(SETTINGS, settingsLevelGUI);
-
-    std::shared_ptr<ButtonsContainer> settingsButtons = std::make_shared<ButtonsContainer>(font);
-    settingsButtons->setName("settings buttons");
-    settingsLevelGUI->addChild(settingsButtons);
+    std::shared_ptr<Node> settingsLevel;
+    std::shared_ptr<YSort> settingsYsort;
+    std::shared_ptr<Node> settingsLevelGUI;
+    std::shared_ptr<ButtonsContainer> settingsButtons;
+    levelSetUpper.setUp(settingsLevel, settingsYsort, settingsLevelGUI, settingsButtons, SETTINGS);
 
     settingsButtons->translate({ 100, 100 });
 
@@ -175,22 +144,11 @@ int main()
     settingsButtons->makeColoredButton("GO BACK", 20, { 350,500 }, { 200,100 });
     
     //========================================================================================GAME
-    std::shared_ptr<Node> gameLevel = std::make_shared<Node>(Node());
-    gameLevel->setName("game level");
-    game->addLevel(GAME, gameLevel);
-
-    std::shared_ptr<YSort> gameYsort = std::make_shared<YSort>(YSort());
-    gameYsort->setName("game Ysort");
-    gameLevel->addChild(gameYsort);
-
-    std::shared_ptr<Node> gameLevelGUI = std::make_shared<Node>(Node());
-    gameLevelGUI->setName("game level GUI");
-    GUI->addLevel(GAME, gameLevelGUI);
-
-    std::shared_ptr<ButtonsContainer> gameButtons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
-    gameButtons->setName("game buttons");
-    gameLevelGUI->addChild(gameButtons);
-
+    std::shared_ptr<Node> gameLevel;
+    std::shared_ptr<YSort> gameYsort;
+    std::shared_ptr<Node> gameLevelGUI;
+    std::shared_ptr<ButtonsContainer> gameButtons;
+    levelSetUpper.setUp(gameLevel, gameYsort, gameLevelGUI, gameButtons, GAME);
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
@@ -227,28 +185,28 @@ int main()
             }
         }
 
-        if (settingsButtons->get("1280 x 720")->isPressed(window))
+        if(settingsButtons->get("1280 x 720")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1280x720, window);
             root->resize(resolution);
             settingsButtons->get("1280 x 720")->printDebug();
         }
 
-        if (settingsButtons->get("1336 x 768")->isPressed(window))
+        if(settingsButtons->get("1336 x 768")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1336x768, window);
             root->resize(resolution);
             settingsButtons->get("1336 x 768")->printDebug();
         }
 
-        if (settingsButtons->get("1600 x 900")->isPressed(window))
+        if(settingsButtons->get("1600 x 900")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1600x900, window);
             root->resize(resolution);
             settingsButtons->get("1600 x 900")->printDebug();
         }
 
-        if (settingsButtons->get("1920 x 1080")->isPressed(window))
+        if(settingsButtons->get("1920 x 1080")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1920x1080, window);
             root->resize(resolution);
@@ -258,6 +216,26 @@ int main()
         if(settingsButtons->get("GO BACK")->isPressed(window))
         {
             root->setLevel(MAIN_MENU);
+        }
+
+        if(mainMenuButtons->get("PLAY")->isPressed(window))
+        {
+            root->setLevel(GAME);
+        }
+
+        if(mainMenuButtons->get("SETTINGS")->isPressed(window))
+        {
+            root->setLevel(SETTINGS);
+        }
+
+        if(mainMenuButtons->get("TEST")->isPressed(window))
+        {
+            root->setLevel(TEST_PLAY);
+        }
+
+        if(testButtons->get("KILL")->isPressed(window))
+        {
+            player->kill();
         }
 
         GLOBAL_SOUND_SYSTEM.update();

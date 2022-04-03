@@ -37,6 +37,7 @@ void NPC::onUpdate(const sf::Time &delta)
         if(currentTime >= waitTime)
         {
             currentTime = 0.0f;
+            currentState = RUN;
             randomVelocityAndTimes();
         }
     }
