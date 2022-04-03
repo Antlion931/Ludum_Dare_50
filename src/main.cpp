@@ -274,7 +274,7 @@ int main()
         window.clear();
 
         root->update(delta);
-        //std::cout << "Delta: " << delta.asMilliseconds() << "\n";
+        std::cout << "Delta: " << delta.asMilliseconds() << "\n";
 
         sf::View new_view = window.getView();
         new_view.setCenter(cameraController->getRequiredTranslation());
