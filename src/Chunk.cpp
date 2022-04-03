@@ -10,6 +10,7 @@ Chunk::Chunk(std::shared_ptr<sf::Texture> _tileSet)
     int randomNumber = dist(randomChunkPicker);
 
     tileMap.setScale(TileMapScale);
+    tileMap.setName("tile map");
 
     std::ifstream loader("./res/chunkTemplates/chunk" + std::to_string(randomNumber) + ".chunk");
 

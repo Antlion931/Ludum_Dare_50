@@ -2,7 +2,7 @@
 
 TileMap::TileMap(sf::Vector2i _TileSize) : tileSize(_TileSize)
 {
-
+    
 }
 
 
