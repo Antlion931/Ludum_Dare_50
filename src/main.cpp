@@ -19,6 +19,9 @@
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
 #include "TileMap.hpp"
+#include "NPC.hpp"
+#include "Y-sort.hpp"
+#include "Chunk.hpp"
 #include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "CameraController.hpp"
@@ -34,6 +37,7 @@ GAME
 
 int main()
 {
+    std::srand(std::time(NULL));
     Resolution resolution(Resolution::resolution::_1280x720);
     sf::RenderWindow window(resolution.getDefault(), "GAME", sf::Style::Close | sf::Style::Titlebar);
 
@@ -57,6 +61,10 @@ int main()
     std::shared_ptr<LevelLoader> GUI = std::make_shared<LevelLoader>(LevelLoader(4));
     GUI->setName("gui");
     root->setGUI(GUI);
+
+    SoundSystem GLOBAL_SOUND_SYSTEM;
+
+    std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
@@ -114,15 +122,56 @@ int main()
     game->addLevel(TEST_PLAY, test);
     GUI->addLevel(TEST_PLAY, test_menu);
 
-    std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
-    
-    test_container->addChild(chunk);
-
-    std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
+    std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
+
+    std::shared_ptr<NPC> testNPC1 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {400,400}, {100,100}, 100, 1));
+    testNPC1->setName("test NPC1");
+    testNPC1->setCollider(test_layer, {0.0, 25.0}, 30.0);
+    test_container->addChild(testNPC1);
+    testNPC1->setRunAnimation("./res/textures/npc/Female/Run", 0.1);
+    testNPC1->setIdleAnimation("./res/textures/npc/Female/Idle", 0.2);
+    testNPC1->setDyingAnimation("./res/textures/npc/Female/Dying", 1);
+    testNPC1->setDeadAnimation("./res/textures/npc/Female/Dead", 1);
+    testNPC1->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC1);
+
+    std::shared_ptr<NPC> testNPC2 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {500,400}, {100,100}, 100, 1));
+    testNPC2->setName("test NPC");
+    testNPC2->setCollider(test_layer, {0.0, 25.0}, 30.0);
+    test_container->addChild(testNPC2);
+    testNPC2->setRunAnimation("./res/textures/npc/Male/Run", 0.1);
+    testNPC2->setIdleAnimation("./res/textures/npc/Male/Idle", 0.2);
+    testNPC2->setDyingAnimation("./res/textures/npc/Male/Dying", 1);
+    testNPC2->setDeadAnimation("./res/textures/npc/Male/Dead", 1);
+    testNPC2->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC2);
+
+    std::shared_ptr<NPC> testNPC3 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {600,400}, {100,100}, 100, 1));
+    testNPC3->setName("test NPC");
+    testNPC3->setCollider(test_layer, {0.0, 25.0}, 30.0);
+    test_container->addChild(testNPC3);
+    testNPC3->setRunAnimation("./res/textures/npc/Butcher/Run", 0.1);
+    testNPC3->setIdleAnimation("./res/textures/npc/Butcher/Idle", 0.2);
+    testNPC3->setDyingAnimation("./res/textures/npc/Butcher/Dying", 1);
+    testNPC3->setDeadAnimation("./res/textures/npc/Butcher/Dead", 1);
+    testNPC3->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC3);
+
+    std::shared_ptr<NPC> testNPC4 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {700,400}, {100,100}, 100, 1));
+    testNPC4->setName("test NPC4");
+    testNPC4->setCollider(test_layer, {0.0, 25.0}, 30.0);
+    test_container->addChild(testNPC4);
+    testNPC4->setRunAnimation("./res/textures/npc/Herald/Run", 0.1);
+    testNPC4->setIdleAnimation("./res/textures/npc/Herald/Idle", 0.2);
+    testNPC4->setDyingAnimation("./res/textures/npc/Herald/Dying", 1);
+    testNPC4->setDeadAnimation("./res/textures/npc/Herald/Dead", 1);
+    testNPC4->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC4);
+
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     ysort->addChild(player);
@@ -149,11 +198,13 @@ int main()
     test->addChild(test_container);
     test_container->addChild(ysort);
 
-    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.08);
-    player->setRunAnimation("./res/textures/Player/2-Run", 0.05);
+    test_container->addChild(player);
+    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
+    player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
     player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
     player->setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
     player->setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
+    player->setDyingSoundName("gunShot.wav");
 
     ComisBookText.setString("KILL");
     ComisBookText.setCharacterSize(90);
@@ -299,13 +350,33 @@ int main()
             player->kill();
         }
 
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
+        {
+            testNPC1->kill();
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
+        {
+            testNPC2->kill();
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
+        {
+            testNPC3->kill();
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
+        {
+            testNPC4->kill();
+        }
+
+        GLOBAL_SOUND_SYSTEM.update();
+
         sf::Time delta = deltaClock.restart();
         window.clear();
 
-        //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
-        //sf::Sprite test(*outsideTileMap->getTileSet());
-
         root->update(delta);
+        std::cout << "Delta: " << delta.asMilliseconds() << "\n";
 
         sf::View new_view = window.getView();
         new_view.setCenter(cameraController->getRequiredTranslation());

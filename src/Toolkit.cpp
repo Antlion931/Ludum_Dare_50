@@ -16,7 +16,6 @@ bool clamp(sf::RectangleShape a, sf::Vector2f b)
 		   b.y >= position.y;
 }
 
-
 bool clamp(sf::RectangleShape a, sf::Vector2i b)
 {
 	sf::Vector2f size = a.getSize();

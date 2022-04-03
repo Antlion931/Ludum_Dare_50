@@ -3,11 +3,12 @@
 #include <memory>
 #include "DynamicNode.hpp"
 #include "Animation.hpp"
+#include "SoundSystem.hpp"
 
 class Character : public DynamicNode
 {
 public:
-    Character(sf::Vector2f position, sf::Vector2f size, float _speed);
+    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime);
     ~Character();
 
     void setIdleAnimation(std::string directoryPath, float _animationSpeed);
@@ -15,6 +16,9 @@ public:
     void setPunchAnimation(std::string directoryPath, float _animationSpeed);
     void setDyingAnimation(std::string directoryPath, float _animationSpeed);
     void setDeadAnimation(std::string directoryPath, float _animationSpeed);
+
+    void setDyingSoundName(std::string _dyingSoundName);
+
     void kill();
 
     
@@ -27,6 +31,12 @@ protected:
         DYING,
         DEAD
     };
+
+
+    float dyingTime;
+    float currentTime;
+
+    void updateBody(const sf::Time&  delta);
 
     void onDraw(sf::RenderTarget &target) override;
 
@@ -46,5 +56,9 @@ protected:
     std::shared_ptr<Animation> punchAnimation;
     std::shared_ptr<Animation> dyingAnimation;
     std::shared_ptr<Animation> deadAnimation;
+
+
+    std::string dyingSoundName;
+    SoundSystem& soundSystem;
 };
 
