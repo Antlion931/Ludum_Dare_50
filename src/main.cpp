@@ -83,15 +83,25 @@ int main()
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort));
     
-    test_NPCCreator->makeNPC("Female", GLOBAL_SOUND_SYSTEM, {400,400}, {100,100});
-    test_NPCCreator->makeNPC("Male", GLOBAL_SOUND_SYSTEM, {500,400}, {100,100});
-    test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
-    test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND_SYSTEM, {700,400}, {100,100});
+    test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND_SYSTEM, {400,400}, {100,100});
+    test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND_SYSTEM, {500,400}, {100,100});
+    test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
+    test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND_SYSTEM, {700,400}, {100,100});
+    test_NPCCreator->makeNPC("Female", GLOBAL_SOUND_SYSTEM, {800,400}, {100,100});
+    test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND_SYSTEM, {900,400}, {100,100});
+    test_NPCCreator->makeNPC("King", GLOBAL_SOUND_SYSTEM, {1000,400}, {100,100});
+    test_NPCCreator->makeNPC("Mage", GLOBAL_SOUND_SYSTEM, {1100,400}, {100,100});
+    test_NPCCreator->makeNPC("Male", GLOBAL_SOUND_SYSTEM, {1200,400}, {100,100});
+    test_NPCCreator->makeNPC("Merchant", GLOBAL_SOUND_SYSTEM, {1300,400}, {100,100});
+    test_NPCCreator->makeNPC("Princess", GLOBAL_SOUND_SYSTEM, {1400,400}, {100,100});
+    test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND_SYSTEM, {1500,400}, {100,100});
+    test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND_SYSTEM, {1600,400}, {100,100});
+
 
     TextureLoader tileSets("./res/textures/TileSets");
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM));
-    player->setCollider(test_layer, {0.0, 0.0}, 40.0);
+    player->setCollider(test_layer, {0.0, 31.0}, 20.0);
     testYsort->addChild(player);
 
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
@@ -122,6 +132,8 @@ int main()
     obstacle_3->setTranslation({700, 500});
     obstacle_3->scale({2.0,2.0});
     testYsort->addChild(obstacle_3);
+
+    int index = 0;
  
     //===================================================================================================SETTINGS
     std::shared_ptr<Node> settingsLevel;
@@ -230,7 +242,11 @@ int main()
 
         if(testButtons->get("KILL")->isPressed(window))
         {
-            player->kill();
+            if(index < test_NPCCreator->NPCs.size())
+            {
+                test_NPCCreator->NPCs[index]->kill();
+                index++;
+            }
         }
 
         GLOBAL_SOUND_SYSTEM.update();

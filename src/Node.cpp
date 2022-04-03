@@ -38,7 +38,6 @@ void Node::draw(sf::RenderTarget &target)
 
 }
 
-
 void Node::update(const sf::Time& delta)
 {
     //std::cout <<"update " << getName() << std::endl;

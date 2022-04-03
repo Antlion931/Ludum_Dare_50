@@ -79,7 +79,7 @@ void NPC::setUpByName(std::string name)
     setName(name);
     setRunAnimation("./res/textures/npc/" + name + "/Run", 0.1);
     setIdleAnimation("./res/textures/npc/" + name + "/Idle", 0.2);
-    setDyingAnimation("./res/textures/npc/" + name + "/Dying", 1);
+    setDyingAnimation("./res/textures/npc/" + name + "/Dying", 0.03);
     setDeadAnimation("./res/textures/npc/" + name + "/Dead", 1);
     setDyingSoundName("dead.wav");
 }
