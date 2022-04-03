@@ -3,6 +3,7 @@
 #include "Node.hpp"
 #include <vector>
 #include <memory>
+#include <string>
 
 class Collider : public Node
 {
@@ -49,12 +50,15 @@ class Collidable : public Node
     };
 
     public: 
-        CollisionResult scanCollisions();
-        void setCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, float _radius);
-        void setCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, sf::Vector2f _size);
+        CollisionResult scanCollisions(int collider_id);
+        CollisionResult scanCollisions(int collider_id, std::shared_ptr<CollisionLayer> layer);
+        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, float _radius);
+        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, sf::Vector2f _size);
+        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, float _radius, std::string name);
+        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, sf::Vector2f _size, std::string name);
 
     private:
-        std::shared_ptr<CollisionLayer> scan_layer;
-        std::shared_ptr<Collider> collider;
+        std::vector<std::shared_ptr<CollisionLayer>> scan_layers;
+        std::vector<std::shared_ptr<Collider>> colliders;
 };
 

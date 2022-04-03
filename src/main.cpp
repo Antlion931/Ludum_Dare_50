@@ -81,7 +81,8 @@ int main()
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort));
+    std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
+    std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
     
     test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND_SYSTEM, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND_SYSTEM, {500,400}, {100,100});
@@ -101,7 +102,8 @@ int main()
     TextureLoader tileSets("./res/textures/TileSets");
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM));
-    player->setCollider(test_layer, {0.0, 31.0}, 20.0);
+    player->addCollider(test_layer, {0.0, 31.0}, 20.0);
+    player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
     testYsort->addChild(player);
 
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
@@ -116,19 +118,19 @@ int main()
 
     std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
     obstacle_1->setName("obstacle 1");
-    obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_1->addCollider(test_layer, {0, 0}, 50.0);
     obstacle_1->setTranslation({500, 500});
     testYsort->addChild(obstacle_1);
 
     std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
     obstacle_2->setName("obstacle 2");
-    obstacle_2->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_2->addCollider(test_layer, {0, 0}, 50.0);
     obstacle_2->setTranslation({550, 500});
     testYsort->addChild(obstacle_2);
 
     std::shared_ptr<Collidable> obstacle_3 = std::make_shared<Collidable>(Collidable());
     obstacle_3->setName("obstacle 3");
-    obstacle_3->setCollider(test_layer, {0, 0}, {100.0, 50.0});
+    obstacle_3->addCollider(test_layer, {0, 0}, {100.0, 50.0});
     obstacle_3->setTranslation({700, 500});
     obstacle_3->scale({2.0,2.0});
     testYsort->addChild(obstacle_3);

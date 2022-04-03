@@ -129,7 +129,7 @@ void Character::setDyingSoundName(std::string _dyingSoundName)
 void Character::updateBody(const sf::Time&  delta)
 {
     translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
-    translate(scanCollisions().move_vector);
+    translate(scanCollisions(0).move_vector);
     setCorrectAnimation();
     currentAnimation->update(delta, isFaceingRight); 
 
