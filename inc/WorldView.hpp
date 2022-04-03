@@ -26,7 +26,7 @@ private:
     
     std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
-    YSort Objects;
+    std::shared_ptr<YSort> Objects;
     //NPCCreator NPCcreator;
 
     std::shared_ptr<Player> player;
@@ -46,4 +46,5 @@ public:
 protected:
     void onDraw(sf::RenderTarget &target) override; 
     void onUpdate(const sf::Time& delta) override;
+    void onTransform() override;
 };
