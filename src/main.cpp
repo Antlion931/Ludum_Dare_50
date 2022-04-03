@@ -20,6 +20,7 @@
 #include "Animation.hpp"
 #include "TileMap.hpp"
 #include "Y-sort.hpp"
+#include "Chunk.hpp"
 
 enum
 {
@@ -93,19 +94,14 @@ int main()
 
     //====================================================================================================TESTING
     TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<TileMap> outsideTileMap = 
-    std::make_shared<TileMap>(TileMap(sf::Vector2i(32,32), tileSets.returnTexture("outdoors.png")));
-    for(int i = 0; i < 32; i++)
-    {
-        for(int j = 0; j < 32; j++)
-            outsideTileMap ->setTile({i,j}, 2);
-    }
-    //outsideTileMap->setTile({1,1}, 2);
-    outsideTileMap->setName("TileMap");
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
+    chunk->setName("Chunk");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
 
     std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
+    
+    test_container->addChild(chunk);
 
     std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
 
@@ -153,8 +149,6 @@ int main()
     test->addChild(killButton);
 
     test->setName("Test");
-    ysort->addChild(outsideTileMap);
-    outsideTileMap->translate({200.0, 200.0});
     root->addLevel(test);
  
     //===================================================================================================SETTINGS
