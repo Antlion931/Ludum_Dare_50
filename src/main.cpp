@@ -72,7 +72,7 @@ int main()
     std::shared_ptr<YSort> mainMenuYsort;
     std::shared_ptr<Node> mainMenuLevelGUI;
     std::shared_ptr<ButtonsContainer> mainMenuButtons;
-    levelSetUpper.setUp(mainMenuLevel, mainMenuYsort, mainMenuLevelGUI, mainMenuButtons, MAIN_MENU);
+    levelSetUpper.setUp(mainMenuLevel, mainMenuLevelGUI, mainMenuButtons, MAIN_MENU);
 
     mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
     mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
@@ -80,16 +80,15 @@ int main()
     
     //====================================================================================================TESTING
     std::shared_ptr<Node> testLevel;
-    std::shared_ptr<YSort> testYsort;
     std::shared_ptr<Node> testLevelGUI;
     std::shared_ptr<ButtonsContainer> testButtons;
-    levelSetUpper.setUp(testLevel, testYsort, testLevelGUI, testButtons, TEST_PLAY); 
+    levelSetUpper.setUp(testLevel, testLevelGUI, testButtons, TEST_PLAY); 
 
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
+    /*std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
     
     test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
@@ -103,29 +102,25 @@ int main()
     test_NPCCreator->makeNPC("Merchant", GLOBAL_SOUND, {1300,400}, {100,100});
     test_NPCCreator->makeNPC("Princess", GLOBAL_SOUND, {1400,400}, {100,100});
     test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
-    test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
+    test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});*/
 
     TextureLoader tileSets("./res/textures/TileSets");
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
     player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
-    testYsort->addChild(player);
 
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
     worldView->setName("world view");
-    testLevel->removeChild(testYsort);
     testLevel->addChild(worldView);
-    testLevel->addChild(testYsort);
 
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
     player->addChild(cameraController);
 
-    EntityPrefabs e;
+    /*EntityPrefabs e;
     TextureLoader treeTexture("./res/textures");
-    std::shared_ptr<StaticObject> staticObject_1 = e.getStaticObject("tree");
-    staticObject_1->setTranslation({500, 500});
-    testYsort->addChild(staticObject_1);
+    std::shared_ptr<StaticObject> treeObject = e.getStaticObject("tree");
+    treeObject->setTranslation({500, 500});
 
     std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
     obstacle_1->setName("obstacle 1");
@@ -144,16 +139,15 @@ int main()
     obstacle_3->addCollider(test_layer, {0, 0}, {100.0, 50.0});
     obstacle_3->setTranslation({700, 500});
     obstacle_3->scale({2.0,2.0});
-    testYsort->addChild(obstacle_3);
+    testYsort->addChild(obstacle_3);*/
 
     int index = 0;
  
     //===================================================================================================SETTINGS
     std::shared_ptr<Node> settingsLevel;
-    std::shared_ptr<YSort> settingsYsort;
     std::shared_ptr<Node> settingsLevelGUI;
     std::shared_ptr<ButtonsContainer> settingsButtons;
-    levelSetUpper.setUp(settingsLevel, settingsYsort, settingsLevelGUI, settingsButtons, SETTINGS);
+    levelSetUpper.setUp(settingsLevel, settingsLevelGUI, settingsButtons, SETTINGS);
 
     settingsButtons->translate({ 100, 100 });
 
@@ -170,10 +164,9 @@ int main()
 
     //========================================================================================GAME
     std::shared_ptr<Node> gameLevel;
-    std::shared_ptr<YSort> gameYsort;
     std::shared_ptr<Node> gameLevelGUI;
     std::shared_ptr<ButtonsContainer> gameButtons;
-    levelSetUpper.setUp(gameLevel, gameYsort, gameLevelGUI, gameButtons, GAME);
+    levelSetUpper.setUp(gameLevel, gameLevelGUI, gameButtons, GAME);
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
@@ -259,14 +252,14 @@ int main()
             GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
         }
 
-        if(testButtons->get("KILL")->isPressed(window))
+        /*if(testButtons->get("KILL")->isPressed(window))
         {
             if(index < test_NPCCreator->NPCs.size())
             {
                 test_NPCCreator->NPCs[index]->kill();
                 index++;
             }
-        }
+        }*/
 
         if(volumeBar->isVisible())
         {
