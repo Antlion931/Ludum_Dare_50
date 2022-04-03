@@ -30,7 +30,6 @@ void SoundSystem::playSound(std::string _fileName, sf::Vector2f _position){
     ref.play();
 }
 
-
 void SoundSystem::update(){
     for(int i=0; i<soundQueque.size(); i++)
         if(soundQueque.at(i).getStatus() == sf::Sound::Stopped){

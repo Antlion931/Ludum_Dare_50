@@ -9,7 +9,7 @@ Music::Music(){
 
 void Music::setVolume(float _volume){
     volume = _volume;
-    music.setVolume(50.f);
+    music.setVolume(volume);
 };
 float Music::returnVolume() const{
     return volume;

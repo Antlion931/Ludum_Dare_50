@@ -8,31 +8,15 @@
 class Character : public DynamicNode
 {
 public:
-    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime);
-    ~Character();
+    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime);
 
-    void setIdleAnimation(std::string directoryPath, float _animationSpeed);
-    void setRunAnimation(std::string directoryPath, float _animationSpeed);
-    void setPunchAnimation(std::string directoryPath, float _animationSpeed);
-    void setDyingAnimation(std::string directoryPath, float _animationSpeed);
-    void setDeadAnimation(std::string directoryPath, float _animationSpeed);
-    inline bool isDead()const{return currentAnimation==deadAnimation;};
+    void setAnimation(std::string directoryPath, std::vector<float> _speeds, std::vector<int> _animationIndex);
 
     void setDyingSoundName(std::string _dyingSoundName);
 
     void kill();
-
-    
+   
 protected:
-    enum State
-    {
-        IDLE,
-        RUN,
-        PUNCH,
-        DYING,
-        DEAD
-    };
-
 
     float dyingTime;
     float currentTime;
@@ -40,24 +24,14 @@ protected:
     void updateBody(const sf::Time&  delta);
 
     void onDraw(sf::RenderTarget &target) override;
-
-    std::shared_ptr<Animation> currentAnimation;
     sf::RectangleShape body;
 
     void onUpdate(const sf::Time &delta) override;
-    void setCorrectAnimation();
 
     bool isFaceingRight;
-    State currentState;
-    State previousState;
     float speed;
 
-    std::shared_ptr<Animation> idleAnimation;
-    std::shared_ptr<Animation> runAnimation;
-    std::shared_ptr<Animation> punchAnimation;
-    std::shared_ptr<Animation> dyingAnimation;
-    std::shared_ptr<Animation> deadAnimation;
-
+    Animation animation;
     std::string dyingSoundName;
     SoundSystem& soundSystem;
 };

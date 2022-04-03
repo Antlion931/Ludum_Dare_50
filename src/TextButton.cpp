@@ -75,7 +75,6 @@ void TextButton::onReleased()
 	text.setOutlineThickness(onReleasedFontStyle.outlineThickness);
 }
 
-
 void TextButton::setOnPressedFontStyle(Style style)
 {
 	onPressedFontStyle = style;
