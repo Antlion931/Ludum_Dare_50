@@ -11,7 +11,8 @@ void MouseChangeableProgressbar::update(sf::RenderWindow& window)
 {
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        sf::Vector2f mousePosition = getGlobalTransform().getTransform().getInverse() * sf::Vector2f(sf::Mouse::getPosition(window));
+        sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
+
         sf::Vector2f bodySize = getSize();
         sf::Vector2f bodyPosition = getPosition();
 
