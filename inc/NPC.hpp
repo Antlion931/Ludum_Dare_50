@@ -12,6 +12,5 @@ private:
     void randomVelocityAndTimes();
 
 public:
-    NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime);
-    void setUpByName(std::string name);
+    NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation, float _dyingTime);
 };

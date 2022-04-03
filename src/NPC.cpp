@@ -1,16 +1,16 @@
 #include "NPC.hpp"
 #include <cmath>
 
-NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime) : 
-Character(soundSystem, position, size, _speed, _dyingTime)
+NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
+Character(soundSystem, position, size, _speed, _animation, _dyingTime)
 {
     randomVelocityAndTimes();
-    currentState = RUN;
+    animation.changeAnimation(RUN);
 }
 
 void NPC::onUpdate(const sf::Time &delta)
 {
-    if(currentState == RUN)
+    if(animation.getCurrentAnimation() == RUN)
     {
         if(velocity.x > 0.0f)
         {
@@ -25,30 +25,30 @@ void NPC::onUpdate(const sf::Time &delta)
         if(currentTime >= walkTime)
         {
             currentTime = 0.0f;
-            currentState = IDLE;
+            animation.changeAnimation(IDLE);
             velocity.x = 0.0f;
             velocity.y = 0.0f;
         }
     }
-    else if(currentState == IDLE)
+    else if(animation.getCurrentAnimation() == IDLE)
     {
         currentTime += delta.asSeconds();
 
         if(currentTime >= waitTime)
         {
             currentTime = 0.0f;
-            currentState = RUN;
+            animation.changeAnimation(RUN);
             randomVelocityAndTimes();
         }
     }
-    else if (currentState == DYING)
+    else if (animation.getCurrentAnimation() == DYING)
     {
         currentTime += delta.asSeconds();
 
         if(currentTime > dyingTime)
         {
             currentTime = 0.0f;
-            currentState = DEAD;
+            animation.changeAnimation(DEAD);
         }
     }
 
@@ -72,14 +72,4 @@ void NPC::randomVelocityAndTimes()
     {
         velocity.y *= -1;
     }
-}
-
-void NPC::setUpByName(std::string name)
-{
-    setName(name);
-    setRunAnimation("./res/textures/npc/" + name + "/Run", 0.1);
-    setIdleAnimation("./res/textures/npc/" + name + "/Idle", 0.2);
-    setDyingAnimation("./res/textures/npc/" + name + "/Dying", 0.08);
-    setDeadAnimation("./res/textures/npc/" + name + "/Dead", 1);
-    setDyingSoundName("dead.wav");
 }

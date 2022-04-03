@@ -100,7 +100,6 @@ int main()
     test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
     test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
 
-
     TextureLoader tileSets("./res/textures/TileSets");
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));

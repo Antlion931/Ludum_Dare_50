@@ -8,7 +8,7 @@
 class Player : public Character
 {
 public:
-    Player(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime, float _punchTime);
+    Player(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, float _punchTime);
     Player(SoundSystem& soundSystem);
 
 protected:
@@ -24,4 +24,5 @@ protected:
 private:
     void randHeadPositon();
     void updateSinpersRedDot(const sf::Time& delta);
+    void updateVelocty(const sf::Time& delta);
 };
