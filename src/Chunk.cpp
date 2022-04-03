@@ -9,12 +9,14 @@ Chunk::Chunk(std::shared_ptr<sf::Texture> _tileSet)
     std::uniform_int_distribution<int> dist(0, amountOfChunkTemplates - 1);
     int randomNumber = dist(randomChunkPicker);
 
+    tileMap.setScale(TileMapScale);
+
     std::ifstream loader("./res/chunkTemplates/chunk" + std::to_string(randomNumber) + ".chunk");
 
     loader >> size.x;
     loader >> size.y;
     std::cout << "size.x: " << size.x << ", size.y: " << size.y << std::endl;
-    tileMap.loadTileMap(size,_tileSet);
+    tileMap.loadTileMap(size,_tileSet, TileSize);
     
     for(int i = 0; i < size.y; i++)
     {

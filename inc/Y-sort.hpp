@@ -1,3 +1,4 @@
+#pragma once
 #include "Node.hpp"
 #include "memory"
 

@@ -22,6 +22,9 @@
 #include "NPC.hpp"
 #include "Y-sort.hpp"
 #include "Chunk.hpp"
+#include "Chunk.hpp"
+#include "Y-sort.hpp"
+#include "CameraController.hpp"
 
 enum
 {
@@ -104,6 +107,9 @@ int main()
     chunk->setName("Chunk");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
+    test->setName("Test");
+    test->addChild(chunk);
+    root->addLevel(test);
 
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
@@ -159,6 +165,8 @@ int main()
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     ysort->addChild(player);
 
+    std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
+
     std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
     obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
     obstacle_1->setTranslation({500, 500});
@@ -199,6 +207,8 @@ int main()
 
     test->setName("Test");
     root->addLevel(test);
+    ysort->addChild(chunk);
+    chunk->translate({200.0, 200.0});
  
     //===================================================================================================SETTINGS
 
@@ -238,6 +248,8 @@ int main()
     std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 350,500 }, { 200,100 }, ComisBookText));
     _1900x1080button->setName("Go Back Button");
     resolutionSettings->addChild(goBackButton);
+    
+    test -> addChild(cameraController);
 
     
     //========================================================================================GAME
@@ -364,6 +376,12 @@ int main()
         root->draw(window);
 
         //window.draw(test);
+        sf::View finalView = window.getView();
+        
+        std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
+        if(cameraController->isActive())
+            finalView.setCenter(cameraController->getView().getCenter());
+        window.setView(finalView);
         window.display();
     }
 }
