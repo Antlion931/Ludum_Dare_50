@@ -25,6 +25,7 @@
 #include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "CameraController.hpp"
+#include "ButtonsContainer.hpp"
 
 enum
 {
@@ -48,9 +49,6 @@ int main()
         return 0;
     }
 
-    sf::Text ComisBookText("place holder", font);
-    ComisBookText.setCharacterSize(20);
-
     std::unique_ptr<LevelLoader> root = std::make_unique<LevelLoader>(LevelLoader());
     root->setName("root");
 
@@ -58,109 +56,65 @@ int main()
 
     std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
 
+
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
     mainMenu->setName("Main Menu");
     root->addLevel(mainMenu);
     root->setLevel(0);
 
-    std::shared_ptr<Container> mainMenuButtons = std::make_shared<Container>();
+    std::shared_ptr<ButtonsContainer> mainMenuButtons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
     mainMenuButtons->setName("Main Menu Buttons");
     mainMenu->addChild(mainMenuButtons);
 
-    ComisBookText.setString("PLAY");
-    ComisBookText.setCharacterSize(90);
-    std::shared_ptr<ColoredButton> playButton = std::make_shared<ColoredButton>(ColoredButton({ 490,50 }, { 300,100 }, ComisBookText));
-    playButton->setName("Play button");
-    playButton->setOnNotHoveredButtonStyle(Style(sf::Color(200, 200, 200), sf::Color(180, 180, 180), 10));
-    playButton->setOnEntredButtonStyle(Style(sf::Color(210, 210, 210), sf::Color(190, 190, 190), 20));
-    playButton->setOnPressedButtonStyle(Style(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 5));
-    playButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    playButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    mainMenuButtons->addChild(playButton);
+    mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
+    mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
+    mainMenuButtons->makeColoredButton("TEST", 90, { 490,450 }, { 300,100 });
 
-    ComisBookText.setString("SETTINGS");
-    ComisBookText.setCharacterSize(55);
-    std::shared_ptr<ColoredButton> settingsButton = std::make_shared<ColoredButton>(ColoredButton({ 490,250 }, { 300,100 }, ComisBookText));
-    settingsButton->setName("settings button");
-    settingsButton->setOnNotHoveredButtonStyle(Style(sf::Color(200, 200, 200), sf::Color(180, 180, 180), 20));
-    settingsButton->setOnEntredButtonStyle(Style(sf::Color(210, 210, 210), sf::Color(190, 190, 190), 30));
-    settingsButton->setOnPressedButtonStyle(Style(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 10));
-    settingsButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    settingsButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    mainMenuButtons->addChild(settingsButton);
-
-    ComisBookText.setString("TEST");
-    ComisBookText.setCharacterSize(90);
-    std::shared_ptr<ColoredButton> testButton = std::make_shared<ColoredButton>(ColoredButton({ 490,450 }, { 300,100 }, ComisBookText));
-    testButton->setName("Test button");
-    testButton->setOnNotHoveredButtonStyle(Style(sf::Color(200, 200, 200), sf::Color(180, 180, 180), 10));
-    testButton->setOnEntredButtonStyle(Style(sf::Color(210, 210, 210), sf::Color(190, 190, 190), 20));
-    testButton->setOnPressedButtonStyle(Style(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 5));
-    testButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    testButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    mainMenuButtons->addChild(testButton);
 
     //====================================================================================================TESTING
     TextureLoader tileSets("./res/textures/TileSets");
     std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
     chunk->setName("Chunk");
 
+
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     test->setName("Test");
     test->addChild(chunk);
     root->addLevel(test);
 
+    std::shared_ptr<ButtonsContainer> testButtons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
+    test->addChild(testButtons);
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
 
-
     std::shared_ptr<NPC> testNPC1 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {400,400}, {100,100}, 100, 1));
-    testNPC1->setName("test NPC1");
+    testNPC1->setUpByName("Female");
     testNPC1->setCollider(test_layer, {0.0, 25.0}, 30.0);
     test_container->addChild(testNPC1);
-    testNPC1->setRunAnimation("./res/textures/npc/Female/Run", 0.1);
-    testNPC1->setIdleAnimation("./res/textures/npc/Female/Idle", 0.2);
-    testNPC1->setDyingAnimation("./res/textures/npc/Female/Dying", 1);
-    testNPC1->setDeadAnimation("./res/textures/npc/Female/Dead", 1);
-    testNPC1->setDyingSoundName("dead.wav");
     ysort->addChild(testNPC1);
 
     std::shared_ptr<NPC> testNPC2 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {500,400}, {100,100}, 100, 1));
-    testNPC2->setName("test NPC");
-    testNPC2->setCollider(test_layer, {0.0, 25.0}, 30.0);
+    testNPC2->setUpByName("Male");
     test_container->addChild(testNPC2);
-    testNPC2->setRunAnimation("./res/textures/npc/Male/Run", 0.1);
-    testNPC2->setIdleAnimation("./res/textures/npc/Male/Idle", 0.2);
-    testNPC2->setDyingAnimation("./res/textures/npc/Male/Dying", 1);
-    testNPC2->setDeadAnimation("./res/textures/npc/Male/Dead", 1);
-    testNPC2->setDyingSoundName("dead.wav");
+    testNPC2->setCollider(test_layer, {0.0, 25.0}, 30.0);
     ysort->addChild(testNPC2);
 
     std::shared_ptr<NPC> testNPC3 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {600,400}, {100,100}, 100, 1));
-    testNPC3->setName("test NPC");
-    testNPC3->setCollider(test_layer, {0.0, 25.0}, 30.0);
+    testNPC3->setUpByName("Butcher");
     test_container->addChild(testNPC3);
-    testNPC3->setRunAnimation("./res/textures/npc/Butcher/Run", 0.1);
-    testNPC3->setIdleAnimation("./res/textures/npc/Butcher/Idle", 0.2);
-    testNPC3->setDyingAnimation("./res/textures/npc/Butcher/Dying", 1);
-    testNPC3->setDeadAnimation("./res/textures/npc/Butcher/Dead", 1);
-    testNPC3->setDyingSoundName("dead.wav");
+    testNPC3->setCollider(test_layer, {0.0, 25.0}, 30.0);
     ysort->addChild(testNPC3);
 
     std::shared_ptr<NPC> testNPC4 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {700,400}, {100,100}, 100, 1));
-    testNPC4->setName("test NPC4");
-    testNPC4->setCollider(test_layer, {0.0, 25.0}, 30.0);
     test_container->addChild(testNPC4);
-    testNPC4->setRunAnimation("./res/textures/npc/Herald/Run", 0.1);
-    testNPC4->setIdleAnimation("./res/textures/npc/Herald/Idle", 0.2);
-    testNPC4->setDyingAnimation("./res/textures/npc/Herald/Dying", 1);
-    testNPC4->setDeadAnimation("./res/textures/npc/Herald/Dead", 1);
-    testNPC4->setDyingSoundName("dead.wav");
+    testNPC4->setUpByName("Herald");
+    testNPC4->setCollider(test_layer, {0.0, 25.0}, 30.0);
     ysort->addChild(testNPC4);
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 600, 0.55, 0.4));
+
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 200, 0.55, 0.4));
     player->setName("Player");
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     ysort->addChild(player);
@@ -188,22 +142,13 @@ int main()
 
     test_container->addChild(player);
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
-    player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
+    player->setRunAnimation("./res/textures/Player/2-Run", 0.06);
     player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
     player->setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
     player->setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
     player->setDyingSoundName("gunShot.wav");
 
-    ComisBookText.setString("KILL");
-    ComisBookText.setCharacterSize(90);
-    std::shared_ptr<ColoredButton> killButton = std::make_shared<ColoredButton>(ColoredButton({ 800,50 }, { 300,100 }, ComisBookText));
-    killButton->setName("kill button");
-    killButton->setOnNotHoveredButtonStyle(Style(sf::Color(200, 200, 200), sf::Color(180, 180, 180), 10));
-    killButton->setOnEntredButtonStyle(Style(sf::Color(210, 210, 210), sf::Color(190, 190, 190), 20));
-    killButton->setOnPressedButtonStyle(Style(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 5));
-    killButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    killButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    test->addChild(killButton);
+    testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
     test->setName("Test");
     root->addLevel(test);
@@ -216,42 +161,20 @@ int main()
     settings -> setName("Settings");
     root->addLevel(settings);
 
-    std::shared_ptr<Container> resolutionSettings = std::make_shared<Container>();
+    std::shared_ptr<ButtonsContainer> resolutionSettings = std::make_shared<ButtonsContainer>(font);
     resolutionSettings->setName("Resolution Settings");
     settings->addChild(resolutionSettings);
 
     resolutionSettings->translate({ 100, 100 });
 
-    ComisBookText.setCharacterSize(20);
-        
-    ComisBookText.setString("_1280 x 720");
-    std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 50,200 }, { 200,100 }, ComisBookText));
-    _1280x720button->setName("_1280x720button");
-    resolutionSettings->addChild(_1280x720button);
-
-    ComisBookText.setString("1336 x 768");
-    std::shared_ptr<ColoredButton> _1336x768button = std::make_shared<ColoredButton>(ColoredButton({ 300,200 }, { 200,100 }, ComisBookText));
-    _1336x768button->setName("_1336x768button");
-    resolutionSettings->addChild(_1336x768button);
-
-    ComisBookText.setString("1600 x 900");
-    std::shared_ptr<ColoredButton> _1600x900button = std::make_shared<ColoredButton>(ColoredButton({ 550,200 }, { 200,100 }, ComisBookText));
-    _1600x900button->setName("_1600x900button");
-    resolutionSettings->addChild(_1600x900button);
-
-    ComisBookText.setString("1900 x 1080");
-    std::shared_ptr<ColoredButton> _1900x1080button = std::make_shared<ColoredButton>(ColoredButton({ 800,200 }, { 200,100 }, ComisBookText));
-    _1900x1080button->setName("_1900x1080button");
-    resolutionSettings->addChild(_1900x1080button);
-
-    ComisBookText.setString("GO BACK");
-    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 350,500 }, { 200,100 }, ComisBookText));
-    _1900x1080button->setName("Go Back Button");
-    resolutionSettings->addChild(goBackButton);
+    resolutionSettings->makeColoredButton("1280 x 720", 20, { 50,200 }, { 200,100 });
+    resolutionSettings->makeColoredButton("1336 x 768", 20, { 300,200 }, { 200,100 });
+    resolutionSettings->makeColoredButton("1600 x 900", 20, { 550,200 }, { 200,100 });
+    resolutionSettings->makeColoredButton("1920 x 1080", 20, { 800,200 }, { 200,100 });
+    resolutionSettings->makeColoredButton("GO BACK", 20, { 350,500 }, { 200,100 });
     
     test -> addChild(cameraController);
-
-    
+  
     //========================================================================================GAME
     std::shared_ptr<Node> game = std::make_shared<Node>(Node());
     root->addLevel(game);
@@ -280,7 +203,7 @@ int main()
                 }
                 else if (event.key.code == sf::Keyboard::Num3)
                 {
-                    std::cout << "button _1920x1080 is: " << (_1900x1080button->isActive() ? "active\n" : "inactive\n");
+                    std::cout << "button _1920x1080 is: " << (resolutionSettings->get("1920 x 1080")->isActive() ? "active\n" : "inactive\n");
                 }
                 else if (event.key.code == sf::Keyboard::Space)
                 {
@@ -290,55 +213,55 @@ int main()
             }
         }
 
-        if (_1280x720button->isPressed(window))
+        if (resolutionSettings->get("1280 x 720")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1280x720, window);
             root->resize(resolution);
-            _1280x720button->printDebug();
+            resolutionSettings->get("1280 x 720")->printDebug();
         }
 
-        if (_1336x768button->isPressed(window))
+        if (resolutionSettings->get("1336 x 768")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1336x768, window);
             root->resize(resolution);
-            _1336x768button->printDebug();
+            resolutionSettings->get("1336 x 768")->printDebug();
         }
 
-        if (_1600x900button->isPressed(window))
+        if (resolutionSettings->get("1600 x 900")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1600x900, window);
             root->resize(resolution);
-            _1600x900button->printDebug();
+            resolutionSettings->get("1600 x 900")->printDebug();
         }
 
-        if (_1900x1080button->isPressed(window))
+        if (resolutionSettings->get("1920 x 1080")->isPressed(window))
         {
             resolution.changeResolution(Resolution::resolution::_1920x1080, window);
             root->resize(resolution);
-            _1900x1080button->printDebug();
+            resolutionSettings->get("1920 x 1080")->printDebug();
         }
 
-        if(playButton->isPressed(window))
+        if(mainMenuButtons->get("PLAY")->isPressed(window))
         {
             root->setLevel(GAME);
         }
 
-        if(settingsButton->isPressed(window))
+        if(mainMenuButtons->get("SETTINGS")->isPressed(window))
         {
             root->setLevel(SETTINGS);
         }
 
-        if(testButton->isPressed(window))
+        if(mainMenuButtons->get("TEST")->isPressed(window))
         {
             root->setLevel(TEST_PLAY);
         }
 
-        if(goBackButton->isPressed(window))
+        if(resolutionSettings->get("GO BACK")->isPressed(window))
         {
             root->setLevel(MAIN_MENU);
         }
 
-        if(killButton->isPressed(window))
+        if(testButtons->get("KILL")->isPressed(window))
         {
             player->kill();
         }
@@ -368,14 +291,9 @@ int main()
         sf::Time delta = deltaClock.restart();
         window.clear();
 
-        //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
-        //sf::Sprite test(*outsideTileMap->getTileSet());
-
-
         root->update(delta);
         root->draw(window);
 
-        //window.draw(test);
         sf::View finalView = window.getView();
         
         std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
