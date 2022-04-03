@@ -21,11 +21,6 @@ public:
 	void setOnNotHoveredFontStyle(Style style);
 	void setOnReleasedFontStyle(Style style);
 
-
-
-
-
-
 protected:
 	void onPressed() override;
 	void onEntered() override;
@@ -41,8 +36,6 @@ protected:
 	Style onReleasedFontStyle;
 	
 	sf::Text text;
-	
-
 
 private:
 	//void resize();

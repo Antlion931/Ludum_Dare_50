@@ -30,9 +30,10 @@
 #include "NPCCreator.hpp"
 #include "WorldView.hpp"
 #include "LevelSetUpper.hpp"
-#include "QuestCreator.hpp"
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
+#include "QuestCreator.hpp"
+#include "TextBox.hpp"
 
 int main()
 {
@@ -85,12 +86,14 @@ int main()
     std::shared_ptr<ButtonsContainer> testButtons;
     levelSetUpper.setUp(testLevel, testYsort, testLevelGUI, testButtons, TEST_PLAY); 
 
+<<<<<<< HEAD
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
+=======
+>>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
-    
     test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
     test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND, {600,400}, {100,100});
@@ -105,9 +108,20 @@ int main()
     test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
     test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
 
+
     TextureLoader tileSets("./res/textures/TileSets");
 
+    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testTextBox);
+
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+<<<<<<< HEAD
+=======
+    
+    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
+    
+    player->addCollider(test_layer, {0.0, 31.0}, 20.0);
+>>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
     player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
     testYsort->addChild(player);
 
@@ -250,9 +264,11 @@ int main()
         if(mainMenuButtons->get("TEST")->isPressed(window))
         {
             root->setLevel(TEST_PLAY);
+            questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
             GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
         }
 
+<<<<<<< HEAD
         if(testButtons->get("KILL")->isPressed(window))
         {
             if(index < test_NPCCreator->NPCs.size())
@@ -264,6 +280,8 @@ int main()
 
         GLOBAL_SOUND_SYSTEM.update();
         questCreator->update();
+=======
+>>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
         if(volumeBar->isVisible())
         {
             volumeBar->update(window);
@@ -272,9 +290,29 @@ int main()
         }
 
         GLOBAL_SOUND.update();
+<<<<<<< HEAD
+=======
+        questCreator->update();
+>>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
 
         sf::Time delta = deltaClock.restart();
         window.clear();
+
+        if(testTextBox->isVisible())
+        {
+            testTextBox->setString(std::to_string(questCreator->activeQuests.back().returnRemainingTime().asSeconds())); 
+
+            if(questCreator->activeQuests.back().Done)
+            {
+                questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(4).get(),kill));
+                std::cout << "Nowy quest" << std::endl;
+            }
+            else if(questCreator->failedQuests.size()>0)
+            {
+                GLOBAL_MUSIC.stopMusic();
+                player->kill();
+            }
+        }
 
         root->update(delta);
         //std::cout << "Delta: " << delta.asMilliseconds() << "\n";
