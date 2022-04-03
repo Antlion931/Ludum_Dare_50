@@ -22,12 +22,12 @@
 #include "NPC.hpp"
 #include "Y-sort.hpp"
 #include "Chunk.hpp"
-#include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "CameraController.hpp"
 #include "Root.hpp"
 #include "ButtonsContainer.hpp"
 #include "NPCCreator.hpp"
+#include "WorldView.hpp"
 
 enum
 {
@@ -81,10 +81,6 @@ int main()
     mainMenuButtons->setName("main menu buttons");
     mainMenuLevelGUI->addChild(mainMenuButtons);
 
-    mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
-    mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
-    mainMenuButtons->makeColoredButton("TEST", 90, { 490,450 }, { 300,100 });
-
     //====================================================================================================TESTING
     std::shared_ptr<Node> testLevel = std::make_shared<Node>(Node());
     testLevel->setName("test level");
@@ -120,7 +116,7 @@ int main()
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 200, 0.55, 0.4));
     player->setName("Player");
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
-    player->setRunAnimation("./res/textures/Player/2-Run", 0.06);
+    player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
     player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
     player->setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
     player->setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
@@ -178,8 +174,6 @@ int main()
     settingsButtons->makeColoredButton("1920 x 1080", 20, { 800,200 }, { 200,100 });
     settingsButtons->makeColoredButton("GO BACK", 20, { 350,500 }, { 200,100 });
     
-    //test -> addChild(cameraController);
-  
     //========================================================================================GAME
     std::shared_ptr<Node> gameLevel = std::make_shared<Node>(Node());
     gameLevel->setName("game level");
@@ -264,26 +258,6 @@ int main()
         if(settingsButtons->get("GO BACK")->isPressed(window))
         {
             root->setLevel(MAIN_MENU);
-        }
-
-        if(mainMenuButtons->get("PLAY")->isPressed(window))
-        {
-            root->setLevel(GAME);
-        }
-
-        if(mainMenuButtons->get("SETTINGS")->isPressed(window))
-        {
-            root->setLevel(SETTINGS);
-        }
-
-        if(mainMenuButtons->get("TEST")->isPressed(window))
-        {
-            root->setLevel(TEST_PLAY);
-        }
-
-        if(testButtons->get("KILL")->isPressed(window))
-        {
-            player->kill();
         }
 
         GLOBAL_SOUND_SYSTEM.update();
