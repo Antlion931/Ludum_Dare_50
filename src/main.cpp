@@ -22,6 +22,7 @@
 #include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "CameraController.hpp"
+#include "Root.hpp"
 
 enum
 {
@@ -47,14 +48,22 @@ int main()
     sf::Text ComisBookText("place holder", font);
     ComisBookText.setCharacterSize(20);
 
-    std::unique_ptr<LevelLoader> root = std::make_unique<LevelLoader>(LevelLoader());
-    root->setName("root");
+    std::unique_ptr<Root> root = std::make_unique<Root>(Root());
+
+    std::shared_ptr<LevelLoader> game = std::make_shared<LevelLoader>(LevelLoader(4));
+    game->setName("game");
+    root->setGame(game);
+
+    std::shared_ptr<LevelLoader> GUI = std::make_shared<LevelLoader>(LevelLoader(4));
+    GUI->setName("gui");
+    root->setGUI(GUI);
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
     mainMenu->setName("Main Menu");
-    root->addLevel(mainMenu);
-    root->setLevel(0);
+    GUI->addLevel(MAIN_MENU, mainMenu);
+    game->setLevel(MAIN_MENU);
+    GUI->setLevel(MAIN_MENU);
 
     std::shared_ptr<Container> mainMenuButtons = std::make_shared<Container>();
     mainMenuButtons->setName("Main Menu Buttons");
@@ -99,9 +108,11 @@ int main()
     chunk->setName("Chunk");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
+    std::shared_ptr<Container> test_menu = std::make_shared<Container>(Container());
     test->setName("Test");
     test->addChild(chunk);
-    root->addLevel(test);
+    game->addLevel(TEST_PLAY, test);
+    GUI->addLevel(TEST_PLAY, test_menu);
 
     std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
     
@@ -117,6 +128,7 @@ int main()
     ysort->addChild(player);
 
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
+    player->addChild(cameraController);
 
     std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
     obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
@@ -152,7 +164,7 @@ int main()
     killButton->setOnPressedButtonStyle(Style(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 5));
     killButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     killButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
-    test->addChild(killButton);
+    test_menu->addChild(killButton);
 
     test->setName("Test");
     ysort->addChild(chunk);
@@ -162,47 +174,43 @@ int main()
 
     std::shared_ptr<Node> settings = std::make_shared<Node>(Node());
     settings -> setName("Settings");
-    root->addLevel(settings);
+    GUI->addLevel(SETTINGS, settings);
 
     std::shared_ptr<Container> resolutionSettings = std::make_shared<Container>();
     resolutionSettings->setName("Resolution Settings");
     settings->addChild(resolutionSettings);
 
-    resolutionSettings->translate({ 100, 100 });
-
     ComisBookText.setCharacterSize(20);
         
     ComisBookText.setString("_1280 x 720");
-    std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 50,200 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> _1280x720button = std::make_shared<ColoredButton>(ColoredButton({ 150,200 }, { 200,100 }, ComisBookText));
     _1280x720button->setName("_1280x720button");
     resolutionSettings->addChild(_1280x720button);
 
     ComisBookText.setString("1336 x 768");
-    std::shared_ptr<ColoredButton> _1336x768button = std::make_shared<ColoredButton>(ColoredButton({ 300,200 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> _1336x768button = std::make_shared<ColoredButton>(ColoredButton({ 400,200 }, { 200,100 }, ComisBookText));
     _1336x768button->setName("_1336x768button");
     resolutionSettings->addChild(_1336x768button);
 
     ComisBookText.setString("1600 x 900");
-    std::shared_ptr<ColoredButton> _1600x900button = std::make_shared<ColoredButton>(ColoredButton({ 550,200 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> _1600x900button = std::make_shared<ColoredButton>(ColoredButton({ 650,200 }, { 200,100 }, ComisBookText));
     _1600x900button->setName("_1600x900button");
     resolutionSettings->addChild(_1600x900button);
 
     ComisBookText.setString("1900 x 1080");
-    std::shared_ptr<ColoredButton> _1900x1080button = std::make_shared<ColoredButton>(ColoredButton({ 800,200 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> _1900x1080button = std::make_shared<ColoredButton>(ColoredButton({ 900,200 }, { 200,100 }, ComisBookText));
     _1900x1080button->setName("_1900x1080button");
     resolutionSettings->addChild(_1900x1080button);
 
     ComisBookText.setString("GO BACK");
-    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 350,500 }, { 200,100 }, ComisBookText));
+    std::shared_ptr<ColoredButton> goBackButton = std::make_shared<ColoredButton>(ColoredButton({ 525,500 }, { 200,100 }, ComisBookText));
     _1900x1080button->setName("Go Back Button");
     resolutionSettings->addChild(goBackButton);
-    
-    test -> addChild(cameraController);
 
     
     //========================================================================================GAME
-    std::shared_ptr<Node> game = std::make_shared<Node>(Node());
-    root->addLevel(game);
+    std::shared_ptr<Node> game_level = std::make_shared<Node>(Node());
+    game->addLevel(GAME, game_level);
 
     //=========================================================================================GAME LOOP
     sf::Clock deltaClock;
@@ -220,11 +228,11 @@ int main()
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::Num1)
                 {
-                    root->setLevel(0);
+                    root->setLevel(MAIN_MENU);
                 }
                 else if (event.key.code == sf::Keyboard::Num2)
                 {
-                    root->setLevel(1);
+                    root->setLevel(SETTINGS);
                 }
                 else if (event.key.code == sf::Keyboard::Num3)
                 {
@@ -297,17 +305,15 @@ int main()
         //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
         //sf::Sprite test(*outsideTileMap->getTileSet());
 
-
         root->update(delta);
+
+        sf::View new_view = window.getView();
+        new_view.setCenter(cameraController->getRequiredTranslation());
+        window.setView(new_view);
+        GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
+
         root->draw(window);
 
-        //window.draw(test);
-        sf::View finalView = window.getView();
-        
-        std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
-        if(cameraController->isActive())
-            finalView.setCenter(cameraController->getView().getCenter());
-        window.setView(finalView);
         window.display();
     }
 }

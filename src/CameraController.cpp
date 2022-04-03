@@ -1,20 +1,20 @@
 #include "CameraController.hpp"
 
 
-CameraController::CameraController(std::shared_ptr<Player> _player) : player(_player)
+CameraController::CameraController(std::shared_ptr<Node> _followed)
 {
-
+    followed = _followed;
 }
 
 
-sf::View CameraController::getView()
+sf::Vector2f CameraController::getRequiredTranslation()
 {
-    return view;
+    return required_translation;
 }
 
 
 void CameraController::onUpdate(const sf::Time& delta)
 {
-    view.setCenter(player->getGlobalTransform().getPosition().x, player->getGlobalTransform().getPosition().y);
+    required_translation = followed->getGlobalTransform().getPosition();
 }
 
