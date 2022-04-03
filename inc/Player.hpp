@@ -19,4 +19,8 @@ protected:
     void onDraw(sf::RenderTarget &target) const override;
     void onUpdate(const sf::Time &delta) override;
     //void onResize(Resolution resolution) override;
+
+private:
+    void randHeadPositon();
+    void updateSinpersRedDot(const sf::Time& delta);
 };

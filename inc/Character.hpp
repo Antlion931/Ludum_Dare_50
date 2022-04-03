@@ -36,6 +36,8 @@ protected:
     float dyingTime;
     float currentTime;
 
+    void updateBody(const sf::Time&  delta);
+
     void onDraw(sf::RenderTarget &target) const override;
 
     std::shared_ptr<Animation> currentAnimation;

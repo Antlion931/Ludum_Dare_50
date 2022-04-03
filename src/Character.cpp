@@ -50,8 +50,6 @@ void Character::setDyingAnimation(std::string directoryPath, float _animationSpe
 
 void Character::onUpdate(const sf::Time &delta)
 {
-    translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
-    
     if(velocity.x != 0.0f || velocity.y != 0.0f)
     {
         currentState = RUN;
@@ -70,12 +68,7 @@ void Character::onUpdate(const sf::Time &delta)
         currentState = IDLE;
     }
 
-    setCorrectAnimation();
-    currentAnimation->update(delta, isFaceingRight); 
-
-    body.setTexture(currentAnimation -> getTexture().get());
-    body.setTextureRect(currentAnimation->getIntRect());
-    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
+    updateBody(delta);
 }
 
 void Character::setCorrectAnimation()
@@ -115,6 +108,8 @@ void Character::kill()
 {
     if(currentState != DEAD && currentState != DYING)
     {
+        velocity.x = 0.0f;
+        velocity.y = 0.0f;
         currentTime = 0.0f;
         currentState = DYING;
         soundSystem.playSound(dyingSoundName);
@@ -129,4 +124,16 @@ void Character::onDraw(sf::RenderTarget &target) const
 void Character::setDyingSoundName(std::string _dyingSoundName)
 {
     dyingSoundName = _dyingSoundName;
+}
+
+void Character::updateBody(const sf::Time&  delta)
+{
+    translate({velocity.x * delta.asSeconds() , velocity.y * delta.asSeconds()});
+    translate(scanCollisions().move_vector);
+    setCorrectAnimation();
+    currentAnimation->update(delta, isFaceingRight); 
+
+    body.setTexture(currentAnimation -> getTexture().get());
+    body.setTextureRect(currentAnimation->getIntRect());
+    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }

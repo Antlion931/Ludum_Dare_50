@@ -107,38 +107,9 @@ void Player::onUpdate(const sf::Time &delta)
             currentState = PUNCH;
         }
     }
-    
-    translate({velocity * delta.asSeconds()});
-    translate(scanCollisions().move_vector);
-    setCorrectAnimation();
 
-    currentAnimation->update(delta, isFaceingRight);
-
-    body.setTexture(currentAnimation -> getTexture().get());
-    body.setTextureRect(currentAnimation->getIntRect());
-
-    float snipersVelocityMultiplayer = 5;
-
-    if(currentState != IDLE)
-    {
-        headPosition = m_local_transform.getPosition();
-        headPosition.x -= 100 + rand()%11 - 5;
-        headPosition.y -= 115 + rand()%11 - 5;
-        snipersVelocityMultiplayer = 30;
-    }
-    else if(headPosition.x - snipersRedDot->m_local_transform.getPosition().x + headPosition.y - snipersRedDot->m_local_transform.getPosition().y < 0.1)
-    {
-        headPosition = m_local_transform.getPosition();
-        headPosition.x -= 100 + rand()%11 - 5;
-        headPosition.y -= 115 + rand()%11 - 5;
-    }
-
-    sf::Vector2f newVelocity(headPosition - snipersRedDot->m_local_transform.getPosition());
-    newVelocity *= snipersVelocityMultiplayer;
-
-    snipersRedDot->setVelocity(newVelocity);
-
-    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
+    updateSinpersRedDot(delta);
+    updateBody(delta);
 }
 
 Player::Player(SoundSystem& soundSystem,sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime, float _punchTime) : 
@@ -149,9 +120,7 @@ Character(soundSystem, position, size, _speed, _dyingTime), punchTime(_punchTime
     snipersRedDot->circle.setFillColor(sf::Color(255, 0, 0, 255));
     addChild(snipersRedDot);
     
-    headPosition = m_local_transform.getPosition();
-    headPosition.x -= 100 + rand()%11 - 5;
-    headPosition.y -= 100 + rand()%11 - 5;
+    randHeadPositon();
 
     snipersRedDot->setTranslation(m_local_transform.getPosition() - sf::Vector2f(100, 100));
 }
@@ -159,4 +128,31 @@ Character(soundSystem, position, size, _speed, _dyingTime), punchTime(_punchTime
 void Player::onDraw(sf::RenderTarget &target) const
 {
     target.draw(body,m_global_transform.getTransform());
+}
+
+void Player::randHeadPositon()
+{
+    headPosition = m_local_transform.getPosition();
+    headPosition.x -= 100 + rand()%11 - 5;
+    headPosition.y -= 100 + rand()%11 - 5;
+}
+
+void Player::updateSinpersRedDot(const sf::Time& delta)
+{
+    float snipersVelocityMultiplayer = 5;
+
+    if(currentState != IDLE)
+    {
+        randHeadPositon();
+        snipersVelocityMultiplayer = 30;
+    }
+    else if(headPosition.x - snipersRedDot->m_local_transform.getPosition().x + headPosition.y - snipersRedDot->m_local_transform.getPosition().y < 0.1)
+    {
+        randHeadPositon();
+    }
+
+    sf::Vector2f newVelocity(headPosition - snipersRedDot->m_local_transform.getPosition());
+    newVelocity *= snipersVelocityMultiplayer;
+
+    snipersRedDot->setVelocity(newVelocity);
 }
