@@ -7,9 +7,14 @@
 void Node::updateTransform()
 {
     if (parent != NULL)
-        m_global_transform = combineTransforms(parent->getGlobalTransform(), m_local_transform);
+        updateTransform(parent->getGlobalTransform());
     else
-        m_global_transform = m_local_transform;
+        updateTransform(sf::Transformable());
+}
+
+void Node::updateTransform(sf::Transformable const &parent_transform)
+{
+    m_global_transform = combineTransforms(parent_transform, m_local_transform);
 
     onTransform();
 
