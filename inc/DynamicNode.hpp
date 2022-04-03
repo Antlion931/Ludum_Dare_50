@@ -10,7 +10,6 @@ public:
 	sf::Vector2f getVelocity();
 
 protected:
-	virtual void onDraw(sf::RenderTarget& target) const override{};
 	virtual void onUpdate(const sf::Time &delta) override;
 };
 

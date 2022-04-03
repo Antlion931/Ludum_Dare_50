@@ -125,7 +125,7 @@ Character(soundSystem, position, size, _speed, _dyingTime), punchTime(_punchTime
     snipersRedDot->setTranslation(m_local_transform.getPosition() - sf::Vector2f(100, 100));
 }
 
-void Player::onDraw(sf::RenderTarget &target) const
+void Player::onDraw(sf::RenderTarget &target)
 {
     target.draw(body,m_global_transform.getTransform());
 }

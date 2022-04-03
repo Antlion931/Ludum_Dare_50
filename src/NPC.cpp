@@ -51,7 +51,6 @@ void NPC::onUpdate(const sf::Time &delta)
         }
     }
 
-    std::cout << currentState << std::endl;
     updateBody(delta);
 }
 

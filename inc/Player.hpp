@@ -16,7 +16,7 @@ protected:
     std::shared_ptr<MovingCircle> snipersRedDot;
     sf::Vector2f headPosition;
 
-    void onDraw(sf::RenderTarget &target) const override;
+    void onDraw(sf::RenderTarget &target) override;
     void onUpdate(const sf::Time &delta) override;
     //void onResize(Resolution resolution) override;
 

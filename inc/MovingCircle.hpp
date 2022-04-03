@@ -7,6 +7,6 @@ public:
 	MovingCircle(sf::Vector2f position, float radius);
 	sf::CircleShape circle;
 protected:
-	void onDraw(sf::RenderTarget& target) const override;
+	void onDraw(sf::RenderTarget& target) override;
 };
 

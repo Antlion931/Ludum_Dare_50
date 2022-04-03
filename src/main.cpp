@@ -20,6 +20,8 @@
 #include "Animation.hpp"
 #include "TileMap.hpp"
 #include "NPC.hpp"
+#include "Y-sort.hpp"
+#include "Chunk.hpp"
 
 enum
 {
@@ -50,6 +52,8 @@ int main()
     root->setName("root");
 
     SoundSystem GLOBAL_SOUND_SYSTEM;
+
+    std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
@@ -96,20 +100,10 @@ int main()
 
     //====================================================================================================TESTING
     TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<TileMap> outsideTileMap = 
-    std::make_shared<TileMap>(TileMap(sf::Vector2i(32,32), tileSets.returnTexture("outdoors.png")));
-    for(int i = 0; i < 32; i++)
-    {
-        for(int j = 0; j < 32; j++)
-            outsideTileMap ->setTile({i,j}, 2);
-    }
-    //outsideTileMap->setTile({1,1}, 2);
-    outsideTileMap->setName("TileMap");
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
+    chunk->setName("Chunk");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
-    test->setName("Test");
-    test->addChild(outsideTileMap);
-    root->addLevel(test);
 
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
@@ -125,6 +119,7 @@ int main()
     testNPC1->setDyingAnimation("./res/textures/npc/Female/Dying", 1);
     testNPC1->setDeadAnimation("./res/textures/npc/Female/Dead", 1);
     testNPC1->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC1);
 
     std::shared_ptr<NPC> testNPC2 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {500,400}, {100,100}, 100, 1));
     testNPC2->setName("test NPC");
@@ -135,6 +130,7 @@ int main()
     testNPC2->setDyingAnimation("./res/textures/npc/Male/Dying", 1);
     testNPC2->setDeadAnimation("./res/textures/npc/Male/Dead", 1);
     testNPC2->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC2);
 
     std::shared_ptr<NPC> testNPC3 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {600,400}, {100,100}, 100, 1));
     testNPC3->setName("test NPC");
@@ -145,6 +141,7 @@ int main()
     testNPC3->setDyingAnimation("./res/textures/npc/Butcher/Dying", 1);
     testNPC3->setDeadAnimation("./res/textures/npc/Butcher/Dead", 1);
     testNPC3->setDyingSoundName("dead.wav");
+    ysort->addChild(testNPC3);
 
     std::shared_ptr<NPC> testNPC4 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {700,400}, {100,100}, 100, 1));
     testNPC4->setName("test NPC4");
@@ -155,22 +152,32 @@ int main()
     testNPC4->setDyingAnimation("./res/textures/npc/Herald/Dying", 1);
     testNPC4->setDeadAnimation("./res/textures/npc/Herald/Dead", 1);
     testNPC4->setDyingSoundName("dead.wav");
-
-    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
-    obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
-    obstacle_1->setTranslation({500, 500});
-    test_container->addChild(obstacle_1);
-
-    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
-    obstacle_2->setCollider(test_layer, {0, 0}, 50.0);
-    obstacle_2->setTranslation({550, 500});
-    test_container->addChild(obstacle_2);
-
-    test->addChild(test_container);
+    ysort->addChild(testNPC4);
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
+    ysort->addChild(player);
+
+    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
+    obstacle_1->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_1->setTranslation({500, 500});
+    ysort->addChild(obstacle_1);
+
+    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
+    obstacle_2->setCollider(test_layer, {0, 0}, 50.0);
+    obstacle_2->setTranslation({550, 500});
+    ysort->addChild(obstacle_2);
+
+    std::shared_ptr<Collidable> obstacle_3 = std::make_shared<Collidable>(Collidable());
+    obstacle_3->setCollider(test_layer, {0, 0}, {100.0, 50.0});
+    obstacle_3->setTranslation({700, 500});
+    obstacle_3->scale({2.0,2.0});
+    ysort->addChild(obstacle_3);
+
+    test->addChild(test_container);
+    test_container->addChild(ysort);
+
     test_container->addChild(player);
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
@@ -189,6 +196,9 @@ int main()
     killButton->setOnEnteredFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     killButton->setOnPressedFontStyle(Style(sf::Color::Yellow, sf::Color::Black, 4));
     test->addChild(killButton);
+
+    test->setName("Test");
+    root->addLevel(test);
  
     //===================================================================================================SETTINGS
 

@@ -116,7 +116,7 @@ void Character::kill()
     }
 }
 
-void Character::onDraw(sf::RenderTarget &target) const
+void Character::onDraw(sf::RenderTarget &target)
 {
     target.draw(body,getGlobalTransform().getTransform());
 }
