@@ -126,6 +126,12 @@ int main()
     obstacle_2->setTranslation({550, 500});
     ysort->addChild(obstacle_2);
 
+    std::shared_ptr<Collidable> obstacle_3 = std::make_shared<Collidable>(Collidable());
+    obstacle_3->setCollider(test_layer, {0, 0}, {100.0, 50.0});
+    obstacle_3->setTranslation({700, 500});
+    obstacle_3->scale({2.0,2.0});
+    ysort->addChild(obstacle_3);
+
     test->addChild(test_container);
     test_container->addChild(ysort);
 
