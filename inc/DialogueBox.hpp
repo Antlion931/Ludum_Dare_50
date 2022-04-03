@@ -9,7 +9,7 @@ class DialogueBox : public TextButton{
         void onUpdate(const sf::Time& delta);
         void draw(sf::RenderTarget &target) const;
     protected:
-        virtual void onDraw(sf::RenderTarget& target) const override;
+        virtual void onDraw(sf::RenderTarget& target) override;
     private:
         std::shared_ptr<Node> target;
         std::string visibleCharacters = "";

@@ -19,14 +19,6 @@
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
 #include "DialogueBox.hpp"
-
-enum
-{
-MAIN_MENU,
-TEST_PLAY,
-SETTINGS,
-GAME
-};
 #include "TileMap.hpp"
 #include "NPC.hpp"
 #include "Y-sort.hpp"
@@ -38,6 +30,7 @@ GAME
 #include "NPCCreator.hpp"
 #include "WorldView.hpp"
 #include "LevelSetUpper.hpp"
+#include "QuestCreator.hpp"
 
 int main()
 {
@@ -89,15 +82,12 @@ int main()
 
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
-    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.04);
-    player->setRunAnimation("./res/textures/Player/2-Run", 0.04);
     
     //jak chcesz coś przetestować to twórz obiekty tutaj
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
-    
     test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND_SYSTEM, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND_SYSTEM, {500,400}, {100,100});
     test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
@@ -116,6 +106,10 @@ int main()
     TextureLoader tileSets("./res/textures/TileSets");
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM));
+    
+    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
+    //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill,5000));
+    
     player->addCollider(test_layer, {0.0, 31.0}, 20.0);
     player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
     testYsort->addChild(player);
@@ -266,6 +260,7 @@ int main()
         }
 
         GLOBAL_SOUND_SYSTEM.update();
+        questCreator->update();
 
         sf::Time delta = deltaClock.restart();
         window.clear();
@@ -277,7 +272,6 @@ int main()
         new_view.setCenter(cameraController->getRequiredTranslation());
         window.setView(new_view);
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
-
         root->draw(window);
         window.display();
     }

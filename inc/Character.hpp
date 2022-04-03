@@ -16,6 +16,7 @@ public:
     void setPunchAnimation(std::string directoryPath, float _animationSpeed);
     void setDyingAnimation(std::string directoryPath, float _animationSpeed);
     void setDeadAnimation(std::string directoryPath, float _animationSpeed);
+    inline bool isDead()const{return currentAnimation==deadAnimation;};
 
     void setDyingSoundName(std::string _dyingSoundName);
 

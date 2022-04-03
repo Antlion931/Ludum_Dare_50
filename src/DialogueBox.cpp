@@ -46,7 +46,7 @@ void DialogueBox::onUpdate(const sf::Time& delta){
     }
 };
 
-void DialogueBox::onDraw(sf::RenderTarget& target) const
+void DialogueBox::onDraw(sf::RenderTarget& target) 
 {
     if(!hidden)
     target.draw(text,m_global_transform.getTransform());
