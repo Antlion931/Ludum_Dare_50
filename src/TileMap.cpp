@@ -60,6 +60,7 @@ void TileMap::loadTileMap(sf::Vector2i _size, std::shared_ptr<sf::Texture> _tile
         {
             sf::Vertex *quad = &vertices[(i + j * size.x) * 4];
 
+            
             quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
             quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
             quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
