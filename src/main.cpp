@@ -29,9 +29,16 @@
 #include "NPCCreator.hpp"
 #include "WorldView.hpp"
 #include "LevelSetUpper.hpp"
+#include "DialogueBox.hpp"
+#include "Toolkit.hpp"
 
 int main()
 {
+    SoundSystem GLOBAL_SOUND;
+    Music GLOBAL_MUSIC;
+    GLOBAL_MUSIC.setRepeat(true);
+    GLOBAL_MUSIC.stopMusic();
+
     std::srand(std::time(NULL));
     Resolution resolution(Resolution::resolution::_1280x720);
     sf::RenderWindow window(resolution.getDefault(), "GAME", sf::Style::Close | sf::Style::Titlebar);
@@ -44,9 +51,8 @@ int main()
         return 0;
     }
 
-    SoundSystem GLOBAL_SOUND_SYSTEM;
 
-    std::unique_ptr<Root> root = std::make_unique<Root>(Root());
+    std::unique_ptr<Root> root = std::make_unique<Root>(Root(GLOBAL_MUSIC));
     root->setName("root");
 
     std::shared_ptr<LevelLoader> game = std::make_shared<LevelLoader>(LevelLoader(4));
@@ -68,7 +74,6 @@ int main()
 
     mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
     mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
-
     mainMenuButtons->makeColoredButton("TEST", 90, { 490,450 }, { 300,100 });
     
     //====================================================================================================TESTING
@@ -84,25 +89,23 @@ int main()
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
     
-    test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND_SYSTEM, {400,400}, {100,100});
-    test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND_SYSTEM, {500,400}, {100,100});
-    test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
-    test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND_SYSTEM, {700,400}, {100,100});
-    test_NPCCreator->makeNPC("Female", GLOBAL_SOUND_SYSTEM, {800,400}, {100,100});
-    test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND_SYSTEM, {900,400}, {100,100});
-    test_NPCCreator->makeNPC("King", GLOBAL_SOUND_SYSTEM, {1000,400}, {100,100});
-    test_NPCCreator->makeNPC("Mage", GLOBAL_SOUND_SYSTEM, {1100,400}, {100,100});
-    test_NPCCreator->makeNPC("Male", GLOBAL_SOUND_SYSTEM, {1200,400}, {100,100});
-    test_NPCCreator->makeNPC("Merchant", GLOBAL_SOUND_SYSTEM, {1300,400}, {100,100});
-    test_NPCCreator->makeNPC("Princess", GLOBAL_SOUND_SYSTEM, {1400,400}, {100,100});
-    test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND_SYSTEM, {1500,400}, {100,100});
-    test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND_SYSTEM, {1600,400}, {100,100});
-
+    test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
+    test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
+    test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND, {600,400}, {100,100});
+    test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND, {700,400}, {100,100});
+    test_NPCCreator->makeNPC("Female", GLOBAL_SOUND, {800,400}, {100,100});
+    test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND, {900,400}, {100,100});
+    test_NPCCreator->makeNPC("King", GLOBAL_SOUND, {1000,400}, {100,100});
+    test_NPCCreator->makeNPC("Mage", GLOBAL_SOUND, {1100,400}, {100,100});
+    test_NPCCreator->makeNPC("Male", GLOBAL_SOUND, {1200,400}, {100,100});
+    test_NPCCreator->makeNPC("Merchant", GLOBAL_SOUND, {1300,400}, {100,100});
+    test_NPCCreator->makeNPC("Princess", GLOBAL_SOUND, {1400,400}, {100,100});
+    test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
+    test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
 
     TextureLoader tileSets("./res/textures/TileSets");
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM));
-    player->addCollider(test_layer, {0.0, 31.0}, 20.0);
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
     player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
     testYsort->addChild(player);
 
@@ -151,7 +154,12 @@ int main()
     settingsButtons->makeColoredButton("1600 x 900", 20, { 550,200 }, { 200,100 });
     settingsButtons->makeColoredButton("1920 x 1080", 20, { 800,200 }, { 200,100 });
     settingsButtons->makeColoredButton("GO BACK", 20, { 350,500 }, { 200,100 });
-    
+
+    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200)));
+    volumeBar->setName("volume bar");
+    volumeBar->setProgress(0.5f);
+    settingsLevelGUI->addChild(volumeBar);
+
     //========================================================================================GAME
     std::shared_ptr<Node> gameLevel;
     std::shared_ptr<YSort> gameYsort;
@@ -240,6 +248,7 @@ int main()
         if(mainMenuButtons->get("TEST")->isPressed(window))
         {
             root->setLevel(TEST_PLAY);
+            GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
         }
 
         if(testButtons->get("KILL")->isPressed(window))
@@ -251,7 +260,14 @@ int main()
             }
         }
 
-        GLOBAL_SOUND_SYSTEM.update();
+        if(volumeBar->isVisible())
+        {
+            volumeBar->update(window);
+            GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
+            GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 50.0f);
+        }
+
+        GLOBAL_SOUND.update();
 
         sf::Time delta = deltaClock.restart();
         window.clear();
@@ -265,7 +281,6 @@ int main()
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
 
         root->draw(window);
-
         window.display();
     }
 }

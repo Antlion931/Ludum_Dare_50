@@ -45,7 +45,7 @@ void Progressbar::setProgress(float newProgress)
     bar.setSize(newBarSize);
 }
 
-void Progressbar::onDraw(sf::RenderTarget& target) const
+void Progressbar::onDraw(sf::RenderTarget& target)
 {
     target.draw(background, m_global_transform.getTransform());
     target.draw(bar, m_global_transform.getTransform());
