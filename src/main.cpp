@@ -62,9 +62,6 @@ int main()
 
     SoundSystem GLOBAL_SOUND_SYSTEM;
 
-    std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
-
-
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenu = std::make_shared<Node>(Node());
     mainMenu->setName("Main Menu");
@@ -86,6 +83,8 @@ int main()
     std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
     chunk->setName("Chunk");
 
+    std::shared_ptr<YSort> ysort = std::make_shared<YSort>(YSort());
+    ysort->setName("ysort");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     std::shared_ptr<Container> test_menu = std::make_shared<Container>(Container());
@@ -95,31 +94,28 @@ int main()
     GUI->addLevel(TEST_PLAY, test_menu);
 
     std::shared_ptr<ButtonsContainer> testButtons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
-    test->addChild(testButtons);
+    test_menu->addChild(testButtons);
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
+    test_container->setName("test container");
 
     std::shared_ptr<NPC> testNPC1 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {400,400}, {100,100}, 100, 1));
     testNPC1->setUpByName("Female");
     testNPC1->setCollider(test_layer, {0.0, 25.0}, 30.0);
-    test_container->addChild(testNPC1);
     ysort->addChild(testNPC1);
 
     std::shared_ptr<NPC> testNPC2 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {500,400}, {100,100}, 100, 1));
     testNPC2->setUpByName("Male");
-    test_container->addChild(testNPC2);
     testNPC2->setCollider(test_layer, {0.0, 25.0}, 30.0);
     ysort->addChild(testNPC2);
 
     std::shared_ptr<NPC> testNPC3 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {600,400}, {100,100}, 100, 1));
     testNPC3->setUpByName("Butcher");
-    test_container->addChild(testNPC3);
     testNPC3->setCollider(test_layer, {0.0, 25.0}, 30.0);
     ysort->addChild(testNPC3);
 
     std::shared_ptr<NPC> testNPC4 = std::make_shared<NPC>(NPC(GLOBAL_SOUND_SYSTEM, {700,400}, {100,100}, 100, 1));
-    test_container->addChild(testNPC4);
     testNPC4->setUpByName("Herald");
     testNPC4->setCollider(test_layer, {0.0, 25.0}, 30.0);
     ysort->addChild(testNPC4);
@@ -152,7 +148,6 @@ int main()
     test->addChild(test_container);
     test_container->addChild(ysort);
 
-    test_container->addChild(player);
     player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
     player->setRunAnimation("./res/textures/Player/2-Run", 0.06);
     player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
@@ -303,7 +298,7 @@ int main()
         window.clear();
 
         root->update(delta);
-        std::cout << "Delta: " << delta.asMilliseconds() << "\n";
+        //std::cout << "Delta: " << delta.asMilliseconds() << "\n";
 
         sf::View new_view = window.getView();
         new_view.setCenter(cameraController->getRequiredTranslation());
