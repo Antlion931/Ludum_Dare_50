@@ -68,6 +68,7 @@ int main()
 
     mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
     mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
+
     mainMenuButtons->makeColoredButton("TEST", 90, { 490,450 }, { 300,100 });
     
     //====================================================================================================TESTING
@@ -79,11 +80,6 @@ int main()
 
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
-    TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
-    chunk->setName("Chunk");
-    testYsort ->addChild(chunk);
-
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort));
     
@@ -92,16 +88,17 @@ int main()
     test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND_SYSTEM, {600,400}, {100,100});
     test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND_SYSTEM, {700,400}, {100,100});
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM, {100,100}, {100, 100}, 400, 0.55, 0.4));
-    player->setName("Player");
-    player->setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
-    player->setRunAnimation("./res/textures/Player/2-Run", 0.03);
-    player->setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
-    player->setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
-    player->setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
-    player->setDyingSoundName("gunShot.wav");
+    TextureLoader tileSets("./res/textures/TileSets");
+
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND_SYSTEM));
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     testYsort->addChild(player);
+
+    std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
+    worldView->setName("world view");
+    testLevel->removeChild(testYsort);
+    testLevel->addChild(worldView);
+    testLevel->addChild(testYsort);
 
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
@@ -125,8 +122,6 @@ int main()
     obstacle_3->setTranslation({700, 500});
     obstacle_3->scale({2.0,2.0});
     testYsort->addChild(obstacle_3);
-
-    chunk->translate({200.0, 200.0});
  
     //===================================================================================================SETTINGS
     std::shared_ptr<Node> settingsLevel;

@@ -21,6 +21,8 @@ void Node::updateTransform()
 
 void Node::draw(sf::RenderTarget &target)
 {
+    //std::cout <<"draw " << getName() << std::endl;
+
     if (!visible)
         return;
     // let the node draw itself
@@ -39,6 +41,7 @@ void Node::draw(sf::RenderTarget &target)
 
 void Node::update(const sf::Time& delta)
 {
+    //std::cout <<"update " << getName() << std::endl;
     if (!active)
         return;
     onUpdate(delta);
