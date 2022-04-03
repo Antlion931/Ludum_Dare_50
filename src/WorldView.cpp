@@ -5,6 +5,7 @@
 WorldView::WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
 : player(_player), currentCenterCoords({100,100}), tileSet(_tileSet)
 {
+    Objects.addChild(player);
     //allocateChunk({-1,-1}, currentCenterCoords);
     //allocateChunk({ 0,-1}, currentCenterCoords);
     //allocateChunk({ 1,-1}, currentCenterCoords);
@@ -47,10 +48,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader)
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
-                //std::shared_ptr<NPC> tree = std::make_shared<NPC>(
-                //    NPC(SoundSystem);
-                //);
-                //tree->setUpByName("tree");
+                Objects.addChild(entityPrefabs.getStaticObject("tree"));
             }
         }
     }
@@ -69,7 +67,7 @@ void WorldView::onDraw(sf::RenderTarget &target)
         }
     }
 
-    //entities.draw(target);
+    Objects.draw(target);
 }
 
 void WorldView::chunkChange(sf::Vector2i newCenterCoords)
@@ -112,10 +110,10 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
     Chunk newChunk = Chunk();
     std::shared_ptr<std::ifstream> loader = newChunk.loadChunk(tileSet);
 
-    while(loader->good())
-    {
-        
-    }
+    //while(loader->good())
+    //{
+//
+   // }
 
     loader->close();
     // get relative coords of the chunk

@@ -26,7 +26,7 @@ private:
     
     std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
-    YSort NPCs;
+    YSort Objects;
     //NPCCreator NPCcreator;
 
     std::shared_ptr<Player> player;
