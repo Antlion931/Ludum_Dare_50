@@ -1,12 +1,13 @@
 #include "TileMap.hpp"
 
-TileMap::TileMap()
+TileMap::TileMap(sf::Vector2i _TileSize) : tileSize(_TileSize)
 {
 
 }
 
 
-TileMap::TileMap(sf::Vector2i _size, std::shared_ptr<sf::Texture> _tileSet) : size(_size), tileSet(_tileSet)
+TileMap::TileMap(sf::Vector2i _size, std::shared_ptr<sf::Texture> _tileSet, sf::Vector2i _TileSize)
+: size(_size), tileSet(_tileSet), tileSize(_TileSize)
 {
     vertices.setPrimitiveType(sf::Quads);
     vertices.resize(size.x * size.y * 4);
@@ -47,10 +48,11 @@ void TileMap::setTile(sf::Vector2i position, unsigned int tileID)
 }
 
 
-void TileMap::loadTileMap(sf::Vector2i _size, std::shared_ptr<sf::Texture> _tileSet)
+void TileMap::loadTileMap(sf::Vector2i _size, std::shared_ptr<sf::Texture> _tileSet, sf::Vector2i _TileSize)
 {
     size = _size;
     tileSet = _tileSet;
+    tileSize = _TileSize;
     vertices.setPrimitiveType(sf::Quads);
     vertices.resize(size.x * size.y * 4);
     for (unsigned int i = 0; i < size.x; ++i)
