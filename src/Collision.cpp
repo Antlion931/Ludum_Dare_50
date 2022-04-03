@@ -56,15 +56,30 @@ sf::Vector2f Collider::CircleCircle(Collider const &other)
 sf::Vector2f Collider::CircleRectangle(Collider const &other)
 {
     sf::Vector2f s_center = getGlobalTransform().getPosition();
-    float s_radius =  shape_info.radius;
+    float s_radius =  shape_info.radius * getGlobalTransform().getScale().x;
 
     sf::Vector2f o_center = other.getGlobalTransform().getPosition();
-    sf::Vector2f o_top_left = {o_center.x - shape_info.rectangle.x/2, o_center.y - shape_info.rectangle.y/2};
-    sf::Vector2f o_top_right = {o_center.x + shape_info.rectangle.x/2, o_center.y - shape_info.rectangle.y/2};
-    sf::Vector2f o_bottom_left = {o_center.x - shape_info.rectangle.x/2, o_center.y + shape_info.rectangle.y/2};
-    sf::Vector2f o_bottom_right = {o_center.x + shape_info.rectangle.x/2, o_center.y + shape_info.rectangle.y/2};
-
+    sf::Vector2f o_top_left = {o_center.x - other.shape_info.rectangle.x/2 * other.getGlobalTransform().getScale().x, o_center.y - other.shape_info.rectangle.y/2 * other.getGlobalTransform().getScale().y};
+    sf::Vector2f o_top_right = {o_center.x + other.shape_info.rectangle.x/2 * other.getGlobalTransform().getScale().x, o_center.y - other.shape_info.rectangle.y/2 * other.getGlobalTransform().getScale().y};
+    sf::Vector2f o_bottom_left = {o_center.x - other.shape_info.rectangle.x/2 * other.getGlobalTransform().getScale().x, o_center.y + other.shape_info.rectangle.y/2 * other.getGlobalTransform().getScale().y};
+    sf::Vector2f o_bottom_right = {o_center.x + other.shape_info.rectangle.x/2 * other.getGlobalTransform().getScale().x, o_center.y + other.shape_info.rectangle.y/2 * other.getGlobalTransform().getScale().y};
     
+    sf::Vector2f min_dist_point = closestPointToLine(o_top_left, o_top_right, s_center);
+    if (length_squared(min_dist_point - s_center) > length_squared(closestPointToLine(o_top_right, o_bottom_right, s_center) - s_center))
+        min_dist_point = closestPointToLine(o_top_right, o_bottom_right, s_center);
+    if (length_squared(min_dist_point - s_center) > length_squared(closestPointToLine(o_bottom_right, o_bottom_left, s_center) - s_center))
+        min_dist_point = closestPointToLine(o_bottom_right, o_bottom_left, s_center);
+    if (length_squared(min_dist_point - s_center) > length_squared(closestPointToLine(o_bottom_left, o_top_left, s_center) - s_center))
+        min_dist_point = closestPointToLine(o_bottom_left, o_top_left, s_center);
+
+    if (length(min_dist_point - s_center) < s_radius)
+    {
+        return norm(s_center - min_dist_point) * (s_radius - length(s_center - min_dist_point)); 
+    }
+    else
+    {
+        return {0,0};
+    }
 }
 sf::Vector2f Collider::RectangleCircle(Collider const &other)
 {

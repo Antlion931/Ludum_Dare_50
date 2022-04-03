@@ -14,7 +14,7 @@ bool Button::isPressed(sf::RenderWindow& window)
 {
 	if (!active)
 		return 0;
-	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
+	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(window.mapPixelToCoords(sf::Mouse::getPosition(window)))))
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
