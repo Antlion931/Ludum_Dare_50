@@ -57,7 +57,6 @@ protected:
     std::shared_ptr<Animation> dyingAnimation;
     std::shared_ptr<Animation> deadAnimation;
 
-
     std::string dyingSoundName;
     SoundSystem& soundSystem;
 };
