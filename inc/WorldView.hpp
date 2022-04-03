@@ -21,7 +21,7 @@ class WorldView : public Node
 private:
     std::shared_ptr<sf::Texture> tileSet;
     
-    std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
+    std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
     YSort entities;
     std::shared_ptr<Player> player;
@@ -29,7 +29,7 @@ private:
     
     void chunkChange(sf::Vector2i chunkCoords);
 
-    std::shared_ptr<Chunk> allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo);
+    Chunk allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo);
     void deallocateChunk(sf::Vector2i chunkCoords);
 
 public:
