@@ -103,7 +103,7 @@ Player::Player(SoundSystem& soundSystem)
 : Player(soundSystem, {100,100}, {100, 100}, 400, Animation("./res/textures/Player", {0.06, 0.03, 0.05, 0.1, 0.05}, {29,45,53,54,63}), 0.55, 0.4)
 {
     setName("player");
-    setDyingSoundName("gunShot.wav");
+    setDyingSoundName("gunShotMono.wav");
 }
 
 void Player::updateVelocty(const sf::Time& delta)

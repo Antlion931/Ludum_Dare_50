@@ -33,6 +33,7 @@
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
 #include "QuestCreator.hpp"
+#include "TextBox.hpp"
 
 int main()
 {
@@ -85,11 +86,6 @@ int main()
     std::shared_ptr<ButtonsContainer> testButtons;
     levelSetUpper.setUp(testLevel, testYsort, testLevelGUI, testButtons, TEST_PLAY); 
 
-    testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
-
-    
-    //jak chcesz coś przetestować to twórz obiekty tutaj
-
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
@@ -110,10 +106,12 @@ int main()
 
     TextureLoader tileSets("./res/textures/TileSets");
 
+    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testTextBox);
+
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
     
     std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
-    //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill,5000));
     
     player->addCollider(test_layer, {0.0, 31.0}, 20.0);
     player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
@@ -258,16 +256,8 @@ int main()
         if(mainMenuButtons->get("TEST")->isPressed(window))
         {
             root->setLevel(TEST_PLAY);
+            questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
             GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
-        }
-
-        if(testButtons->get("KILL")->isPressed(window))
-        {
-            if(index < test_NPCCreator->NPCs.size())
-            {
-                test_NPCCreator->NPCs[index]->kill();
-                index++;
-            }
         }
 
         if(volumeBar->isVisible())
@@ -282,6 +272,22 @@ int main()
 
         sf::Time delta = deltaClock.restart();
         window.clear();
+
+        if(testTextBox->isVisible())
+        {
+            testTextBox->setString(std::to_string(questCreator->activeQuests.back().returnRemainingTime().asSeconds())); 
+
+            if(questCreator->activeQuests.back().Done)
+            {
+                questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(4).get(),kill));
+                std::cout << "Nowy quest" << std::endl;
+            }
+            else if(questCreator->failedQuests.size()>0)
+            {
+                GLOBAL_MUSIC.stopMusic();
+                player->kill();
+            }
+        }
 
         root->update(delta);
         //std::cout << "Delta: " << delta.asMilliseconds() << "\n";
