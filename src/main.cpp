@@ -31,6 +31,7 @@
 #include "LevelSetUpper.hpp"
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
+#include "StaticObject.hpp"
 
 int main()
 {
@@ -118,6 +119,13 @@ int main()
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
     player->addChild(cameraController);
+
+    TextureLoader treeTexture("./res/textures");
+    std::shared_ptr<StaticObject> staticObject_1 = std::make_shared<StaticObject>();
+    staticObject_1->setTexture(treeTexture.returnTexture("tree.png"));
+    staticObject_1->setName("TREEEEEEEEEEE");
+    staticObject_1->setTranslation({500, 500});
+    testYsort->addChild(staticObject_1);
 
     std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
     obstacle_1->setName("obstacle 1");

@@ -11,7 +11,7 @@ const int amountOfChunkTemplates = 3;
 
 // SETTINGS
 const sf::Vector2i TileSize = {16,16};
-const sf::Vector2f TileMapScale = {5.f, 5.f};
+const sf::Vector2f TileMapScale = {0.5f, 0.5f};
 
 class Chunk : public Node
 {
