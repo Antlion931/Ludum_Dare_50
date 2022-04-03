@@ -32,6 +32,7 @@
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
 #include "StaticObject.hpp"
+#include "EntityPrefabs.hpp"
 
 int main()
 {
@@ -120,10 +121,9 @@ int main()
     cameraController->setName("Player's camera control");
     player->addChild(cameraController);
 
+    EntityPrefabs e;
     TextureLoader treeTexture("./res/textures");
-    std::shared_ptr<StaticObject> staticObject_1 = std::make_shared<StaticObject>();
-    staticObject_1->setTexture(treeTexture.returnTexture("tree.png"));
-    staticObject_1->setName("TREEEEEEEEEEE");
+    std::shared_ptr<StaticObject> staticObject_1 = e.getStaticObject("tree");
     staticObject_1->setTranslation({500, 500});
     testYsort->addChild(staticObject_1);
 
@@ -289,6 +289,10 @@ int main()
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
 
         root->draw(window);
+
+        //sf::Sprite Tree(*treeTexture.returnTexture("tree.png").get());
+        sf::RectangleShape Tree;
+        window.draw(Tree);
         window.display();
     }
 }

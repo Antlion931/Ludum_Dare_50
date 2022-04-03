@@ -159,6 +159,7 @@ void Node::setActive(bool _active)
         child->setActive(_active);
     }
 }
+
 void Node::setVisible(bool _visible)
 {
     visible = _visible;

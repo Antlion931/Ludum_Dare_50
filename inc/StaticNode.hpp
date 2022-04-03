@@ -12,6 +12,7 @@ public:
     StaticNode(std::shared_ptr<CollisionLayer> collider);
     void setCollider(std::shared_ptr<CollisionLayer> collider);
 
-protected:    
+protected:
+    virtual void onDraw(sf::RenderTarget &target) override {};
     virtual void onUpdate(const sf::Time &delta) override;
 };
