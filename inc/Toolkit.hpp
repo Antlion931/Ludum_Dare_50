@@ -10,6 +10,7 @@ SETTINGS,
 GAME
 };
 
+
 float dot(const sf::Vector2f a, const sf::Vector2f b);
 
 sf::Vector2f norm(const sf::Vector2f a);
