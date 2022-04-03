@@ -1,3 +1,4 @@
+#pragma once
 #include "Node.hpp"
 #include "LevelLoader.hpp"
 #include "SFML/Graphics.hpp"

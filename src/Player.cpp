@@ -41,7 +41,7 @@ void Player::onUpdate(const sf::Time &delta)
         {
             animation.changeAnimation(PUNCHING);
         }
-        else if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y > 0.0f))
+        else if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
         {
             animation.changeAnimation(RUN);
         }

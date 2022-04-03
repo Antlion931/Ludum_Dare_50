@@ -29,6 +29,8 @@
 #include "NPCCreator.hpp"
 #include "WorldView.hpp"
 #include "LevelSetUpper.hpp"
+#include "DialogueBox.hpp"
+#include "Toolkit.hpp"
 
 int main()
 {
@@ -279,7 +281,6 @@ int main()
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
 
         root->draw(window);
-
         window.display();
     }
 }
