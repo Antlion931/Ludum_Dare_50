@@ -22,6 +22,7 @@
 #include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "CameraController.hpp"
+#include "WorldView.hpp"
 
 enum
 {
@@ -94,13 +95,9 @@ int main()
     mainMenuButtons->addChild(testButton);
 
     //====================================================================================================TESTING
-    TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk(tileSets.returnTexture("outdoors.png")));
-    chunk->setName("Chunk");
 
     std::shared_ptr<Node> test = std::make_shared<Node>(Node());
     test->setName("Test");
-    test->addChild(chunk);
     root->addLevel(test);
 
     std::shared_ptr<Container> test_container = std::make_shared<Container>(Container());
@@ -109,10 +106,16 @@ int main()
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
 
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player({100,100}, {100, 100}, 600, 0.55, 0.4));
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player({0,0}, {100, 100}, 600, 0.55, 0.4));
     player->setName("Player");
+    player->translate({1280/5,1280/5});
     player->setCollider(test_layer, {0.0, 0.0}, 40.0);
     ysort->addChild(player);
+
+    TextureLoader tileSets("./res/textures/TileSets");
+    std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
+    worldView->setName("WorldView");
+    test->addChild(worldView);
 
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
 
@@ -147,8 +150,6 @@ int main()
     test->addChild(killButton);
 
     test->setName("Test");
-    ysort->addChild(chunk);
-    chunk->translate({200.0, 200.0});
  
     //===================================================================================================SETTINGS
 
@@ -195,7 +196,6 @@ int main()
     //========================================================================================GAME
     std::shared_ptr<Node> game = std::make_shared<Node>(Node());
     root->addLevel(game);
-
     //=========================================================================================GAME LOOP
     sf::Clock deltaClock;
     while (window.isOpen())
@@ -289,14 +289,13 @@ int main()
         //sf::Sprite test(*tileSets.returnTexture("outdoors.png"));
         //sf::Sprite test(*outsideTileMap->getTileSet());
 
-
         root->update(delta);
         root->draw(window);
 
         //window.draw(test);
         sf::View finalView = window.getView();
         
-        std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
+        //std::cout << finalView.getCenter().x << ", " << finalView.getCenter().y << std::endl;
         if(cameraController->isActive())
             finalView.setCenter(cameraController->getView().getCenter());
         window.setView(finalView);

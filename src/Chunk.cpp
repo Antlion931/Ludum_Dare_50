@@ -1,7 +1,5 @@
 #include "Chunk.hpp"
 
-const int amountOfChunkTemplates = 1;
-
 
 Chunk::Chunk(std::shared_ptr<sf::Texture> _tileSet) 
 {
@@ -15,7 +13,7 @@ Chunk::Chunk(std::shared_ptr<sf::Texture> _tileSet)
 
     loader >> size.x;
     loader >> size.y;
-    std::cout << "size.x: " << size.x << ", size.y: " << size.y << std::endl;
+    //std::cout << "size.x: " << size.x << ", size.y: " << size.y << std::endl;
     tileMap.loadTileMap(size,_tileSet, TileSize);
     
     for(int i = 0; i < size.y; i++)
@@ -24,14 +22,24 @@ Chunk::Chunk(std::shared_ptr<sf::Texture> _tileSet)
         {
             int tileID;
             loader >> tileID;
-            std::cout << "TileID: " << tileID << std::endl;
             tileMap.setTile({j,i}, tileID - 1);
         }
     }
 
+    WorldChunkSize =
+    {TileSize.x * TileMapScale.x * size.x,
+    TileSize.y * TileMapScale.y * size.y};
+
     addChild(std::make_shared<TileMap>(tileMap));
     loader.close();
 }
+
+
+sf::Vector2i Chunk::getWorldChunkSize()
+{
+    return WorldChunkSize;
+}
+
 
 Chunk::~Chunk()
 {

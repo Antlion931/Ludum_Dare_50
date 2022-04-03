@@ -14,7 +14,7 @@ void TextureLoader::loadTextures(){
         std::string str = entry.path();
         str.erase(0,directoryPath.length()+1);
         textures.insert({str,std::make_shared<sf::Texture>(texture)});
-        std::cout << "Loaded Texture with id: " << str << std::endl;
+        //std::cout << "Loaded Texture with id: " << str << std::endl;
     }
 };
 
