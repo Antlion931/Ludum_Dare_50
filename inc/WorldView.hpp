@@ -7,9 +7,6 @@
 #include <map>
 
 
-
-
-
 class WorldView : public Node
 {
 private:
@@ -25,7 +22,7 @@ private:
     
     std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
-    //YSort entities;
+    YSort entities;
     std::shared_ptr<Player> player;
     sf::Vector2i currentCenterCoords;
     

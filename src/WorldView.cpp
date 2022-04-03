@@ -14,10 +14,6 @@ WorldView::WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Textur
     //allocateChunk({-1, 1}, currentCenterCoords);
     //allocateChunk({ 0, 1}, currentCenterCoords);
     //allocateChunk({ 1, 1}, currentCenterCoords);
-
-    //int chunkx = chunkMap[{0,0}]->getGlobalTransform().getPosition().x;
-    //int chunky = chunkMap[{0,0}]->getGlobalTransform().getPosition().y;
-    //std::cout << "Drawing a chunk at: (" << chunkx << ", " << chunky << ")\n" ;
 }
 
 void WorldView::onDraw(sf::RenderTarget &target)
@@ -28,7 +24,6 @@ void WorldView::onDraw(sf::RenderTarget &target)
         for(int j = -1; j <= 1; j++)
         {
             sf::Vector2i offsetChunk = {currentCenterCoords.x - i,currentCenterCoords.y - j};
-            //std::cout << "Drawing a chunk at: (" << chunkx << ", " << chunky << ")\n" ;
             chunkMap[offsetChunk].draw(target);
         }
     }
@@ -59,10 +54,6 @@ void WorldView::onUpdate(const sf::Time& delta)
     sf::Vector2i newCenterCoords;
     newCenterCoords.x = floor(playerCoords.x / WorldChunkSize.x);
     newCenterCoords.y = floor(playerCoords.y / WorldChunkSize.y);
-
-    //currentCenterCoords = newCenterCoords;
-    //std::cout << "player coords: " << playerCoords.x << ", " << playerCoords.y << std::endl;
-    //std::cout << "player chunk coords: " << currentCenterCoords.x << ", " << currentCenterCoords.y << std::endl;
 
     if( currentCenterCoords != newCenterCoords )
         chunkChange(newCenterCoords);
