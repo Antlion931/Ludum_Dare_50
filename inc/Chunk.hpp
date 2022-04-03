@@ -19,8 +19,6 @@ private:
     sf::Vector2i size;
     TileMap tileMap;
 
-    std::vector<std::shared_ptr<NPC>> loadedNPCs;
-
     sf::Vector2i WorldChunkSize =
     {TileSize.x * TileMapScale.x * 32,
     TileSize.y * TileMapScale.y * 32};
@@ -28,9 +26,7 @@ private:
 public:
     sf::Vector2i getWorldChunkSize();
 
-    void loadChunk(std::shared_ptr<sf::Texture> _tileSet);
-
-    void loadNPC(std::ifstream &input);
+    std::shared_ptr<std::ifstream> loadChunk(std::shared_ptr<sf::Texture> _tileSet);
 
     Chunk();
     Chunk(std::shared_ptr<sf::Texture> _tileSet);
