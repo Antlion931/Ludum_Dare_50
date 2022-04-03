@@ -9,6 +9,7 @@ class Node
 {
 public:
     void updateTransform();
+    void updateTransform(sf::Transformable const &parent_transform);
     void draw(sf::RenderTarget &target);
     void update(const sf::Time &delta);
     void resize(Resolution resolution);
