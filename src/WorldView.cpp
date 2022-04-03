@@ -53,11 +53,12 @@ void WorldView::chunkChange(sf::Vector2i newChunkCoords)
             {
                 
                 // to do ( nie alokowanie chunkow ktore juz mamy )
-                int relativex = currentChunkCoords.x - newChunkCoords.x;
-                int relativey = currentChunkCoords.y - newChunkCoords.y;
-                std::cout << "(" << j + 1 + (i + 1 ) * 3 << ", " << j + 1 - relativex + (i + 1 - relativey ) * 3 << ")";
+                //int relativex = currentChunkCoords.x - newChunkCoords.x;
+                //int relativey = currentChunkCoords.y - newChunkCoords.y;
+                //std::cout << "(" << j + 1 + (i + 1 ) * 3 << ", " << j + 1 - relativex + (i + 1 - relativey ) * 3 << ")";
                 
-                loadedChunksTemp[ j + 1 + (i + 1 ) * 3] = loadedChunks[j + 1 - relativex + (i + 1 - relativey ) * 3];
+                //loadedChunksTemp[ j + 1 + (i + 1 ) * 3] = loadedChunks[j + 1 - relativex + (i + 1 - relativey ) * 3];
+                loadedChunksTemp[ j + 1 + (i + 1) * 3] = allocateChunk({j,i}, newChunkCoords);
             }
             else
             {
