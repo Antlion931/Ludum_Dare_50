@@ -96,6 +96,8 @@ void WorldView::onUpdate(const sf::Time& delta)
 
     if( currentCenterCoords != newCenterCoords )
         chunkChange(newCenterCoords);
+
+    Objects.update(delta);
 }
 
 
