@@ -29,22 +29,46 @@ void WorldView::onDraw(sf::RenderTarget &target)
 
 void WorldView::chunkChange(sf::Vector2i newChunkCoords)
 {
+    std::vector<Chunk> loadedChunksTemp = loadedChunks;
     for(int i = -1; i <= 1; i++)
     {
         for(int j = -1; j <= 1; j++)
         {
-            if(isChunkAllocated({newChunkCoords.x + i,newChunkCoords.y + j}))
+            if(isChunkAllocated({newChunkCoords.x + j,newChunkCoords.y + i}))
             {
-                // to do ( nie alokowanie chunkow ktore juz mamy )
-                loadedChunks[ i + 1 + (j + 1) * 3] = allocateChunk({i,j}, newChunkCoords);
+                std::cout << "@";
             }
             else
             {
-                loadedChunks[ i + 1 + (j + 1) * 3] = allocateChunk({i,j}, newChunkCoords);
+                std::cout << "x";
             }
         }
+        std::cout << "\n";
     }
-
+    for(int i = -1; i <= 1; i++)
+    {
+        for(int j = -1; j <= 1; j++)
+        {
+            if(isChunkAllocated({newChunkCoords.x + j, newChunkCoords.y + i}))
+            {
+                
+                // to do ( nie alokowanie chunkow ktore juz mamy )
+                int relativex = currentChunkCoords.x - newChunkCoords.x;
+                int relativey = currentChunkCoords.y - newChunkCoords.y;
+                std::cout << "(" << j + 1 + (i + 1 ) * 3 << ", " << j + 1 - relativex + (i + 1 - relativey ) * 3 << ")";
+                
+                loadedChunksTemp[ j + 1 + (i + 1 ) * 3] = loadedChunks[j + 1 - relativex + (i + 1 - relativey ) * 3];
+            }
+            else
+            {
+                std::cout << "(new)";
+                loadedChunksTemp[ j + 1 + (i + 1) * 3] = allocateChunk({j,i}, newChunkCoords);
+            }
+            
+        }
+        std::cout << "\n";
+    }
+    loadedChunks = loadedChunksTemp;
     currentChunkCoords = newChunkCoords;
 }
 
@@ -60,8 +84,8 @@ void WorldView::onUpdate(const sf::Time& delta)
     newChunkCoords.y = floor(playerCoords.y / WorldChunkSize.y);
 
     //currentChunkCoords = newChunkCoords;
-    std::cout << "player coords: " << playerCoords.x << ", " << playerCoords.y << std::endl;
-    std::cout << "player chunk coords: " << currentChunkCoords.x << ", " << currentChunkCoords.y << std::endl;
+    //std::cout << "player coords: " << playerCoords.x << ", " << playerCoords.y << std::endl;
+    //std::cout << "player chunk coords: " << currentChunkCoords.x << ", " << currentChunkCoords.y << std::endl;
 
     if( currentChunkCoords != newChunkCoords )
         chunkChange(newChunkCoords);
@@ -90,6 +114,8 @@ bool WorldView::isChunkAllocated(sf::Vector2i chunkCoords)
 {
     int xdiff = currentChunkCoords.x - chunkCoords.x;
     int ydiff = currentChunkCoords.y - chunkCoords.y;
-    return abs(xdiff) + abs(ydiff) <= 1
-    || (abs(xdiff) == 1 && abs(ydiff == 1));
+    /*return abs(xdiff) + abs(ydiff) <= 1
+    || (abs(xdiff) == 1 && abs(ydiff == 1));*/
+    return -1 <= xdiff && xdiff <= 1 && -1 <= ydiff && ydiff <= 1;
+    //return 1;
 }
