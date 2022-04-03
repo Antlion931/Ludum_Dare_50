@@ -8,8 +8,8 @@
 
 TextButton::TextButton(sf::Vector2f position, sf::Vector2f size,
 	sf::Text _text) : Button(position, size), text(_text), 
-	onPressedFontStyle(sf::Color::Yellow, sf::Color::Black, 4), onReleasedFontStyle(sf::Color::Red, sf::Color::Black, 0.0),
-	onEnteredFontStyle(sf::Color::Yellow, sf::Color::Black, 4), onNotHoveredFontStyle(sf::Color::Yellow, sf::Color::Black, 4)
+	onPressedFontStyle(sf::Color(242,196,22), sf::Color(1,2,4), 10), onReleasedFontStyle(sf::Color(242,196,22), sf::Color(1,2,4), 10),
+	onEnteredFontStyle(sf::Color(242,196,22), sf::Color(1,2,4), 15), onNotHoveredFontStyle(sf::Color(242,196,22), sf::Color(1,2,4), 10)
 {
 	adjustText();
 
@@ -35,7 +35,7 @@ void TextButton::adjustText()
 	// wysrodkowac tekst
 	sf::FloatRect textRect = text.getLocalBounds();
 	float x = (box.getSize().x / 2) - textRect.width / 2;
-	float y = (box.getSize().y / 2) - textRect.height;
+	float y = (box.getSize().y / 2) - textRect.height / 1.2;
 	text.setPosition(x,y);
 }
 
