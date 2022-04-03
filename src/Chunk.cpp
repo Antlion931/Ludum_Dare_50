@@ -1,7 +1,19 @@
 #include "Chunk.hpp"
 
 
+Chunk::Chunk()
+{
+    
+}
+
+
 Chunk::Chunk(std::shared_ptr<sf::Texture> _tileSet) 
+{
+    loadChunk(_tileSet);
+}
+
+
+void Chunk::loadChunk(std::shared_ptr<sf::Texture> _tileSet)
 {
     std::random_device randomChunkPicker;
     std::uniform_int_distribution<int> dist(0, amountOfChunkTemplates - 1);
