@@ -9,6 +9,7 @@ class Player : public Character
 {
 public:
     Player(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime, float _punchTime);
+    Player(SoundSystem& soundSystem);
 
 protected:
     float punchTime;

@@ -76,6 +76,7 @@ void WorldView::chunkChange(sf::Vector2i newChunkCoords)
 
 void WorldView::onUpdate(const sf::Time& delta)
 {
+
     sf::Vector2f playerCoords = player->getGlobalTransform().getPosition();
     sf::Vector2i WorldChunkSize = loadedChunks[0].getWorldChunkSize();
 

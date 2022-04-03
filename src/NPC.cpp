@@ -37,6 +37,7 @@ void NPC::onUpdate(const sf::Time &delta)
         if(currentTime >= waitTime)
         {
             currentTime = 0.0f;
+            currentState = RUN;
             randomVelocityAndTimes();
         }
     }
@@ -60,7 +61,7 @@ void NPC::randomVelocityAndTimes()
     velocity.x /= 1000.0f;
     velocity.y = std::sqrt(pow(speed,2) - pow(velocity.x, 2));
 
-    waitTime = rand()%300 / 100.0f;
+    waitTime = rand()%500 / 100.0f;
     walkTime = rand()%500 / 100.0f;
 
     if(rand()%2)
@@ -78,7 +79,7 @@ void NPC::setUpByName(std::string name)
     setName(name);
     setRunAnimation("./res/textures/npc/" + name + "/Run", 0.1);
     setIdleAnimation("./res/textures/npc/" + name + "/Idle", 0.2);
-    setDyingAnimation("./res/textures/npc/" + name + "/Dying", 1);
+    setDyingAnimation("./res/textures/npc/" + name + "/Dying", 0.03);
     setDeadAnimation("./res/textures/npc/" + name + "/Dead", 1);
     setDyingSoundName("dead.wav");
 }

@@ -132,6 +132,7 @@ void Collidable::setCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f
 {
     scan_layer = layer;
     std::shared_ptr<Collider> coll = std::make_shared<Collider>(Collider(_position, _radius));
+    coll->setName(getName() + " collider");
     addChild(coll);
     collider = coll;
     scan_layer->list.push_back(coll);
@@ -141,6 +142,7 @@ void Collidable::setCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f
 {
     scan_layer = layer;
     std::shared_ptr<Collider> coll = std::make_shared<Collider>(Collider(_position, _size));
+    coll->setName(getName() + " collider");
     addChild(coll);
     collider = coll;
     scan_layer->list.push_back(coll);

@@ -133,20 +133,20 @@ void Player::onDraw(sf::RenderTarget &target)
 void Player::randHeadPositon()
 {
     headPosition = m_local_transform.getPosition();
-    headPosition.x -= 100 + rand()%11 - 5;
-    headPosition.y -= 100 + rand()%11 - 5;
+    headPosition.x -= 100 + rand()%13 - 6;
+    headPosition.y -= 100 + rand()%13 - 6 + 20;
 }
 
 void Player::updateSinpersRedDot(const sf::Time& delta)
 {
-    float snipersVelocityMultiplayer = 5;
+    float snipersVelocityMultiplayer = 2;
 
     if(currentState != IDLE)
     {
         randHeadPositon();
         snipersVelocityMultiplayer = 30;
     }
-    else if(headPosition.x - snipersRedDot->m_local_transform.getPosition().x + headPosition.y - snipersRedDot->m_local_transform.getPosition().y < 0.1)
+    else if(std::abs(headPosition.x - snipersRedDot->m_local_transform.getPosition().x) + std::abs(headPosition.y - snipersRedDot->m_local_transform.getPosition().y) < 0.7)
     {
         randHeadPositon();
     }
@@ -155,4 +155,16 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
     newVelocity *= snipersVelocityMultiplayer;
 
     snipersRedDot->setVelocity(newVelocity);
+}
+
+Player::Player(SoundSystem& soundSystem)
+: Player(soundSystem, {100,100}, {100, 100}, 400, 0.55, 0.4)
+{
+    setName("Player");
+    setIdleAnimation("./res/textures/Player/1-Idle", 0.06);
+    setRunAnimation("./res/textures/Player/2-Run", 0.03);
+    setPunchAnimation("./res/textures/Player/7-Attack", 0.05);
+    setDyingAnimation("./res/textures/Player/12-Hit", 0.05);
+    setDeadAnimation("./res/textures/Player/14-DeadGround", 0.1);
+    setDyingSoundName("gunShot.wav");
 }
