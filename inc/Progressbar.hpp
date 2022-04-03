@@ -18,7 +18,7 @@ public:
     void setSize(float width, float height);
 
 protected:
-    virtual void onDraw(sf::RenderTarget& target) const;
+    virtual void onDraw(sf::RenderTarget& target);
     virtual void onResize(Resolution resolution);
     sf::RectangleShape bar;
     sf::RectangleShape background;

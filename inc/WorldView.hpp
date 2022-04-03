@@ -3,11 +3,10 @@
 #include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "Player.hpp"
+#include "StaticNode.hpp"
+#include "EntityPrefabs.hpp"
 #include <unordered_map>
 #include <map>
-
-
-
 
 
 class WorldView : public Node
@@ -22,18 +21,24 @@ private:
     };
 
     std::shared_ptr<sf::Texture> tileSet;
+
+    EntityPrefabs entityPrefabs;
     
     std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
-    //YSort entities;
+    YSort NPCs;
+    //NPCCreator NPCcreator;
+
     std::shared_ptr<Player> player;
     sf::Vector2i currentCenterCoords;
-    
+
+private:
     void chunkChange(sf::Vector2i chunkCoords);
 
     void allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo);
     void deallocateChunk(sf::Vector2i chunkCoords);
-    void deallocateChunks();
+
+    void loadStaticObject(std::shared_ptr<std::ifstream> loader);
 
 public:
     WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
