@@ -66,3 +66,12 @@ void Character::updateBody(const sf::Time&  delta)
     body.setTextureRect(animation.getIntRect());
     body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
+
+bool Character::isDead()
+{
+    if(animation.getCurrentAnimation() == DEAD || animation.getCurrentAnimation() == DYING)
+    {
+        return true;
+    } 
+    return false;
+}

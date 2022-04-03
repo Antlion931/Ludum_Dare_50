@@ -18,6 +18,7 @@
 #include "Music.hpp"
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
+#include "DialogueBox.hpp"
 #include "TileMap.hpp"
 #include "NPC.hpp"
 #include "Y-sort.hpp"
@@ -31,6 +32,7 @@
 #include "LevelSetUpper.hpp"
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
+#include "QuestCreator.hpp"
 
 int main()
 {
@@ -85,10 +87,12 @@ int main()
 
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
+    
+    //jak chcesz coś przetestować to twórz obiekty tutaj
+
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
-    
     test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
     test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND, {600,400}, {100,100});
@@ -103,9 +107,15 @@ int main()
     test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
     test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
 
+
     TextureLoader tileSets("./res/textures/TileSets");
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+    
+    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
+    //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill,5000));
+    
+    player->addCollider(test_layer, {0.0, 31.0}, 20.0);
     player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
     testYsort->addChild(player);
 
@@ -268,6 +278,7 @@ int main()
         }
 
         GLOBAL_SOUND.update();
+        questCreator->update();
 
         sf::Time delta = deltaClock.restart();
         window.clear();
@@ -279,7 +290,6 @@ int main()
         new_view.setCenter(cameraController->getRequiredTranslation());
         window.setView(new_view);
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
-
         root->draw(window);
         window.display();
     }
