@@ -8,8 +8,8 @@
 
 TextButton::TextButton(sf::Vector2f position, sf::Vector2f size,
 	sf::Text _text) : Button(position, size), text(_text), 
-	onPressedFontStyle(sf::Color::Black, sf::Color::Red, 2), onReleasedFontStyle(sf::Color::Red, sf::Color::Black, 0.0),
-	onEnteredFontStyle(sf::Color::Blue, sf::Color::Black, 0.0), onNotHoveredFontStyle(sf::Color::Yellow, sf::Color::Black, 4)
+	onPressedFontStyle(sf::Color::Yellow, sf::Color::Black, 4), onReleasedFontStyle(sf::Color::Red, sf::Color::Black, 0.0),
+	onEnteredFontStyle(sf::Color::Yellow, sf::Color::Black, 4), onNotHoveredFontStyle(sf::Color::Yellow, sf::Color::Black, 4)
 {
 	adjustText();
 
@@ -39,7 +39,7 @@ void TextButton::adjustText()
 	text.setPosition(x,y);
 }
 
-void TextButton::onDraw(sf::RenderTarget& target) const
+void TextButton::onDraw(sf::RenderTarget& target)
 {
 	target.draw(box, m_global_transform.getTransform());
 	target.draw(text, m_global_transform.getTransform());

@@ -1,33 +1,47 @@
 #pragma once
 #include <iostream>
-#include "MovingCircle.hpp"
+#include <memory>
+#include "DynamicNode.hpp"
 #include "Animation.hpp"
+#include "SoundSystem.hpp"
 
-class Character : public MovingCircle
+class Character : public DynamicNode
 {
 public:
-    bool isColidedWith(sf::CircleShape _circle);
-    Character(sf::Vector2f position, float radius, float _speed);
+    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, float _dyingTime);
     ~Character();
 
     void setIdleAnimation(std::string directoryPath, float _animationSpeed);
     void setRunAnimation(std::string directoryPath, float _animationSpeed);
-    void setSitAnimation(std::string directoryPath, float _animationSpeed);
     void setPunchAnimation(std::string directoryPath, float _animationSpeed);
+    void setDyingAnimation(std::string directoryPath, float _animationSpeed);
     void setDeadAnimation(std::string directoryPath, float _animationSpeed);
 
+    void setDyingSoundName(std::string _dyingSoundName);
+
+    void kill();
+
+    
 protected:
     enum State
     {
         IDLE,
         RUN,
-        SIT,
         PUNCH,
+        DYING,
         DEAD
     };
 
 
-    Animation* currentAnimation;
+    float dyingTime;
+    float currentTime;
+
+    void updateBody(const sf::Time&  delta);
+
+    void onDraw(sf::RenderTarget &target) override;
+
+    std::shared_ptr<Animation> currentAnimation;
+    sf::RectangleShape body;
 
     void onUpdate(const sf::Time &delta) override;
     void setCorrectAnimation();
@@ -37,10 +51,13 @@ protected:
     State previousState;
     float speed;
 
-    Animation* idleAnimation;
-    Animation* runAnimation;
-    Animation* sitAnimation;
-    Animation* punchAnimation;
-    Animation* deadAnimation;
+    std::shared_ptr<Animation> idleAnimation;
+    std::shared_ptr<Animation> runAnimation;
+    std::shared_ptr<Animation> punchAnimation;
+    std::shared_ptr<Animation> dyingAnimation;
+    std::shared_ptr<Animation> deadAnimation;
+
+    std::string dyingSoundName;
+    SoundSystem& soundSystem;
 };
 

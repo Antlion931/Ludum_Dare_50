@@ -7,9 +7,16 @@
 void Node::updateTransform()
 {
     if (parent != NULL)
-        m_global_transform = combineTransforms(parent->getGlobalTransform(), m_local_transform);
+        updateTransform(parent->getGlobalTransform());
     else
-        m_global_transform = m_local_transform;
+        updateTransform(sf::Transformable());
+}
+
+void Node::updateTransform(sf::Transformable const &parent_transform)
+{
+    m_global_transform = combineTransforms(parent_transform, m_local_transform);
+
+    onTransform();
 
     for (auto &child : m_children)
     {
@@ -17,8 +24,10 @@ void Node::updateTransform()
     }
 }
 
-void Node::draw(sf::RenderTarget &target) const
+void Node::draw(sf::RenderTarget &target)
 {
+    //std::cout <<"draw " << getName() << std::endl;
+
     if (!visible)
         return;
     // let the node draw itself
@@ -34,9 +43,9 @@ void Node::draw(sf::RenderTarget &target) const
 
 }
 
-
 void Node::update(const sf::Time& delta)
 {
+    //std::cout <<"update " << getName() << std::endl;
     if (!active)
         return;
     onUpdate(delta);
@@ -133,6 +142,13 @@ void Node::printDebug() const {
     std::cout << "Global rot: " << m_global_transform.getRotation() << "\n"; 
     std::cout << "Global scale: " << m_global_transform.getScale() << "\n"; 
     std::cout << "\n";
+}
+
+void Node::onDrawDebug(sf::RenderTarget &target) const
+{
+    sf::CircleShape point = sf::CircleShape(3.0);
+    point.setFillColor(sf::Color(150,50,50,100));
+    target.draw(point, getGlobalTransform().getTransform());
 }
 
 void Node::setActive(bool _active)

@@ -13,15 +13,19 @@ void LevelLoader::update(const sf::Time& delta)
 	levels[currentLevel]->update(delta);
 	
 }
-void LevelLoader::addLevel(std::shared_ptr<Node> level)
+void LevelLoader::addLevel(int id, std::shared_ptr<Node> level)
 {
 	addChild(level);
 	level->setActive(0);
 	level->setVisible(0);
-	levels.push_back(level);
-	
+	levels[id] = level;
 }
 void LevelLoader::draw(sf::RenderTarget& target)
 {
 	levels[currentLevel]->draw(target);
+}
+
+LevelLoader::LevelLoader(int size) 
+{
+	levels.resize(size, null_node);
 }

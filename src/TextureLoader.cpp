@@ -13,13 +13,13 @@ void TextureLoader::loadTextures(){
         };
         std::string str = entry.path();
         str.erase(0,directoryPath.length()+1);
-        textures.insert({str,texture});
-        std::cout << "Loaded Texture with id: " << str << std::endl;
+        textures.insert({str,std::make_shared<sf::Texture>(texture)});
+        //std::cout << "Loaded Texture with id: " << str << std::endl;
     }
 };
 
-sf::Texture* TextureLoader::returnTexture(std::string _fileName){
-    return &textures.at(_fileName);
+std::shared_ptr<sf::Texture> TextureLoader::returnTexture(std::string _fileName){
+    return textures.at(_fileName);
 };
 
 int TextureLoader::getAmountOfTextures()

@@ -3,13 +3,14 @@
 #include <memory>
 #include <iostream>
 #include "Resolution.hpp"
-
+#include "Toolkit.hpp"
 
 class Node
 {
 public:
     void updateTransform();
-    void draw(sf::RenderTarget &target) const;
+    void updateTransform(sf::Transformable const &parent_transform);
+    void draw(sf::RenderTarget &target);
     void update(const sf::Time &delta);
     void resize(Resolution resolution);
 
@@ -39,16 +40,17 @@ public:
     bool isActive();
     bool isVisible();
 
+    sf::Transformable m_local_transform;
+    sf::Transformable m_global_transform;
 protected:
-    virtual void onDraw(sf::RenderTarget &target) const {}
+    virtual void onDraw(sf::RenderTarget &target) {}
     virtual void onUpdate(const sf::Time& delta) {};
+    virtual void onTransform() {};
     virtual void onResize(Resolution resolution) {}
-    virtual void onDrawDebug(sf::RenderTarget &target) const {}
+    virtual void onDrawDebug(sf::RenderTarget &target) const;
     // virtual void onResize(sf::RenderTarget& target) {};
 
     const Node* parent = NULL;
-    sf::Transformable m_local_transform;
-    sf::Transformable m_global_transform;
     std::vector<std::shared_ptr<Node>> m_children;
 
     bool active = 1;

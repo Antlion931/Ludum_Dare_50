@@ -14,7 +14,7 @@ bool Button::isPressed(sf::RenderWindow& window)
 {
 	if (!active)
 		return 0;
-	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(sf::Vector2f(sf::Mouse::getPosition(window)))))
+	if (clamp(box, m_global_transform.getTransform().getInverse().transformPoint(window.mapPixelToCoords(sf::Mouse::getPosition(window)))))
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
@@ -42,7 +42,7 @@ bool Button::isPressed(sf::RenderWindow& window)
 	return false;
 }
 
-void Button::onDraw(sf::RenderTarget& target) const
+void Button::onDraw(sf::RenderTarget& target)
 {
 	target.draw(box,m_global_transform.getTransform());
 }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include<SFML/Graphics/Texture.hpp>
 #include<map>
+#include <memory>
 #include<string>
 class TextureLoader{
     public:
@@ -9,11 +10,11 @@ class TextureLoader{
             directoryPath = _directoryPath;
             loadTextures();
         }
-        sf::Texture* returnTexture(std::string _fileName);
+        std::shared_ptr<sf::Texture> returnTexture(std::string _fileName);
         int getAmountOfTextures();
 
     private:
         void loadTextures();
-        std::map<std::string,sf::Texture> textures;
+        std::map<std::string,std::shared_ptr<sf::Texture>> textures;
         std::string directoryPath;
 };

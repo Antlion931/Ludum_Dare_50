@@ -32,7 +32,7 @@ protected:
 	void onNotHovered() override;
 	void onReleased() override;
 
-	void onDraw(sf::RenderTarget& target) const override;
+	void onDraw(sf::RenderTarget& target) override;
 	void onResize(Resolution resolution) override;
 
 	Style onPressedFontStyle;
