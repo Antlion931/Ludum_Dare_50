@@ -16,6 +16,7 @@ public:
     sf::Vector2f getPosition();
     sf::Vector2f getSize();
     void setSize(float width, float height);
+    void setPosition(sf::Vector2f position);
 
 protected:
     virtual void onDraw(sf::RenderTarget& target);

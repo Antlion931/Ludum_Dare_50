@@ -14,6 +14,8 @@ public:
 protected:
     float punchTime;
 
+    std::string punchSoundDirectory; 
+
     std::shared_ptr<MovingCircle> snipersRedDot;
     sf::Vector2f headPosition;
 

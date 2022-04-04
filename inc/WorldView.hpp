@@ -3,11 +3,12 @@
 #include "Chunk.hpp"
 #include "Y-sort.hpp"
 #include "Player.hpp"
+#include "StaticNode.hpp"
+#include "EntityPrefabs.hpp"
+#include "ChunkTemplateLoader.hpp"
+#include "NPCCreator.hpp"
 #include <unordered_map>
 #include <map>
-
-
-
 
 
 class WorldView : public Node
@@ -22,23 +23,37 @@ private:
     };
 
     std::shared_ptr<sf::Texture> tileSet;
-    
-    std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
-    //YSort entities;
-    std::shared_ptr<Player> player;
-    sf::Vector2i currentCenterCoords;
+    EntityPrefabs entityPrefabs;
     
+    std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
+    std::shared_ptr<Node> ChunkContainer;
+
+    std::shared_ptr<CollisionLayer> static_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
+    std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
+    std::shared_ptr<NPCCreator> NPCcreator;
+
+    std::shared_ptr<Player> player;
+    sf::Vector2i currentCenterCoords = {0,0};
+
+    // to change
+    sf::Vector2f ScaledWorldChunkSize = {256 * 6,256 * 6};
+
     void chunkChange(sf::Vector2i chunkCoords);
 
     void allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo);
     void deallocateChunk(sf::Vector2i chunkCoords);
-    void deallocateChunks();
+
+    void loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos);
 
 public:
-    WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
+    std::shared_ptr<YSort> loadedObjects;
+    std::shared_ptr<std::vector<std::shared_ptr<Node>>> allObjects;
+
+    SoundSystem& soundSystem;
+
+    WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
 
 protected:
-    void onDraw(sf::RenderTarget &target) override; 
     void onUpdate(const sf::Time& delta) override;
 };

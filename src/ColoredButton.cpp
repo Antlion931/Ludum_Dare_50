@@ -2,8 +2,8 @@
 #include "ColoredButton.hpp"
 
 ColoredButton::ColoredButton(sf::Vector2f position, sf::Vector2f size, sf::Text _text) : TextButton(position, size, _text),
- onPressedButtonStyle(sf::Color(190, 190, 190), sf::Color(170, 170, 170), 10), onEnteredButtonStyle(sf::Color(210, 210, 210), sf::Color(190, 190, 190), 30),
- onNotHoveredButtonStyle(sf::Color(200, 200, 200), sf::Color(180, 180, 180), 20), onReleasedButtonStyle(sf::Color::Green, sf::Color::Black, 0.0)
+ onPressedButtonStyle(sf::Color(242,196,22), sf::Color(1,2,4), 10), onEnteredButtonStyle(sf::Color(242,196,22), sf::Color(1,2,4), 30),
+ onNotHoveredButtonStyle(sf::Color(242,196,22), sf::Color(1,2,4), 20), onReleasedButtonStyle(sf::Color(242,196,22), sf::Color(1,2,4), 0.0)
 {}
 
 void ColoredButton::setOnPressedButtonStyle(Style style)

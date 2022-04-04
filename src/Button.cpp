@@ -9,6 +9,10 @@ Button::Button(sf::Vector2f position, sf::Vector2f size) : buttonState(State::NO
 	box.setSize(size);
 }
 
+void Button::setSoundSystem(SoundSystem* _soundSystem)
+{
+	soundSystem = _soundSystem;
+}
 
 bool Button::isPressed(sf::RenderWindow& window)
 {
@@ -27,9 +31,11 @@ bool Button::isPressed(sf::RenderWindow& window)
 			buttonState = State::HOVERED;
 			return true;
 		}
-		else
+		else if(buttonState != State::HOVERED)
 		{
 			onEntered();
+			soundSystem->playSound("buttonSound.wav");
+
 			buttonState = State::HOVERED;
 		}
 	}
@@ -48,5 +54,5 @@ void Button::onDraw(sf::RenderTarget& target)
 }
 
 void Button::onResize(Resolution resolution) {
-
+	box.setScale(resolution.getVector2fScale());
 }

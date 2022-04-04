@@ -8,7 +8,9 @@ void Root::setLevel(int level)
 
     switch (level)
     {
-    case GAME:
+    case CUTSCENE:
+        
+    break;
     case TEST_PLAY:
         GLOBAL_MUSIC.stopMusic();
         GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");    

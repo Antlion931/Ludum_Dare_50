@@ -3,10 +3,10 @@
 #include "LevelSetUpper.hpp"
 #include "Toolkit.hpp"
 
-LevelSetUpper::LevelSetUpper(std::shared_ptr<LevelLoader> _game, std::shared_ptr<LevelLoader> _GUI, sf::Font _font) : game(_game), GUI(_GUI), font(_font)
+LevelSetUpper::LevelSetUpper(std::shared_ptr<LevelLoader> _game, std::shared_ptr<LevelLoader> _GUI, sf::Font _font, SoundSystem* _soundSystem) : game(_game), GUI(_GUI), font(_font), soundSystem(_soundSystem)
 {}
 
-void LevelSetUpper::setUp(std::shared_ptr<Node>& level, std::shared_ptr<YSort>& ysort, std::shared_ptr<Node>& levelGUI, std::shared_ptr<ButtonsContainer>& buttons, LEVEL lv)
+void LevelSetUpper::setUp(std::shared_ptr<Node>& level, std::shared_ptr<Node>& levelGUI, std::shared_ptr<ButtonsContainer>& buttons, LEVEL lv)
 {
     std::string prefix;
     switch (lv)
@@ -23,8 +23,8 @@ void LevelSetUpper::setUp(std::shared_ptr<Node>& level, std::shared_ptr<YSort>& 
         prefix = "settings ";
     break;
 
-    case GAME:
-        prefix = "game ";
+    case CUTSCENE:
+        prefix = "cutescene ";
     break;
     }
 
@@ -32,15 +32,11 @@ void LevelSetUpper::setUp(std::shared_ptr<Node>& level, std::shared_ptr<YSort>& 
     level->setName(prefix + "level");
     game->addLevel(lv, level);
 
-    ysort = std::make_shared<YSort>(YSort());
-    ysort->setName(prefix + "Y-sort");
-    level->addChild(ysort);
-
     levelGUI = std::make_shared<Node>(Node());
     levelGUI->setName(prefix + "level GUI");
     GUI->addLevel(lv, levelGUI);
 
-    buttons = std::make_shared<ButtonsContainer>(ButtonsContainer(font));
+    buttons = std::make_shared<ButtonsContainer>(ButtonsContainer(font, soundSystem));
     buttons->setName(prefix + "buttons");
     levelGUI->addChild(buttons);
 }

@@ -48,17 +48,29 @@ void Player::onUpdate(const sf::Time &delta)
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
+            colliders["KILL"]->setActive(1);
             animation.changeAnimation(PUNCHING);
+            soundSystem.playSound(punchSoundDirectory);
         }
-        else if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
+        else 
         {
-            animation.changeAnimation(RUN);
-        }
-        else
-        {
-            animation.changeAnimation(IDLE);
+            colliders["KILL"]->setActive(0);
+            if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
+            {
+                animation.changeAnimation(RUN);
+            }
+            else
+            {
+                animation.changeAnimation(IDLE);
+            }
         }
     }
+
+    if(isFaceingRight)
+        colliders["KILL"]->setTranslation({50.0,0.0});
+    else
+        colliders["KILL"]->setTranslation({-50.0,0.0});
+        
 
     updateSinpersRedDot(delta);
     updateBody(delta);
@@ -109,10 +121,11 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
 }
 
 Player::Player(SoundSystem& soundSystem)
-: Player(soundSystem, {100,100}, {100, 100}, 400, Animation("./res/textures/Player", {0.06, 0.03, 0.05, 0.1, 0.05}, {29,45,53,54,63}), 0.55, 0.4)
+: Player(soundSystem, {100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
 {
     setName("player");
     setDyingSoundName("gunShotMono.wav");
+    punchSoundDirectory = "punch.wav";
 }
 
 void Player::updateVelocty(const sf::Time& delta)

@@ -1,11 +1,10 @@
 #include "NPC.hpp"
 #include <cmath>
 
-NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, std::shared_ptr<CollisionLayer> _player_interaction_layer) : 
+NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime)
 {
     font.loadFromFile("res/Comic_Book.otf");
-    player_interaction_layer = _player_interaction_layer;
     randomVelocityAndTimes();
     animation.changeAnimation(RUN);
 }
@@ -54,7 +53,7 @@ void NPC::onUpdate(const sf::Time &delta)
         }
     }
     
-    auto interaction_result = scanCollisions(0, player_interaction_layer);
+    auto interaction_result = scanCollisions("INTERACTION");
     if(!dead){
         if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "kill-box")
         {
@@ -71,7 +70,6 @@ void NPC::onUpdate(const sf::Time &delta)
         else{
             
         }
-
         if(db!=nullptr && db->isHidden()){
             talkable = true;
             db = nullptr;
@@ -83,19 +81,22 @@ void NPC::onUpdate(const sf::Time &delta)
 
 void NPC::randomVelocityAndTimes()
 {
-    velocity.x = std::fmod(rand(), speed * 1000.0);
-    velocity.x /= 1000.0f;
-    velocity.y = std::sqrt(pow(speed,2) - pow(velocity.x, 2));
-
-    waitTime = rand()%500 / 100.0f;
-    walkTime = rand()%500 / 100.0f;
-
-    if(rand()%2)
+    if(speed > 0.0f)
     {
-        velocity.x *= -1;
-    }
-    if(rand()%2)
-    {
-        velocity.y *= -1;
+        velocity.x = std::fmod(rand(), speed * 1000.0);
+        velocity.x /= 1000.0f;
+        velocity.y = std::sqrt(pow(speed,2) - pow(velocity.x, 2));
+
+        waitTime = rand()%500 / 100.0f;
+        walkTime = rand()%500 / 100.0f;
+
+        if(rand()%2)
+        {
+            velocity.x *= -1;
+        }
+        if(rand()%2)
+        {
+            velocity.y *= -1;
+        }
     }
 }

@@ -8,7 +8,7 @@
 class MouseChangeableProgressbar : public Progressbar
 {
 public:
-    MouseChangeableProgressbar(float width, float height, sf::Color backgroundColor, sf::Color fillColor);
+    MouseChangeableProgressbar(float width, float height, sf::Color backgroundColor, sf::Color backgroundOutlineColor, float backgroundOutlineThikness , sf::Color fillColor);
 
     void update(sf::RenderWindow& window);
 };

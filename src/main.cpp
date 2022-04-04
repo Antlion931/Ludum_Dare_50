@@ -32,8 +32,11 @@
 #include "LevelSetUpper.hpp"
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
+#include "StaticObject.hpp"
+#include "EntityPrefabs.hpp"
 #include "QuestCreator.hpp"
 #include "TextBox.hpp"
+#include "Cutescene.hpp"
 
 int main()
 {
@@ -66,118 +69,107 @@ int main()
     GUI->setName("GUI");
     root->setGUI(GUI);
 
-    LevelSetUpper levelSetUpper(game, GUI, font);
+    LevelSetUpper levelSetUpper(game, GUI, font, &GLOBAL_SOUND);
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenuLevel;
-    std::shared_ptr<YSort> mainMenuYsort;
     std::shared_ptr<Node> mainMenuLevelGUI;
     std::shared_ptr<ButtonsContainer> mainMenuButtons;
-    levelSetUpper.setUp(mainMenuLevel, mainMenuYsort, mainMenuLevelGUI, mainMenuButtons, MAIN_MENU);
+    levelSetUpper.setUp(mainMenuLevel, mainMenuLevelGUI, mainMenuButtons, MAIN_MENU);
 
-    mainMenuButtons->makeColoredButton("PLAY", 90, { 490,50 }, { 300,100 });
-    mainMenuButtons->makeColoredButton("SETTINGS", 55, { 490,250 }, { 300,100 });
-    mainMenuButtons->makeColoredButton("TEST", 90, { 490,450 }, { 300,100 });
+    std::shared_ptr<Button> background = std::make_shared<Button>(Button({0,0}, {1280, 720}));
+    sf::Texture backgroundTexture;
+    backgroundTexture.loadFromFile("./res/textures/background/background.jpg");
+    background->box.setTexture(&backgroundTexture);
+    mainMenuLevelGUI->addChild(background);
+    background->setName("back ground");
+    
+
+    mainMenuLevelGUI->removeChild(mainMenuButtons);
+    mainMenuLevelGUI->addChild(mainMenuButtons);
+
+    mainMenuButtons->makeColoredButton("PLAY", 60, { 850,150 }, { 350,80 });
+    mainMenuButtons->makeColoredButton("SETTINGS", 60, { 850,300 }, { 350,80 });
+    mainMenuButtons->makeColoredButton("TEST", 60, { 850,450 }, { 350,80 });
+    mainMenuButtons->makeColoredButton("EXIT", 60, {850, 600}, {350,80});
     
     //====================================================================================================TESTING
     std::shared_ptr<Node> testLevel;
-    std::shared_ptr<YSort> testYsort;
     std::shared_ptr<Node> testLevelGUI;
     std::shared_ptr<ButtonsContainer> testButtons;
-    levelSetUpper.setUp(testLevel, testYsort, testLevelGUI, testButtons, TEST_PLAY); 
-
-    testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
-
-    std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    std::shared_ptr<CollisionLayer> around_player_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
-    test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
-    test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
-    test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND, {600,400}, {100,100});
-    test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND, {700,400}, {100,100});
-    test_NPCCreator->makeNPC("Female", GLOBAL_SOUND, {800,400}, {100,100});
-    test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND, {900,400}, {100,100});
-    test_NPCCreator->makeNPC("King", GLOBAL_SOUND, {1000,400}, {100,100});
-    test_NPCCreator->makeNPC("Mage", GLOBAL_SOUND, {1100,400}, {100,100});
-    test_NPCCreator->makeNPC("Male", GLOBAL_SOUND, {1200,400}, {100,100});
-    test_NPCCreator->makeNPC("Merchant", GLOBAL_SOUND, {1300,400}, {100,100});
-    test_NPCCreator->makeNPC("Princess", GLOBAL_SOUND, {1400,400}, {100,100});
-    test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
-    test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
-
-
-    TextureLoader tileSets("./res/textures/TileSets");
-
-    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
-    testLevelGUI->addChild(testTextBox);
-
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+    levelSetUpper.setUp(testLevel, testLevelGUI, testButtons, TEST_PLAY); 
     
+    TextureLoader tileSets("./res/textures/TileSets");
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+    std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
+    worldView->setName("world view");
+    testLevel->addChild(worldView);
+
+    testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
+    testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
+
+    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testQuestBox);
+
+    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testTimeBox);
+
+    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testScoreBox);
+
     std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
     
-    player->addCollider(test_layer, {0.0, 31.0}, 20.0);
-    player->addCollider(interaction_layer, {50.0, 0.0}, {30.0, 50.0},"idle-box");
-    testYsort->addChild(player);
-
-    std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
-    worldView->setName("world view");
-    testLevel->removeChild(testYsort);
-    testLevel->addChild(worldView);
-    testLevel->addChild(testYsort);
-
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
     player->addChild(cameraController);
 
-    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
-    obstacle_1->setName("obstacle 1");
-    obstacle_1->addCollider(test_layer, {0, 0}, 50.0);
-    obstacle_1->setTranslation({500, 500});
-    testYsort->addChild(obstacle_1);
-
-    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
-    obstacle_2->setName("obstacle 2");
-    obstacle_2->addCollider(test_layer, {0, 0}, 50.0);
-    obstacle_2->setTranslation({550, 500});
-    testYsort->addChild(obstacle_2);
-
-    std::shared_ptr<Collidable> obstacle_3 = std::make_shared<Collidable>(Collidable());
-    obstacle_3->setName("obstacle 3");
-    obstacle_3->addCollider(test_layer, {0, 0}, {100.0, 50.0});
-    obstacle_3->setTranslation({700, 500});
-    obstacle_3->scale({2.0,2.0});
-    testYsort->addChild(obstacle_3);
-    
     int index = 0;
     
  
     //===================================================================================================SETTINGS
     std::shared_ptr<Node> settingsLevel;
-    std::shared_ptr<YSort> settingsYsort;
     std::shared_ptr<Node> settingsLevelGUI;
     std::shared_ptr<ButtonsContainer> settingsButtons;
-    levelSetUpper.setUp(settingsLevel, settingsYsort, settingsLevelGUI, settingsButtons, SETTINGS);
+    levelSetUpper.setUp(settingsLevel, settingsLevelGUI, settingsButtons, SETTINGS);
 
-    settingsButtons->translate({ 100, 100 });
+    settingsButtons->makeColoredButton("1280 x 720", 60, { 100,150 }, { 450,120 });
+    settingsButtons->makeColoredButton("1336 x 768", 60, { 100,350 }, { 450,120 });
+    settingsButtons->makeColoredButton("1600 x 900", 60, { 100,550 }, { 450,120 });
+    settingsButtons->makeColoredButton("1920 x 1080", 60, { 720,150 }, { 450,120 });
+    settingsButtons->makeColoredButton("2048 x 1152", 60, { 720,350 }, { 450,120 });
+    settingsButtons->makeColoredButton("3072 x 1728", 60, { 720,550 }, { 450,120 });
+    settingsButtons->makeColoredButton("GO BACK", 30, { 1000,30 }, { 170,50 });
 
-    settingsButtons->makeColoredButton("1280 x 720", 20, { 50,200 }, { 200,100 });
-    settingsButtons->makeColoredButton("1336 x 768", 20, { 300,200 }, { 200,100 });
-    settingsButtons->makeColoredButton("1600 x 900", 20, { 550,200 }, { 200,100 });
-    settingsButtons->makeColoredButton("1920 x 1080", 20, { 800,200 }, { 200,100 });
-    settingsButtons->makeColoredButton("GO BACK", 20, { 350,500 }, { 200,100 });
-
-    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(1000.0f, 50.0f, sf::Color(100, 100, 100), sf::Color(200, 200, 200)));
+    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(800.0f, 50.0f, sf::Color(242,196,22), sf::Color(1,2,4), 20, sf::Color(1,2,4)));
     volumeBar->setName("volume bar");
-    volumeBar->setProgress(0.5f);
+    volumeBar->setProgress(0.2f);
+    volumeBar->setPosition({100, 30});
     settingsLevelGUI->addChild(volumeBar);
 
-    //========================================================================================GAME
-    std::shared_ptr<Node> gameLevel;
-    std::shared_ptr<YSort> gameYsort;
-    std::shared_ptr<Node> gameLevelGUI;
-    std::shared_ptr<ButtonsContainer> gameButtons;
-    levelSetUpper.setUp(gameLevel, gameYsort, gameLevelGUI, gameButtons, GAME);
+    GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
+    GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
+
+    //========================================================================================CUTSCENE
+    std::shared_ptr<Node> cutsceneLevel;
+    std::shared_ptr<Node> cutsceneLevelGUI;
+    std::shared_ptr<ButtonsContainer> cutsceneButtons;
+    levelSetUpper.setUp(cutsceneLevel, cutsceneLevelGUI, cutsceneButtons, CUTSCENE);
+
+    sf::Texture texture1;
+    texture1.loadFromFile("./res/cutescene/1.png");
+
+    sf::Texture texture2;
+    texture2.loadFromFile("./res/cutescene/2.png");
+
+    sf::Texture texture3;
+    texture3.loadFromFile("./res/cutescene/3.png");
+    
+    std::shared_ptr<Cutescene> cutescene = std::make_shared<Cutescene>(Cutescene({0,0}, {1280, 720}, &texture1, &texture2, &texture3));
+    cutescene->setName("cute scene");
+    cutsceneLevelGUI->addChild(cutescene);
+
+    cutsceneLevelGUI->removeChild(cutsceneButtons);
+    cutsceneLevelGUI->addChild(cutsceneButtons);
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
@@ -243,6 +235,20 @@ int main()
             settingsButtons->get("1920 x 1080")->printDebug();
         }
 
+        if(settingsButtons->get("2048 x 1152")->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_2048x1152, window);
+            root->resize(resolution);
+            settingsButtons->get("2048 x 1152")->printDebug();
+        }
+
+        if(settingsButtons->get("3072 x 1728")->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_3072x1728, window);
+            root->resize(resolution);
+            settingsButtons->get("3072 x 1728")->printDebug();
+        }
+
         if(settingsButtons->get("GO BACK")->isPressed(window))
         {
             root->setLevel(MAIN_MENU);
@@ -250,7 +256,8 @@ int main()
 
         if(mainMenuButtons->get("PLAY")->isPressed(window))
         {
-            root->setLevel(GAME);
+            root->setLevel(CUTSCENE);
+            GLOBAL_SOUND.playSound("notification.wav");
         }
 
         if(mainMenuButtons->get("SETTINGS")->isPressed(window))
@@ -261,47 +268,57 @@ int main()
         if(mainMenuButtons->get("TEST")->isPressed(window))
         {
             root->setLevel(TEST_PLAY);
-            questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
+            //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
             GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
         }
 
-        if(testButtons->get("KILL")->isPressed(window))
+        // if(testButtons->get("KILL")->isPressed(window))
+        // {
+        //     if(index < test_NPCCreator->NPCs.size())
+        //     {
+        //         test_NPCCreator->NPCs[index]->kill();
+        //         index++;
+        //     }
+        // }
+        if(mainMenuButtons->get("EXIT")->isPressed(window))
         {
-            if(index < test_NPCCreator->NPCs.size())
-            {
-                test_NPCCreator->NPCs[index]->kill();
-                index++;
-            }
+            window.close();
         }
 
-        questCreator->update();
+        if(testButtons->get("TRY AGAIN")->isPressed(window))
+        {
+            //TODO:
+        }
+
+        if(testButtons->get("MENU")->isPressed(window))
+        {
+            root->setLevel(MAIN_MENU);
+        }
+
         if(volumeBar->isVisible())
         {
             volumeBar->update(window);
             GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
-            GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 50.0f);
+            GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
+        }
+
+        if(cutescene->isVisible())
+        {
+            if(cutescene->isCutesceneEnded())
+            {
+                root->setLevel(TEST_PLAY);
+            }
         }
 
         GLOBAL_SOUND.update();
         questCreator->update();
 
         sf::Time delta = deltaClock.restart();
-        window.clear();
+        window.clear(sf::Color(242,196,22));
 
-        if(testTextBox->isVisible())
+        if(testScoreBox->isVisible())
         {
-            testTextBox->setString(std::to_string(questCreator->activeQuests.back().returnRemainingTime().asSeconds())); 
-
-            if(questCreator->activeQuests.back().Done)
-            {
-                questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(4).get(),kill));
-                std::cout << "Nowy quest" << std::endl;
-            }
-            else if(questCreator->failedQuests.size()>0)
-            {
-                GLOBAL_MUSIC.stopMusic();
-                player->kill();
-            }
+            testScoreBox->setString("SCORE: " + std::to_string(questCreator->completedQuests.size())); 
         }
 
         root->update(delta);
@@ -312,6 +329,7 @@ int main()
         window.setView(new_view);
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
         root->draw(window);
+
         window.display();
     }
 }

@@ -31,7 +31,7 @@ bool Quest::isDone() const{
 };
 sf::Time Quest::returnRemainingTime() const{
     sf::Time returnTime = timeForQuest - timeElapsedFromQuestStart.getElapsedTime();
-    return returnTime;
+    return returnTime; //returnTime;
 };
 QuestType Quest::returnQuestType() const{
     return questType;
