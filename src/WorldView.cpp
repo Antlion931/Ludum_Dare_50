@@ -74,12 +74,13 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
 
         for(auto &point : spawningPoints)
         {
-            sf::Vector2f transformedPosition = point;
-            transformedPosition.x = (topleft.x * (1.0 - point.x) + bottomright.x * point.x);
-            transformedPosition.y = (topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
+            sf::Vector2i intPosition;
+            intPosition.x = int(topleft.x * (1.0 - point.x) + bottomright.x * point.x);
+            intPosition.y = int(topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
 
-            transformedPosition.x = transformedPosition.x * ScaledTileSize.x + chunk_pos.x;
-            transformedPosition.y = transformedPosition.y * ScaledTileSize.y + chunk_pos.y;
+            sf::Vector2f transformedPosition;
+            transformedPosition.x = intPosition.x * ScaledTileSize.x + chunk_pos.x;
+            transformedPosition.y = intPosition.y * ScaledTileSize.y + chunk_pos.y;
 
             std::cout << "Spawning at: (" << transformedPosition.x << ", " << transformedPosition.y << ")\n";
             if(ObjectType == "tree")
