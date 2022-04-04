@@ -36,3 +36,4 @@ tree box 19 7 26 14 3 7
 tree box 7 19 14 26 3 7
 tree box 19 19 26 26 3 7
 bench_down box 4 15 18 15 2 5
+hydrant box 4 28 28 28 2 3

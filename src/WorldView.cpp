@@ -89,6 +89,42 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
                 //building->right
                 building->setScale(World_View_Scale);
             }
+            else if(ObjectType == "bench_down")
+            {
+                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Bench_Down", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {40.0,20.0}, NON_MOVE_NPC);
+                bench->addCollider(static_layer, nullptr, {0.f, 5.f}, {40.0,20.0}, "COLLISION");
+                bench->addCollider(nullptr, interaction_layer, {0.f, 5.f}, {40.0,20.0}, "INTERACTION");
+                //building->right
+                bench->setScale(World_View_Scale);
+            }
+            else if(ObjectType == "pot")
+            {
+                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Pot", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {45.0,30.0}, NON_MOVE_NPC);
+                bench->addCollider(static_layer, nullptr, {0.f, 5.f}, {35.0,20.0}, "COLLISION");
+                bench->addCollider(nullptr, interaction_layer, {0.f, 5.f}, {35.0,20.0}, "INTERACTION");
+                //building->right
+                bench->setScale(World_View_Scale);
+            }
+            else if(ObjectType == "hydrant")
+            {
+                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Hydrant", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {16.0,16.0}, NON_MOVE_NPC);
+                bench->addCollider(static_layer, nullptr, {0.f, 5.f}, 5.0, "COLLISION");
+                bench->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
+                //building->right
+                bench->setScale(World_View_Scale);
+            }
+            else if(ObjectType == "umbrella")
+            {
+                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Umbrella", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {30.0,45.0}, NON_MOVE_NPC);
+                bench->addCollider(static_layer, nullptr, {0.f, 5.f}, 5.0, "COLLISION");
+                bench->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
+                //building->right
+                bench->setScale(World_View_Scale);
+            }
         }
     }
 }
