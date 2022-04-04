@@ -66,7 +66,7 @@ void NPC::onUpdate(const sf::Time &delta)
             if(talkable){
                 qC->sendPulse(QuestCreator::PulseType::TALK,getName());
                 talkable = false;
-                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Hey",font,24)));
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Hey",font,64)));
                 addChild(db);
             }
         }
