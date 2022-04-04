@@ -88,9 +88,9 @@ int main()
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    /*std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
+    //std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
     
-    test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
+    /*test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
     test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND, {600,400}, {100,100});
     test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND, {700,400}, {100,100});
@@ -252,14 +252,14 @@ int main()
             GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
         }
 
-        /*if(testButtons->get("KILL")->isPressed(window))
-        {
-            if(index < test_NPCCreator->NPCs.size())
-            {
-                test_NPCCreator->NPCs[index]->kill();
-                index++;
-            }
-        }*/
+        // if(testButtons->get("KILL")->isPressed(window))
+        // {
+        //     if(index < test_NPCCreator->NPCs.size())
+        //     {
+        //         test_NPCCreator->NPCs[index]->kill();
+        //         index++;
+        //     }
+        // }
 
         if(volumeBar->isVisible())
         {

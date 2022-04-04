@@ -3,7 +3,6 @@
 
 Chunk::Chunk()
 {
-    
 }
 
 std::shared_ptr<std::ifstream> Chunk::loadChunk(std::shared_ptr<sf::Texture> _tileSet)
@@ -12,8 +11,8 @@ std::shared_ptr<std::ifstream> Chunk::loadChunk(std::shared_ptr<sf::Texture> _ti
     std::uniform_int_distribution<int> dist(0, amountOfChunkTemplates - 1);
     int randomNumber = dist(randomChunkPicker);
 
-    tileMap.setScale(TileMapScale);
-    tileMap.setName("tile map");
+    tileMap = std::make_shared<TileMap>(TileMap());
+    tileMap->setName("tile map");
 
     std::shared_ptr<std::ifstream> loader = 
     make_shared<std::ifstream>(std::ifstream("./res/chunkTemplates/chunk" + std::to_string(randomNumber) + ".chunk"));
@@ -21,7 +20,7 @@ std::shared_ptr<std::ifstream> Chunk::loadChunk(std::shared_ptr<sf::Texture> _ti
     // load the tilemap
     *loader >> size.x;
     *loader >> size.y;
-    tileMap.loadTileMap(size,_tileSet, TileSize);
+    tileMap->loadTileMap(size,_tileSet, TileSize);
     
     for(int i = 0; i < size.y; i++)
     {
@@ -29,23 +28,13 @@ std::shared_ptr<std::ifstream> Chunk::loadChunk(std::shared_ptr<sf::Texture> _ti
         {
             int tileID;
             *loader >> tileID;
-            tileMap.setTile({j,i}, tileID - 1);
+            tileMap->setTile({j,i}, tileID - 1);
         }
     }
 
-    WorldChunkSize =
-    {TileSize.x * TileMapScale.x * size.x,
-    TileSize.y * TileMapScale.y * size.y};
-
-    addChild(std::make_shared<TileMap>(tileMap));
+    addChild(tileMap);
 
     return loader;
-}
-
-
-sf::Vector2i Chunk::getWorldChunkSize()
-{
-    return WorldChunkSize;
 }
 
 

@@ -11,20 +11,15 @@ const int amountOfChunkTemplates = 3;
 
 // SETTINGS
 const sf::Vector2i TileSize = {16,16};
-const sf::Vector2f TileMapScale = {0.5f, 0.5f};
+const sf::Vector2i WorldChunkSize = {TileSize.x * 32,TileSize.y * 32};
 
 class Chunk : public Node
 {
 private:
     sf::Vector2i size;
-    TileMap tileMap;
-
-    sf::Vector2i WorldChunkSize =
-    {TileSize.x * TileMapScale.x * 32,
-    TileSize.y * TileMapScale.y * 32};
+    std::shared_ptr<TileMap> tileMap;
 
 public:
-    sf::Vector2i getWorldChunkSize();
 
     std::shared_ptr<std::ifstream> loadChunk(std::shared_ptr<sf::Texture> _tileSet);
 

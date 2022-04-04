@@ -24,27 +24,27 @@ private:
 
     EntityPrefabs entityPrefabs;
     
-    std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
+    std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
 
     std::shared_ptr<YSort> Objects;
+    std::shared_ptr<Node> ChunkContainer;
     //NPCCreator NPCcreator;
 
     std::shared_ptr<Player> player;
-    sf::Vector2i currentCenterCoords;
+    sf::Vector2i currentCenterCoords = {100,100};
 
-private:
+    sf::Vector2f ScaledWorldChunkSize = {0.0,0.0};
+
     void chunkChange(sf::Vector2i chunkCoords);
 
     void allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo);
     void deallocateChunk(sf::Vector2i chunkCoords);
 
-    void loadStaticObject(std::shared_ptr<std::ifstream> loader);
+    void loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos);
 
 public:
     WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
 
 protected:
-    void onDraw(sf::RenderTarget &target) override; 
     void onUpdate(const sf::Time& delta) override;
-    void onTransform() override;
 };

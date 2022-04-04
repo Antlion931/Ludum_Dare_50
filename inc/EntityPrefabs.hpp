@@ -14,10 +14,11 @@ public:
         if(type == "tree")
         {
             object->setTexture(treeTexture->returnTexture("tree.png"));
-            object->offsetTexture({-30,-30});
+            object->offsetTexture({-13,-30});
             object->setScale({3.f,3.f});
-            object->setTranslation({0,0});
             object->setName("tree");
+            //object->setActive(0);
+            //object->setVisible(0);
         }
         return object;
     }
