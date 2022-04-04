@@ -41,6 +41,7 @@ void Player::onUpdate(const sf::Time &delta)
         {
             colliders["KILL"]->setActive(1);
             animation.changeAnimation(PUNCHING);
+            soundSystem.playSound(punchSoundDirectory);
         }
         else 
         {
@@ -111,10 +112,11 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
 }
 
 Player::Player(SoundSystem& soundSystem)
-: Player(soundSystem, {100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.1, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
+: Player(soundSystem, {100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
 {
     setName("player");
     setDyingSoundName("gunShotMono.wav");
+    punchSoundDirectory = "punch.wav";
 }
 
 void Player::updateVelocty(const sf::Time& delta)

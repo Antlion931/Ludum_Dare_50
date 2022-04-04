@@ -8,6 +8,7 @@ Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vecto
 soundSystem(_soundSystem), speed(_speed), body(size), animation(_animation), dyingTime(_dyingTime)
 {
     setTranslation(position);
+    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
     currentTime = 0.0f;
 }
 
@@ -33,6 +34,12 @@ void Character::onUpdate(const sf::Time &delta)
 
     updateBody(delta);
 }
+
+void Character::offsetTexture(sf::Vector2f offset)
+{
+    body.setPosition({body.getPosition().x + offset.x, body.getPosition().y + offset.y});
+}
+
 
 void Character::kill()
 {
@@ -64,7 +71,6 @@ void Character::updateBody(const sf::Time&  delta)
 
     body.setTexture(animation.getTexture().get());
     body.setTextureRect(animation.getIntRect());
-    body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
 }
 
 bool Character::isDead()
