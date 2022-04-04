@@ -221,7 +221,7 @@ void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, float 
 	points.push_back( firstPoint );
 	grid.insert( firstPoint );
 
-	int k = 30;
+	int k = 100;
 
 
 	while(!processList.empty() && points.size() <= amountToSpawn)
