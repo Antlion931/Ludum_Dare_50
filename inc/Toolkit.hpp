@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <random>
+#include <cmath>
+#include <iostream>
 
 enum LEVEL
 {
@@ -30,4 +33,6 @@ bool clamp(sf::RectangleShape a, sf::Vector2f b);
 bool clamp(sf::RectangleShape a, sf::Vector2i b);
 
 std::ostream& operator<< (std::ostream& out, sf::Vector2f const& vec);
+
+void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, sf::Vector2i topleft, sf::Vector2i bottomright, float minDist = 0);
 
