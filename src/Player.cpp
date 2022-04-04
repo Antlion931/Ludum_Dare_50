@@ -8,7 +8,14 @@
 void Player::onUpdate(const sf::Time &delta)
 {
     velocity = {0,0};
-
+    if(isFaceingRight){
+            colliders["KILL"]->setTranslation({30.f,0.f});
+            colliders["TALK"]->setTranslation({30.f,0.f});
+    }
+        else{
+            colliders["KILL"]->setTranslation({-30.f,0.f});
+            colliders["TALK"]->setTranslation({-30.f,0.f});
+        }
     if(animation.getCurrentAnimation() == DYING)
     {
         currentTime += delta.asSeconds();
@@ -21,11 +28,12 @@ void Player::onUpdate(const sf::Time &delta)
         }
     }
     else if(animation.getCurrentAnimation() == PUNCHING)
-    {
+    {   
+        colliders["KILL"]->setActive(true);
         currentTime += delta.asSeconds();
-
         if(currentTime > punchTime)
         {
+            colliders["KILL"]->setActive(false);
             currentTime -= punchTime;
             animation.changeAnimation(IDLE);
         }
@@ -36,16 +44,25 @@ void Player::onUpdate(const sf::Time &delta)
     else if( animation.getCurrentAnimation() != DEAD)
     {
         updateVelocty(delta);
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+            //colliders["100-unit"]->setActive(false);
+            colliders["TALK"]->setActive(true);
+        }else{
+            //colliders["100-unit"]->setActive(true);
+            colliders["TALK"]->setActive(false);
+        }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            colliders["KILL"]->setActive(1);
+            //colliders["100-unit"]->setActive(false);
+            colliders["KILL"]->setActive(true);
             animation.changeAnimation(PUNCHING);
             soundSystem.playSound(punchSoundDirectory);
         }
         else 
         {
-            colliders["KILL"]->setActive(0);
+            colliders["KILL"]->setActive(false);
+            //colliders["100-unit"]->setActive(true);
             if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
             {
                 animation.changeAnimation(RUN);
@@ -62,7 +79,6 @@ void Player::onUpdate(const sf::Time &delta)
     else
         colliders["KILL"]->setTranslation({-50.0,0.0});
         
-
     updateSinpersRedDot(delta);
     updateBody(delta);
 }

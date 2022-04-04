@@ -1,7 +1,15 @@
 #include"Quest.hpp"
 
 Quest::Quest(Character* _questObjective,QuestType _questType,int _remainingMiliseconds){
+    questObjectiveType = _questObjective->getName();
     questObjective = _questObjective;
+    questType = _questType;
+    timeElapsedFromQuestStart.restart();
+    timeForQuest = sf::milliseconds(_remainingMiliseconds);
+};
+Quest::Quest(std::string _questObjectiveType,QuestType _questType,int _remainingMiliseconds){
+    questObjectiveType = _questObjectiveType;
+    questObjective = nullptr;
     questType = _questType;
     timeElapsedFromQuestStart.restart();
     timeForQuest = sf::milliseconds(_remainingMiliseconds);
@@ -33,5 +41,8 @@ QuestType Quest::returnQuestType() const{
 
 Character* Quest::returnQuestObjective()const{
     return questObjective;
+};
+std::string Quest::returnQuestObjectiveType() const{
+    return questObjectiveType;
 };
  

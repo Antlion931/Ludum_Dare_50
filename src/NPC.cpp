@@ -4,6 +4,7 @@
 NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime)
 {
+    font.loadFromFile("res/Comic_Book.otf");
     randomVelocityAndTimes();
     animation.changeAnimation(RUN);
 }
@@ -51,13 +52,33 @@ void NPC::onUpdate(const sf::Time &delta)
             animation.changeAnimation(DEAD);
         }
     }
-    
     auto interaction_result = scanCollisions("INTERACTION");
-    if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
-    {
-        kill();
+    if(!dead){
+        if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
+        {   
+            if(!dead){
+                qC->sendPulse(QuestCreator::PulseType::KILL,getName());
+                dead = true;
+                kill();
+            }
+        }
+        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "TALK"){
+            if(talkable){
+                qC->sendPulse(QuestCreator::PulseType::TALK,getName());
+                talkable = false;
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Hey",font,24)));
+                addChild(db);
+            }
+        }
+        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "100-unit"){
+            qC->sendPulse(QuestCreator::PulseType::HUG,getName());
+        }
+        if(db!=nullptr && db->isHidden()){
+            talkable = true;
+            db = nullptr;
+            removeChild(db);
+        }
     }
-
     updateBody(delta);
 }
 
