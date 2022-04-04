@@ -10,7 +10,7 @@ QuestCreator::QuestCreator(std::shared_ptr<Player> _player){
 void QuestCreator::addQuest(Quest _quest){
     activeQuests.push_back(_quest);
 };
-
+// NEEDS TESTING
 void QuestCreator::update(){
     for(int i=0; i<activeQuests.size();i++){
         switch(activeQuests.at(i).returnQuestType()){
