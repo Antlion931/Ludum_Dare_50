@@ -19,8 +19,8 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     addChild(loadedObjects);
 
 
-    player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
-    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
+    player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0, "COLLISION");
+    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "KILL");
 
     NPCcreator->makeNPC("Alchemist", soundSystem, {400,400}, {100,100}, STANDAR_NPC);
     NPCcreator->makeNPC("Archer", soundSystem, {500,400}, {100,100}, STANDAR_NPC);
