@@ -36,6 +36,7 @@
 #include "EntityPrefabs.hpp"
 #include "QuestCreator.hpp"
 #include "TextBox.hpp"
+#include "Cutescene.hpp"
 
 int main()
 {
@@ -106,8 +107,12 @@ int main()
     testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
-    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
-    testLevelGUI->addChild(testTextBox);
+    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testQuestBox);
+
+    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testTimeBox);
+
     std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
     testLevelGUI->addChild(testScoreBox);
 
@@ -125,16 +130,18 @@ int main()
     std::shared_ptr<ButtonsContainer> settingsButtons;
     levelSetUpper.setUp(settingsLevel, settingsLevelGUI, settingsButtons, SETTINGS);
 
-    settingsButtons->makeColoredButton("1280 x 720", 60, { 100,200 }, { 450,120 });
-    settingsButtons->makeColoredButton("1336 x 768", 60, { 100,400 }, { 450,120 });
-    settingsButtons->makeColoredButton("1600 x 900", 60, { 720,200 }, { 450,120 });
-    settingsButtons->makeColoredButton("1920 x 1080", 60, { 720,400 }, { 450,120 });
-    settingsButtons->makeColoredButton("GO BACK", 60, { 440,590 }, { 400,100 });
+    settingsButtons->makeColoredButton("1280 x 720", 60, { 100,150 }, { 450,120 });
+    settingsButtons->makeColoredButton("1336 x 768", 60, { 100,350 }, { 450,120 });
+    settingsButtons->makeColoredButton("1600 x 900", 60, { 100,550 }, { 450,120 });
+    settingsButtons->makeColoredButton("1920 x 1080", 60, { 720,150 }, { 450,120 });
+    settingsButtons->makeColoredButton("2048 x 1152", 60, { 720,350 }, { 450,120 });
+    settingsButtons->makeColoredButton("3072 x 1728", 60, { 720,550 }, { 450,120 });
+    settingsButtons->makeColoredButton("GO BACK", 30, { 1000,30 }, { 180,50 });
 
-    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(1000.0f, 50.0f, sf::Color(242,196,22), sf::Color(1,2,4), 20, sf::Color(1,2,4)));
+    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(800.0f, 50.0f, sf::Color(242,196,22), sf::Color(1,2,4), 20, sf::Color(1,2,4)));
     volumeBar->setName("volume bar");
     volumeBar->setProgress(0.2f);
-    volumeBar->setPosition({140, 70});
+    volumeBar->setPosition({100, 30});
     settingsLevelGUI->addChild(volumeBar);
 
     GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
@@ -146,7 +153,21 @@ int main()
     std::shared_ptr<ButtonsContainer> cutsceneButtons;
     levelSetUpper.setUp(cutsceneLevel, cutsceneLevelGUI, cutsceneButtons, CUTSCENE);
 
-    TextureLoader cutsceneLoader("./res/cutscene");
+    sf::Texture texture1;
+    texture1.loadFromFile("./res/cutescene/1.png");
+
+    sf::Texture texture2;
+    texture2.loadFromFile("./res/cutescene/2.png");
+
+    sf::Texture texture3;
+    texture3.loadFromFile("./res/cutescene/3.png");
+    
+    std::shared_ptr<Cutescene> cutescene = std::make_shared<Cutescene>(Cutescene({0,0}, {1280, 720}, &texture1, &texture2, &texture3));
+    cutescene->setName("cute scene");
+    cutsceneLevelGUI->addChild(cutescene);
+
+    cutsceneLevelGUI->removeChild(cutsceneButtons);
+    cutsceneLevelGUI->addChild(cutsceneButtons);
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
@@ -211,6 +232,20 @@ int main()
             settingsButtons->get("1920 x 1080")->printDebug();
         }
 
+        if(settingsButtons->get("2048 x 1152")->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_2048x1152, window);
+            root->resize(resolution);
+            settingsButtons->get("2048 x 1152")->printDebug();
+        }
+
+        if(settingsButtons->get("3072 x 1728")->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_3072x1728, window);
+            root->resize(resolution);
+            settingsButtons->get("3072 x 1728")->printDebug();
+        }
+
         if(settingsButtons->get("GO BACK")->isPressed(window))
         {
             root->setLevel(MAIN_MENU);
@@ -219,6 +254,7 @@ int main()
         if(mainMenuButtons->get("PLAY")->isPressed(window))
         {
             root->setLevel(CUTSCENE);
+            GLOBAL_SOUND.playSound("notification.wav");
         }
 
         if(mainMenuButtons->get("SETTINGS")->isPressed(window))
@@ -263,29 +299,19 @@ int main()
             GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
         }
 
+        if(cutescene->isVisible())
+        {
+            if(cutescene->isCutesceneEnded())
+            {
+                root->setLevel(TEST_PLAY);
+            }
+        }
+
         GLOBAL_SOUND.update();
         questCreator->update();
 
         sf::Time delta = deltaClock.restart();
         window.clear(sf::Color(242,196,22));
-
-        // if(testTextBox->isVisible())
-        // {
-        //     testTextBox->setString(std::to_string(questCreator->activeQuests.back().returnRemainingTime().asSeconds())); 
-
-        //     if(questCreator->activeQuests.back().Done)
-        //     {
-        //         GLOBAL_MUSIC.stopMusic();
-        //         GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
-        //         questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(4).get(),kill));
-        //         std::cout << "Nowy quest" << std::endl;
-        //     }
-        //     else if(questCreator->failedQuests.size()>0)
-        //     {
-        //         GLOBAL_MUSIC.stopMusic();
-        //         player->kill();
-        //     }
-        // }
 
         if(testScoreBox->isVisible())
         {
