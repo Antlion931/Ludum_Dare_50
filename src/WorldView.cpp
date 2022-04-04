@@ -2,7 +2,7 @@
 #include <cmath>
 #include <memory>
 
-const sf::Vector2f World_View_Scale = {1.f,1.f};
+const sf::Vector2f World_View_Scale = {4.f,4.f};
 const std::vector<std::string> POSSIBLE_NPCS = {"Alchemist", "Archer", "Blacksmith", "Butcher", "Female", "Herald", "King",
     "Mage", "Male", "Merchant", "Princess", "Queen", "Thief"};
 

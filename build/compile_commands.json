@@ -51,6 +51,11 @@
 },
 {
   "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Cutescene.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Cutescene.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Cutescene.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
   "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/DialogueBox.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/DialogueBox.cpp",
   "file": "/home/bolidnik/Desktop/ludum_dare_50/src/DialogueBox.cpp"
 },
