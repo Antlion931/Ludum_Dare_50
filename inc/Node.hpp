@@ -15,6 +15,7 @@ public:
     void resize(Resolution resolution);
     void reset();
 
+    const std::vector<std::shared_ptr<Node>>* getChildren() {return &m_children;}
     void addChild(std::shared_ptr<Node> child);
     void removeChild(std::shared_ptr<Node> child);
     bool isChild(std::shared_ptr<Node> child);

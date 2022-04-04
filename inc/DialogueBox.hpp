@@ -5,13 +5,13 @@
 
 class DialogueBox : public TextButton{
     public:
-        DialogueBox(sf::Text _content, std::shared_ptr<Node> _target);
+        DialogueBox(sf::Text _content);
         void onUpdate(const sf::Time& delta);
         void draw(sf::RenderTarget &target) const;
+        inline bool isHidden()const{return hidden;};
     protected:
         virtual void onDraw(sf::RenderTarget& target) override;
     private:
-        std::shared_ptr<Node> target;
         std::string visibleCharacters = "";
         std::string message = "";
         float currentTime = 0.f;

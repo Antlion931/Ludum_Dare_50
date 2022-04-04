@@ -1,11 +1,34 @@
 #include"Quest.hpp"
 
 Quest::Quest(Character* _questObjective,QuestType _questType,int _remainingMiliseconds){
+    questObjectiveType = _questObjective->getName();
     questObjective = _questObjective;
     questType = _questType;
     timeElapsedFromQuestStart.restart();
     timeForQuest = sf::milliseconds(_remainingMiliseconds);
 };
+Quest::Quest(std::string _questObjectiveType,QuestType _questType,int _remainingMiliseconds){
+    questObjectiveType = _questObjectiveType;
+    questObjective = nullptr;
+    questType = _questType;
+    timeElapsedFromQuestStart.restart();
+    timeForQuest = sf::milliseconds(_remainingMiliseconds);
+};
+
+std::string Quest::questTypeToString(QuestType type)
+{
+    switch (type) 
+    {
+        case hug:
+            return "HUG";
+        case talk:
+            return "TALK";
+        case kill:
+            return "KILL";
+        case steal:
+            return "STEAL";
+    }
+}
 
 void Quest::setQuestAsDone(){
     /*
@@ -17,7 +40,7 @@ void Quest::setQuestAsFailed(){
     /*
         Też coś się dzieje?
     */
-   Failed = true;
+    Failed = true;
 };
 bool Quest::isDone() const{
     std::cout << "Quest Done!" << std::endl;
@@ -33,5 +56,8 @@ QuestType Quest::returnQuestType() const{
 
 Character* Quest::returnQuestObjective()const{
     return questObjective;
+};
+std::string Quest::returnQuestObjectiveType() const{
+    return questObjectiveType;
 };
  
