@@ -12,7 +12,7 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     NPCcreator = std::make_shared<NPCCreator>(NPCCreator(static_layer, allObjects, interaction_layer));
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
-    ChunkContainer->setScale({0.5f,0.5f});
+    ChunkContainer->setScale({3.f,3.f});
 
     loadedObjects = std::make_shared<YSort>(YSort());
     loadedObjects->addChild(player);
@@ -35,7 +35,6 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     NPCcreator->makeNPC("Princess", soundSystem, {1400,400}, {100,100}, STANDARD_NPC);
     NPCcreator->makeNPC("Queen", soundSystem, {1500,400}, {100,100}, STANDARD_NPC);
     NPCcreator->makeNPC("Thief", soundSystem, {1600,400}, {100,100}, STANDARD_NPC);
-    NPCcreator->makeNPC("Tree", soundSystem, {1600,400}, {100,200}, NON_MOVE_NPC);
 
     chunkChange(currentCenterCoords);
 }
@@ -67,18 +66,26 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
         int amountToSpawn = randAmount(randomizer);
         for(int i = 0; i < amountToSpawn; i++)
         {
+            sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
             std::uniform_int_distribution<int> xDist(topleft.x, bottomright.x);
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
                 std::cout << "Added a new tree\n";
-                sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
                 std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {100,100}, NON_MOVE_NPC);
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {32,48}, NON_MOVE_NPC);
+                tree->setScale({3.f,3.f});
+                tree->addCollider(nullptr,static_layer, {0.0, 35.0}, 15.0, "COLLISION");
+                tree->offsetTexture({0,-5.f});
                 /*auto t = entityPrefabs.getStaticObject("tree");
                 allObjects.push_back(t);*/
-                tree->setSpeed(0.f);
                 //tree.translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
+            }
+            else if(ObjectType == "building")
+            {
+                std::shared_ptr<NPC> building = NPCcreator->makeNPC("Building", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {180,240}, NON_MOVE_NPC);
+                building->setScale({3.f,3.f});
             }
         }
     }
