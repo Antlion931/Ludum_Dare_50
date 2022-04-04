@@ -7,6 +7,7 @@ enum QuestType{
 
 class Quest{
     public:
+        static std::string questTypeToString(QuestType type);
         Quest(Character* _questObjective,QuestType _questType = hug,int _remainingMiliseconds = 30000);
         Quest(std::string _questObjectiveType,QuestType _questType = hug,int _remainingMiliseconds = 30000);
         void setQuestAsDone();

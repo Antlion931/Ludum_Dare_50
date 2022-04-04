@@ -1,10 +1,12 @@
 #include"QuestCreator.hpp"
 #include<cmath>
+#include<random>
 
 #define DISTANCE(A,B) std::sqrt(std::pow(A.x-B.x,2),std::pow(A.y-B.y,2)); 
 
-QuestCreator::QuestCreator(std::shared_ptr<Player> _player){
+QuestCreator::QuestCreator(std::shared_ptr<Player> _player, std::shared_ptr<Node> _objects){
     player=_player;
+    loaded_objects = _objects;
 };
 
 void QuestCreator::addQuest(Quest _quest){
@@ -72,8 +74,31 @@ void QuestCreator::update(){
             i=i-1;
         }
     }
+    if (activeQuests.size() == 0)
+        addQuest(generateRandomQuest());
     sendPulse(CLEAR,"");
 };
 void QuestCreator::sendPulse(PulseType _pulse, std::string _name){
     lastPulse = {_pulse,_name};
 };
+
+Quest QuestCreator::generateRandomQuest()
+{
+    std::random_device randomizer;
+
+    if(loaded_objects->getChildren()->size() <= 1)
+        return Quest("None");
+
+    std::uniform_int_distribution<> obj(0, loaded_objects->getChildren()->size() - 1);
+    std::uniform_int_distribution<> t(0, 2);
+
+    auto target = loaded_objects->getChildren()->at(obj(randomizer));
+    while (target == player)
+    {
+        target = loaded_objects->getChildren()->at(obj(randomizer));
+    }
+
+    Quest q(target->getName(), QuestType(t(randomizer)), 30 * 1000);
+    return q;
+
+}
