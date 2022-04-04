@@ -101,6 +101,7 @@ int main()
     
     TextureLoader tileSets("./res/textures/TileSets");
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+    player->scale({1.6, 1.6});
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
     worldView->setName("world view");
     testLevel->addChild(worldView);

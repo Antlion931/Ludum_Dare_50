@@ -70,6 +70,8 @@ void Player::onUpdate(const sf::Time &delta)
 Player::Player(SoundSystem& soundSystem,sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, float _punchTime) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime), punchTime(_punchTime)
 {
+    offsetTexture({0.0, -20.0});
+
     snipersRedDot = std::make_shared<MovingCircle>(MovingCircle(position, 3));
     snipersRedDot->setName("snipers red dot");
     snipersRedDot->circle.setFillColor(sf::Color(255, 0, 0, 255));
