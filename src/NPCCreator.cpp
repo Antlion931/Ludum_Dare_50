@@ -1,6 +1,6 @@
 #include "NPCCreator.hpp"
 
-NPCCreator::NPCCreator(std::shared_ptr<CollisionLayer>& _collisionLayer, std::vector<std::shared_ptr<Node>>& _objectVector, std::shared_ptr<CollisionLayer>& _interactionLayer) 
+NPCCreator::NPCCreator(std::shared_ptr<CollisionLayer> _collisionLayer, std::vector<std::shared_ptr<Node>>& _objectVector, std::shared_ptr<CollisionLayer> _interactionLayer) 
     : collisionLayer(_collisionLayer), objectVector(_objectVector), interactionLayer(_interactionLayer)
 {}
 

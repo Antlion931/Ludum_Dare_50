@@ -35,7 +35,7 @@ private:
     std::shared_ptr<Player> player;
     sf::Vector2i currentCenterCoords = {0,0};
 
-    sf::Vector2f ScaledWorldChunkSize = {256 * 6,256 * 6};
+    sf::Vector2f ScaledWorldChunkSize = {256,256};
 
     void chunkChange(sf::Vector2i chunkCoords);
 
