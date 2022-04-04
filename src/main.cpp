@@ -83,6 +83,7 @@ int main()
     background->box.setTexture(&backgroundTexture);
     mainMenuLevelGUI->addChild(background);
     background->setName("back ground");
+    
 
     mainMenuLevelGUI->removeChild(mainMenuButtons);
     mainMenuLevelGUI->addChild(mainMenuButtons);
@@ -136,7 +137,7 @@ int main()
     settingsButtons->makeColoredButton("1920 x 1080", 60, { 720,150 }, { 450,120 });
     settingsButtons->makeColoredButton("2048 x 1152", 60, { 720,350 }, { 450,120 });
     settingsButtons->makeColoredButton("3072 x 1728", 60, { 720,550 }, { 450,120 });
-    settingsButtons->makeColoredButton("GO BACK", 30, { 1000,30 }, { 180,50 });
+    settingsButtons->makeColoredButton("GO BACK", 30, { 1000,30 }, { 170,50 });
 
     std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(800.0f, 50.0f, sf::Color(242,196,22), sf::Color(1,2,4), 20, sf::Color(1,2,4)));
     volumeBar->setName("volume bar");

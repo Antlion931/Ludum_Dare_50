@@ -54,5 +54,5 @@ void Button::onDraw(sf::RenderTarget& target)
 }
 
 void Button::onResize(Resolution resolution) {
-
+	box.setScale(resolution.getVector2fScale());
 }
