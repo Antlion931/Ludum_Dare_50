@@ -3,9 +3,12 @@
 #include "MouseChangeableProgressbar.hpp"
 #include "Toolkit.hpp"
 
-MouseChangeableProgressbar::MouseChangeableProgressbar(float width, float height, sf::Color backgroundColor, sf::Color fillColor)
+MouseChangeableProgressbar::MouseChangeableProgressbar(float width, float height, sf::Color backgroundColor, sf::Color backgroundOutlineColor, float backgroundOutlineThikness , sf::Color fillColor)
 : Progressbar(width, height, backgroundColor, fillColor)
-{}
+{
+    background.setOutlineColor(backgroundOutlineColor);
+    background.setOutlineThickness(backgroundOutlineThikness);
+}
 
 void MouseChangeableProgressbar::update(sf::RenderWindow& window)
 {

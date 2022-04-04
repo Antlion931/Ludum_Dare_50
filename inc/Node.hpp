@@ -13,6 +13,7 @@ public:
     void draw(sf::RenderTarget &target);
     void update(const sf::Time &delta);
     void resize(Resolution resolution);
+    void reset();
 
     void addChild(std::shared_ptr<Node> child);
     void removeChild(std::shared_ptr<Node> child);

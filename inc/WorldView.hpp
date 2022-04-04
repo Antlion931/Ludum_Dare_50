@@ -28,7 +28,6 @@ private:
     
     std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
 
-    std::shared_ptr<YSort> Objects;
     std::shared_ptr<Node> ChunkContainer;
     //NPCCreator NPCcreator;
 
@@ -45,6 +44,7 @@ private:
     void loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos);
 
 public:
+    std::shared_ptr<YSort> Objects;
     WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
 
 protected:

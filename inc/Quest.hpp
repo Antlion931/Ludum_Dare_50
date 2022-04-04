@@ -14,11 +14,11 @@ class Quest{
         sf::Time returnRemainingTime() const;
         Character* returnQuestObjective() const;
         QuestType returnQuestType() const;
+        bool Done = false;
+        bool Failed = false;
     private:
         QuestType questType;
         Character* questObjective;
-        bool Done = false;
-        bool Failed = false;
         sf::Time timeForQuest;
         sf::Clock timeElapsedFromQuestStart;
 };

@@ -68,14 +68,8 @@ void Node::addChild(std::shared_ptr<Node> child)
 {
     m_children.push_back(child);
     child->parent = this;
-    if (!active)
-    {
-        child->setActive(!active);
-    }
-    if (!visible)
-    {
-        child->setVisible(!visible);
-    }
+    child->setActive(active);
+    child->setVisible(visible);
     child->updateTransform();
 }
 
