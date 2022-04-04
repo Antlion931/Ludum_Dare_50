@@ -66,7 +66,7 @@ void NPC::onUpdate(const sf::Time &delta)
     }
     auto interaction_result = scanCollisions("INTERACTION");
     if(!dead){
-        if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
+        if (interaction_result.collider.contains("KILL"))
         {   
             if(!dead){
                 qC->sendPulse(QuestCreator::PulseType::KILL,getName());
@@ -74,7 +74,7 @@ void NPC::onUpdate(const sf::Time &delta)
                 kill();
             }
         }
-        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "TALK"){
+        else if(interaction_result.collider.contains("TALK")){
             if(talkable){
                 qC->sendPulse(QuestCreator::PulseType::TALK,getName());
                 talkable = false;
@@ -85,7 +85,7 @@ void NPC::onUpdate(const sf::Time &delta)
                 addChild(db);
             }
         }
-        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "100-unit"){
+        else if(interaction_result.collider.contains("100-unit")){
             qC->sendPulse(QuestCreator::PulseType::HUG,getName());
         }
         if(db!=nullptr && db->isHidden()){
