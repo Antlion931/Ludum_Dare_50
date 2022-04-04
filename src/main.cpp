@@ -90,6 +90,7 @@ int main()
 
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
+    std::shared_ptr<CollisionLayer> around_player_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
     test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
     test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
@@ -181,8 +182,6 @@ int main()
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
     sf::Clock deltaClock;        
-    std::shared_ptr<DialogueBox> db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Kurwa moje pole",font,24)));
-    player->addChild(db);
     while (window.isOpen())
     {
         sf::Event event;

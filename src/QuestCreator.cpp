@@ -15,6 +15,11 @@ void QuestCreator::update(){
     for(int i=0; i<activeQuests.size();i++){
         switch(activeQuests.at(i).returnQuestType()){
             case hug:
+                if(activeQuests.at(i).returnQuestObjective()==nullptr){
+                    for(auto &layer : player->scan_layers){
+                        //layer->list.at(1)->
+                    }
+                }else
                 if(std::sqrt(std::pow(player->getGlobalTransform().getPosition().x-activeQuests.at(i).returnQuestObjective()->getGlobalTransform().getPosition().x,2.f)+std::pow(player->getGlobalTransform().getPosition().y-activeQuests.at(i).returnQuestObjective()->getGlobalTransform().getPosition().y,2.f))<50.f){
                     activeQuests.at(i).setQuestAsDone();
                     completedQuests.push_back(activeQuests.at(i));

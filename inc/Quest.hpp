@@ -8,6 +8,7 @@ enum QuestType{
 class Quest{
     public:
         Quest(Character* _questObjective,QuestType _questType = hug,int _remainingMiliseconds = 30000);
+        Quest(QuestType _questType = hug,int _remainingMiliseconds = 30000);
         void setQuestAsDone();
         void setQuestAsFailed();
         bool isDone() const;

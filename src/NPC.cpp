@@ -69,6 +69,7 @@ void NPC::onUpdate(const sf::Time &delta)
             }
         }
         else{
+            
         }
 
         if(db!=nullptr && db->isHidden()){

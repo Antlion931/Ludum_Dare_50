@@ -6,6 +6,12 @@ Quest::Quest(Character* _questObjective,QuestType _questType,int _remainingMilis
     timeElapsedFromQuestStart.restart();
     timeForQuest = sf::milliseconds(_remainingMiliseconds);
 };
+Quest::Quest(QuestType _questType,int _remainingMiliseconds){
+    questObjective = nullptr;
+    questType = _questType;
+    timeElapsedFromQuestStart.restart();
+    timeForQuest = sf::milliseconds(_remainingMiliseconds);
+};
 
 void Quest::setQuestAsDone(){
     /*
