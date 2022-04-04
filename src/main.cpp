@@ -101,6 +101,10 @@ int main()
     
     TextureLoader tileSets("./res/textures/TileSets");
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+    
+    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
+    NPC::setQuestCreator(questCreator);
+
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
     worldView->setName("world view");
     testLevel->addChild(worldView);
@@ -117,7 +121,7 @@ int main()
     std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
     testLevelGUI->addChild(testScoreBox);
 
-    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
+
     
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");

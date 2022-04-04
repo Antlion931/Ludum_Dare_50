@@ -55,20 +55,24 @@ void NPC::onUpdate(const sf::Time &delta)
     
     auto interaction_result = scanCollisions("INTERACTION");
     if(!dead){
-        if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "kill-box")
-        {
-            dead = true;
-            kill();
+        if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
+        {   
+            if(!dead){
+                qC->sendPulse(QuestCreator::PulseType::KILL,getName());
+                dead = true;
+                kill();
+            }
         }
-        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "talk-box"){
+        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "TALK"){
             if(talkable){
+                qC->sendPulse(QuestCreator::PulseType::TALK,getName());
                 talkable = false;
-                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Kurwa moje pole",font,24)));
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Hey",font,24)));
                 addChild(db);
             }
         }
-        else{
-            
+        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "100-unit"){
+            qC->sendPulse(QuestCreator::PulseType::HUG,getName());
         }
         if(db!=nullptr && db->isHidden()){
             talkable = true;

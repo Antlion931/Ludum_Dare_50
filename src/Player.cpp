@@ -8,10 +8,14 @@
 void Player::onUpdate(const sf::Time &delta)
 {
     velocity = {0,0};
-    if(isFaceingRight)
-            colliders.at(1)->setTranslation({30.f,0.f});
-        else
-            colliders.at(1)->setTranslation({-30.f,0.f});
+    if(isFaceingRight){
+            colliders["KILL"]->setTranslation({30.f,0.f});
+            colliders["TALK"]->setTranslation({30.f,0.f});
+    }
+        else{
+            colliders["KILL"]->setTranslation({-30.f,0.f});
+            colliders["TALK"]->setTranslation({-30.f,0.f});
+        }
     if(animation.getCurrentAnimation() == DYING)
     {
         currentTime += delta.asSeconds();
@@ -25,11 +29,11 @@ void Player::onUpdate(const sf::Time &delta)
     }
     else if(animation.getCurrentAnimation() == PUNCHING)
     {   
-        colliders.at(1)->setName("kill-box");
+        colliders["KILL"]->setActive(true);
         currentTime += delta.asSeconds();
         if(currentTime > punchTime)
         {
-            colliders.at(1)->setName("idle-box");
+            colliders["KILL"]->setActive(false);
             currentTime -= punchTime;
             animation.changeAnimation(IDLE);
         }
@@ -41,9 +45,9 @@ void Player::onUpdate(const sf::Time &delta)
     {
         updateVelocty(delta);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-            colliders.at(1)->setName("talk-box");
+            colliders["TALK"]->setActive(true);
         }else{
-            colliders.at(1)->setName("idle-box");
+            colliders["TALK"]->setActive(false);
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
@@ -71,7 +75,6 @@ void Player::onUpdate(const sf::Time &delta)
     else
         colliders["KILL"]->setTranslation({-50.0,0.0});
         
-
     updateSinpersRedDot(delta);
     updateBody(delta);
 }
