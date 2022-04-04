@@ -20,9 +20,11 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     loadedObjects->addChild(player);
     addChild(loadedObjects);
 
-    player->addCollider(static_layer, static_layer, {0.0, 0.0}, 20.0, "COLLISION");
-    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "KILL");
-
+    player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0, "COLLISION");
+    player->addCollider(interaction_layer, nullptr, {30.0, 0.0}, {40.0, 70.0}, "KILL");
+    player->addCollider(interaction_layer, nullptr, {30.0, 0.0}, {140.0, 100.0}, "TALK");
+    player->addCollider(interaction_layer, nullptr, {0.0, 0.0}, {55.0, 55.0}, "100-unit");
+    
     chunkChange(currentCenterCoords);
 }
 
@@ -109,12 +111,13 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
 
         for(auto &point : spawningPoints)
         {
-            sf::Vector2f transformedPosition = point;
-            transformedPosition.x = (topleft.x * (1.0 - point.x) + bottomright.x * point.x);
-            transformedPosition.y = (topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
+            sf::Vector2i intPosition;
+            intPosition.x = int(topleft.x * (1.0 - point.x) + bottomright.x * point.x);
+            intPosition.y = int(topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
 
-            transformedPosition.x = transformedPosition.x * ScaledTileSize.x + chunk_pos.x;
-            transformedPosition.y = transformedPosition.y * ScaledTileSize.y + chunk_pos.y;
+            sf::Vector2f transformedPosition;
+            transformedPosition.x = intPosition.x * ScaledTileSize.x + chunk_pos.x;
+            transformedPosition.y = intPosition.y * ScaledTileSize.y + chunk_pos.y;
 
             //std::cout << "Spawning at: (" << transformedPosition.x << ", " << transformedPosition.y << ")\n";
             if(ObjectType == "tree")

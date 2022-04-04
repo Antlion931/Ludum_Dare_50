@@ -8,15 +8,18 @@ enum QuestType{
 class Quest{
     public:
         Quest(Character* _questObjective,QuestType _questType = hug,int _remainingMiliseconds = 30000);
+        Quest(std::string _questObjectiveType,QuestType _questType = hug,int _remainingMiliseconds = 30000);
         void setQuestAsDone();
         void setQuestAsFailed();
         bool isDone() const;
         sf::Time returnRemainingTime() const;
         Character* returnQuestObjective() const;
+        std::string returnQuestObjectiveType() const;
         QuestType returnQuestType() const;
         bool Done = false;
         bool Failed = false;
     private:
+        std::string questObjectiveType;
         QuestType questType;
         Character* questObjective;
         sf::Time timeForQuest;
