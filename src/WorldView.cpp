@@ -73,7 +73,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
                 chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {100,100}, NonAnimationSequences);
                 /*auto t = entityPrefabs.getStaticObject("tree");
                 allObjects.push_back(t);*/
-                tree->setVelocity({0,0});
+                tree->setSpeed(0.f);
                 //tree.translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
         }

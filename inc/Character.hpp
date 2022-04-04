@@ -16,6 +16,8 @@ public:
 
     void kill();
     bool isDead();
+
+    void setSpeed(float _speed){speed = _speed;}
    
 protected:
 
