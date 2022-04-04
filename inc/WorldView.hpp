@@ -27,12 +27,15 @@ private:
     
     std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
     std::shared_ptr<Node> ChunkContainer;
-    //NPCCreator NPCcreator;
+
+    std::shared_ptr<CollisionLayer> static_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
+    std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
+    NPCCreator NPCcreator;
 
     std::shared_ptr<Player> player;
     sf::Vector2i currentCenterCoords = {0,0};
 
-    sf::Vector2f ScaledWorldChunkSize = {0.0,0.0};
+    sf::Vector2f ScaledWorldChunkSize = {256 * 6,256 * 6};
 
     void chunkChange(sf::Vector2i chunkCoords);
 
@@ -45,7 +48,9 @@ public:
     std::shared_ptr<YSort> loadedObjects;
     std::vector<std::shared_ptr<Node>> allObjects;
 
-    WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
+    SoundSystem& soundSystem;
+
+    WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
 
 protected:
     void onUpdate(const sf::Time& delta) override;

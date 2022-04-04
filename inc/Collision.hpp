@@ -51,13 +51,12 @@ class Collidable : public Node
 
     public: 
         CollisionResult scanCollisions(int collider_id);
-        CollisionResult scanCollisions(int collider_id, std::shared_ptr<CollisionLayer> layer);
-        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, float _radius);
-        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, sf::Vector2f _size);
-        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, float _radius, std::string name);
-        void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, sf::Vector2f _size, std::string name);
+        void addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, float _radius);
+        void addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, sf::Vector2f _size);
+        void addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, float _radius, std::string name);
+        void addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, sf::Vector2f _size, std::string name);
 
-    private:
+    protected:
         std::vector<std::shared_ptr<CollisionLayer>> scan_layers;
         std::vector<std::shared_ptr<Collider>> colliders;
 };

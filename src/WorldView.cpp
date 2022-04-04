@@ -2,16 +2,35 @@
 #include <cmath>
 #include <memory>
 
-WorldView::WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
-: player(_player), tileSet(_tileSet)
+WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
+: player(_player), tileSet(_tileSet), NPCcreator(static_layer, allObjects, interaction_layer),
+soundSystem(_soundSystem)
 {
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
-    ChunkContainer->setScale({0.5f,0.5f});
+    ChunkContainer->setScale({3.f,3.f});
 
     loadedObjects = std::make_shared<YSort>(YSort());
     loadedObjects->addChild(player);
     addChild(loadedObjects);
+
+
+    player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
+    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
+
+    NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100});
+    NPCcreator.makeNPC("Archer", soundSystem, {500,400}, {100,100});
+    NPCcreator.makeNPC("Blacksmith", soundSystem, {600,400}, {100,100});
+    NPCcreator.makeNPC("Butcher", soundSystem, {700,400}, {100,100});
+    NPCcreator.makeNPC("Female", soundSystem, {800,400}, {100,100});
+    NPCcreator.makeNPC("Herald", soundSystem, {900,400}, {100,100});
+    NPCcreator.makeNPC("King", soundSystem, {1000,400}, {100,100});
+    NPCcreator.makeNPC("Mage", soundSystem, {1100,400}, {100,100});
+    NPCcreator.makeNPC("Male", soundSystem, {1200,400}, {100,100});
+    NPCcreator.makeNPC("Merchant", soundSystem, {1300,400}, {100,100});
+    NPCcreator.makeNPC("Princess", soundSystem, {1400,400}, {100,100});
+    NPCcreator.makeNPC("Queen", soundSystem, {1500,400}, {100,100});
+    NPCcreator.makeNPC("Thief", soundSystem, {1600,400}, {100,100});
 
     chunkChange(currentCenterCoords);
 }
@@ -90,17 +109,6 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
         }
     }
     // allocate/activate and deactivate entities
-    // first remove inactive entitites from loadedObjects
-    // then add inactive objects from allObjects to loadedObjects
-    std::shared_ptr<std::vector<std::shared_ptr<Node>>> loadedObjectsChildren = loadedObjects->getChildren();
-    /*for(auto child : *loadedObjects->getChildren())
-    {
-        sf::Vector2f centerOfCurrentChunk = {currentCenterCoords.x * WorldChunkSize.x + 0.5f * WorldChunkSize.x,
-         currentCenterCoords.y * WorldChunkSize.y + 0.5f * WorldChunkSize.y};
-        if(abs(centerOfCurrentChunk.x - child->getGlobalTransform().getPosition().x ) > 1.5 * WorldChunkSize.x ||
-           abs(centerOfCurrentChunk.y - child->getGlobalTransform().getPosition().y ) > 1.5 * WorldChunkSize.y)
-            loadedObjects->removeChild(child);
-    }*/
     sf::Vector2f centerOfCurrentChunk = {newCenterCoords.x * ScaledWorldChunkSize.x + 0.5f * ScaledWorldChunkSize.x,
          newCenterCoords.y * ScaledWorldChunkSize.y + 0.5f * ScaledWorldChunkSize.y};
     //std::cout << "Current Chunk Coords: (" << currentCenterCoords.x << ", " << currentCenterCoords.y << ")\n";
@@ -121,6 +129,7 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
         }
         else
         {
+            std::cout << "OBJECT!\n";
             // we add the object
             if(!loadedObjects->isChild(object))
             {
@@ -159,6 +168,7 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
         return;
     }
     std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk());
+    chunk->setName("Chunk");
     std::shared_ptr<std::ifstream> loader = chunk->loadChunk(tileSet);
 
     // while(loader->good())
