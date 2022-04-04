@@ -8,6 +8,7 @@ class DialogueBox : public TextButton{
         DialogueBox(sf::Text _content);
         void onUpdate(const sf::Time& delta);
         void draw(sf::RenderTarget &target) const;
+        inline bool isHidden()const{return hidden;};
     protected:
         virtual void onDraw(sf::RenderTarget& target) override;
     private:

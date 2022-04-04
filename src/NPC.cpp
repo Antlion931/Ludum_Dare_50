@@ -1,10 +1,10 @@
 #include "NPC.hpp"
-#include"DialogueBox.hpp"
 #include <cmath>
 
 NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, std::shared_ptr<CollisionLayer> _player_interaction_layer) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime)
 {
+    font.loadFromFile("res/Comic_Book.otf");
     player_interaction_layer = _player_interaction_layer;
     randomVelocityAndTimes();
     animation.changeAnimation(RUN);
@@ -55,24 +55,28 @@ void NPC::onUpdate(const sf::Time &delta)
     }
     
     auto interaction_result = scanCollisions(0, player_interaction_layer);
-    if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "kill-box")
-    {
-        kill();
-    }
-    else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "talk-box"){
-        std::cout << this->m_children.size() <<std::endl;
-        if(this->m_children.size() == 1){
-        sf::Font font;
-        font.loadFromFile("res/Comic_Book.otf");
-        std::shared_ptr<DialogueBox> db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Kurwa moje pole",font,24)));
-        this->addChild(db);
-        std::cout<<"NPC: Kurwa moje pole!"<<std::endl;
+    if(!dead){
+        if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "kill-box")
+        {
+            dead = true;
+            kill();
+        }
+        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "talk-box"){
+            if(talkable){
+                talkable = false;
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Kurwa moje pole",font,24)));
+                addChild(db);
+            }
+        }
+        else{
+        }
+
+        if(db!=nullptr && db->isHidden()){
+            talkable = true;
+            db = nullptr;
+            removeChild(db);
         }
     }
-    else{
-        talkable = false;
-    }
-
     updateBody(delta);
 }
 

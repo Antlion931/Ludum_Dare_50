@@ -29,7 +29,7 @@ void Player::onUpdate(const sf::Time &delta)
         currentTime += delta.asSeconds();
         if(currentTime > punchTime)
         {
-            colliders.at(1)->setName("talk-box");
+            colliders.at(1)->setName("idle-box");
             currentTime -= punchTime;
             animation.changeAnimation(IDLE);
         }
@@ -42,7 +42,9 @@ void Player::onUpdate(const sf::Time &delta)
         updateVelocty(delta);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
             colliders.at(1)->setName("talk-box");
-        };
+        }else{
+            colliders.at(1)->setName("idle-box");
+        }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
