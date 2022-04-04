@@ -11,8 +11,8 @@ class NPCCreator
 {
 public:
     NPCCreator(std::shared_ptr<CollisionLayer>& _collisionLayer, std::vector<std::shared_ptr<Node>>& objectVector, std::shared_ptr<CollisionLayer>& _interactionLayer);
-    void makeNPC(std::string NPCName, SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size);
-    std::vector<std::shared_ptr<NPC>> NPCs;
+    NPC& makeNPC(std::string NPCName, SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size);
+    //std::vector<std::shared_ptr<NPC>> NPCs;
 
 private:
     std::shared_ptr<CollisionLayer>& collisionLayer;

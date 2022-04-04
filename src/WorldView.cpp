@@ -31,6 +31,7 @@ soundSystem(_soundSystem)
     NPCcreator.makeNPC("Princess", soundSystem, {1400,400}, {100,100});
     NPCcreator.makeNPC("Queen", soundSystem, {1500,400}, {100,100});
     NPCcreator.makeNPC("Thief", soundSystem, {1600,400}, {100,100});
+    NPCcreator.makeNPC("Tree", soundSystem, {1600,400}, {100,100});
 
     chunkChange(currentCenterCoords);
 }
@@ -66,10 +67,12 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
-                auto t = entityPrefabs.getStaticObject("tree");
-                allObjects.push_back(t);
+                //auto tree = NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100});
+                /*auto t = entityPrefabs.getStaticObject("tree");
+                allObjects.push_back(t);*/
                 sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
-                t->translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
+                //tree->setVelocity({0,0});
+                //tree.translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
         }
     }
