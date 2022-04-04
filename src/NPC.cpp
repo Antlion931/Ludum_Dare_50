@@ -1,5 +1,17 @@
 #include "NPC.hpp"
 #include <cmath>
+#include <random>
+
+std::vector<std::string> const RANDOM_QUOTES = {
+    "Hey",
+    "Hello",
+    "Bonjour",
+    "Hi",
+    "M'lady",
+    "42", 
+    "NULL REFERENCE",
+    "SEGFAULT"   
+};
 
 NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime)
@@ -54,7 +66,7 @@ void NPC::onUpdate(const sf::Time &delta)
     }
     auto interaction_result = scanCollisions("INTERACTION");
     if(!dead){
-        if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
+        if (interaction_result.collider.contains("KILL"))
         {   
             if(!dead){
                 qC->sendPulse(QuestCreator::PulseType::KILL,getName());
@@ -62,15 +74,18 @@ void NPC::onUpdate(const sf::Time &delta)
                 kill();
             }
         }
-        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "TALK"){
+        else if(interaction_result.collider.contains("TALK")){
             if(talkable){
                 qC->sendPulse(QuestCreator::PulseType::TALK,getName());
                 talkable = false;
-                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Hey",font,24)));
+                auto randomizer = std::random_device();
+                auto dist = std::uniform_int_distribution(0, (int)(RANDOM_QUOTES.size() - 1));
+
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text(RANDOM_QUOTES[dist(randomizer)],font,15)));
                 addChild(db);
             }
         }
-        else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "100-unit"){
+        else if(interaction_result.collider.contains("100-unit")){
             qC->sendPulse(QuestCreator::PulseType::HUG,getName());
         }
         if(db!=nullptr && db->isHidden()){

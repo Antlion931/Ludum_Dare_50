@@ -20,7 +20,7 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     loadedObjects->addChild(player);
     addChild(loadedObjects);
 
-    player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0, "COLLISION");
+    player->addCollider(static_layer, static_layer, {0.0, 15.0}, 20.0, "COLLISION");
     player->addCollider(interaction_layer, nullptr, {30.0, 0.0}, {40.0, 70.0}, "KILL");
     player->addCollider(interaction_layer, nullptr, {30.0, 0.0}, {140.0, 100.0}, "TALK");
     player->addCollider(interaction_layer, nullptr, {0.0, 0.0}, {55.0, 55.0}, "100-unit");
@@ -110,6 +110,14 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             sf::Vector2i intPosition;
             intPosition.x = int(topleft.x * (1.0 - point.x) + bottomright.x * point.x);
             intPosition.y = int(topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
+
+            if (topleft.x == bottomright.x)
+                intPosition.x = topleft.x;
+            if (topleft.y == bottomright.y)
+                intPosition.y = topleft.y;
+
+            if(intPosition.x > bottomright.x)
+                std::cout << "AA";
 
             sf::Vector2f transformedPosition;
             transformedPosition.x = intPosition.x * ScaledTileSize.x + chunk_pos.x;
