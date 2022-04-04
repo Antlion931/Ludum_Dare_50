@@ -130,16 +130,18 @@ int main()
     std::shared_ptr<ButtonsContainer> settingsButtons;
     levelSetUpper.setUp(settingsLevel, settingsLevelGUI, settingsButtons, SETTINGS);
 
-    settingsButtons->makeColoredButton("1280 x 720", 60, { 100,200 }, { 450,120 });
-    settingsButtons->makeColoredButton("1336 x 768", 60, { 100,400 }, { 450,120 });
-    settingsButtons->makeColoredButton("1600 x 900", 60, { 720,200 }, { 450,120 });
-    settingsButtons->makeColoredButton("1920 x 1080", 60, { 720,400 }, { 450,120 });
-    settingsButtons->makeColoredButton("GO BACK", 60, { 440,590 }, { 400,100 });
+    settingsButtons->makeColoredButton("1280 x 720", 60, { 100,150 }, { 450,120 });
+    settingsButtons->makeColoredButton("1336 x 768", 60, { 100,350 }, { 450,120 });
+    settingsButtons->makeColoredButton("1600 x 900", 60, { 100,550 }, { 450,120 });
+    settingsButtons->makeColoredButton("1920 x 1080", 60, { 720,150 }, { 450,120 });
+    settingsButtons->makeColoredButton("2048 x 1152", 60, { 720,350 }, { 450,120 });
+    settingsButtons->makeColoredButton("3072 x 1728", 60, { 720,550 }, { 450,120 });
+    settingsButtons->makeColoredButton("GO BACK", 30, { 1000,30 }, { 180,50 });
 
-    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(1000.0f, 50.0f, sf::Color(242,196,22), sf::Color(1,2,4), 20, sf::Color(1,2,4)));
+    std::shared_ptr<MouseChangeableProgressbar> volumeBar = std::make_shared<MouseChangeableProgressbar>(MouseChangeableProgressbar(800.0f, 50.0f, sf::Color(242,196,22), sf::Color(1,2,4), 20, sf::Color(1,2,4)));
     volumeBar->setName("volume bar");
     volumeBar->setProgress(0.2f);
-    volumeBar->setPosition({140, 70});
+    volumeBar->setPosition({100, 30});
     settingsLevelGUI->addChild(volumeBar);
 
     GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
@@ -228,6 +230,20 @@ int main()
             resolution.changeResolution(Resolution::resolution::_1920x1080, window);
             root->resize(resolution);
             settingsButtons->get("1920 x 1080")->printDebug();
+        }
+
+        if(settingsButtons->get("2048 x 1152")->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_2048x1152, window);
+            root->resize(resolution);
+            settingsButtons->get("2048 x 1152")->printDebug();
+        }
+
+        if(settingsButtons->get("3072 x 1728")->isPressed(window))
+        {
+            resolution.changeResolution(Resolution::resolution::_3072x1728, window);
+            root->resize(resolution);
+            settingsButtons->get("3072 x 1728")->printDebug();
         }
 
         if(settingsButtons->get("GO BACK")->isPressed(window))
