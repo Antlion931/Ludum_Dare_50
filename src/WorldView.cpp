@@ -5,9 +5,11 @@
 #include <memory>
 
 WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
-: player(_player), tileSet(_tileSet), NPCcreator(static_layer, allObjects, interaction_layer),
-soundSystem(_soundSystem)
+: player(_player), tileSet(_tileSet), soundSystem(_soundSystem)
 {
+    allObjects = std::make_shared<std::vector<std::shared_ptr<Node>>>();
+
+    NPCcreator = std::make_shared<NPCCreator>(NPCCreator(static_layer, allObjects, interaction_layer));
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
     ChunkContainer->setScale({0.5f,0.5f});
@@ -20,20 +22,20 @@ soundSystem(_soundSystem)
     player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
     player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
 
-    NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Archer", soundSystem, {500,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Blacksmith", soundSystem, {600,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Butcher", soundSystem, {700,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Female", soundSystem, {800,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Herald", soundSystem, {900,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("King", soundSystem, {1000,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Mage", soundSystem, {1100,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Male", soundSystem, {1200,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Merchant", soundSystem, {1300,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Princess", soundSystem, {1400,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Queen", soundSystem, {1500,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Thief", soundSystem, {1600,400}, {100,100}, STANDAR_NPC);
-    NPCcreator.makeNPC("Tree", soundSystem, {1600,400}, {100,200}, NON_MOVE_NPC);
+    NPCcreator->makeNPC("Alchemist", soundSystem, {400,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Archer", soundSystem, {500,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Blacksmith", soundSystem, {600,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Butcher", soundSystem, {700,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Female", soundSystem, {800,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Herald", soundSystem, {900,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("King", soundSystem, {1000,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Mage", soundSystem, {1100,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Male", soundSystem, {1200,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Merchant", soundSystem, {1300,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Princess", soundSystem, {1400,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Queen", soundSystem, {1500,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Thief", soundSystem, {1600,400}, {100,100}, STANDAR_NPC);
+    NPCcreator->makeNPC("Tree", soundSystem, {1600,400}, {100,200}, NON_MOVE_NPC);
 
     chunkChange(currentCenterCoords);
 }
@@ -71,7 +73,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             {
                 std::cout << "Added a new tree\n";
                 sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
-                std::shared_ptr<NPC> tree = NPCcreator.makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
                 chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {100,100}, NON_MOVE_NPC);
                 /*auto t = entityPrefabs.getStaticObject("tree");
                 allObjects.push_back(t);*/
@@ -121,7 +123,7 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
     //std::cout << "Current Chunk Coords: (" << currentCenterCoords.x << ", " << currentCenterCoords.y << ")\n";
     //std::cout << "Chunk size: (" << ScaledWorldChunkSize.x << ", " << ScaledWorldChunkSize.y << ")\n";
     //std::cout << "Center of current chink: (" << centerOfCurrentChunk.x << ", " << centerOfCurrentChunk.y << ")\n";
-    for(auto object : allObjects)
+    for(auto object : *allObjects.get())
     {
         sf::Vector2f objectCoords = object->getGlobalTransform().getPosition();
         // we check whether the object is in the worldview 

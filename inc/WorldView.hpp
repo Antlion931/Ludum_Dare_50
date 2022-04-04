@@ -30,7 +30,7 @@ private:
 
     std::shared_ptr<CollisionLayer> static_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
-    NPCCreator NPCcreator;
+    std::shared_ptr<NPCCreator> NPCcreator;
 
     std::shared_ptr<Player> player;
     sf::Vector2i currentCenterCoords = {0,0};
@@ -46,7 +46,7 @@ private:
 
 public:
     std::shared_ptr<YSort> loadedObjects;
-    std::vector<std::shared_ptr<Node>> allObjects;
+    std::shared_ptr<std::vector<std::shared_ptr<Node>>> allObjects;
 
     SoundSystem& soundSystem;
 
