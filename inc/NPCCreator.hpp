@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#define STANDARD_NPC 100,{0.1,0.2,0.08,1,0.0f},{5,9,13,14,14}
+#define STANDARD_NPC 100,{0.2,0.2,0.08,1,0.0f},{5,9,13,14,14}
 #define NON_MOVE_NPC 0,{10,10,10,10,10},{1,1,1,1,1}
 
 #include "Collision.hpp"

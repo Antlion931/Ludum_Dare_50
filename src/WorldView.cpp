@@ -39,12 +39,14 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
     *loader >> spawning_area;
 
     float minDist = 1.0;
-    if(ObjectType == "tree") { minDist = 1.0; }
-    else if(ObjectType == "building") { minDist = 2.0; }
-    else if(ObjectType == "shop") { minDist = 1.2; }
-    else if(ObjectType == "umbrella") { minDist = 1.5; }
-    else if(ObjectType == "NPC") { minDist = 1.5; }
-    else if(ObjectType == "bench") { minDist = 1.0; }
+    if(ObjectType == "tree") { minDist = 3.0; }
+    else if(ObjectType == "building") { minDist = 12.0; }
+    else if(ObjectType == "shop") { minDist = 12.0; }
+    else if(ObjectType == "umbrella") { minDist = 2; }
+    else if(ObjectType == "NPC") { minDist = 2; }
+    else if(ObjectType == "bench") { minDist = 2; }
+    else if(ObjectType == "lamp_left"){minDist = 7;}
+    else if(ObjectType == "lamp_right"){minDist = 7;}
 
     if(spawning_area == "box")
     {
@@ -94,8 +96,8 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             else if(ObjectType == "building")
             {
                 std::shared_ptr<NPC> building = NPCcreator->makeNPC("Building", soundSystem, transformedPosition, {180,240}, NON_MOVE_NPC);
-                building->addCollider(static_layer, nullptr, {0.f, -80}, {180.f,212.f}, "COLLISION");
-                building->addCollider(nullptr, interaction_layer, {0.f, -80}, {180.f,212.f}, "INTERACTION");
+                building->addCollider(static_layer, nullptr, {0.f, -75}, {180.f,230.f}, "COLLISION");
+                building->addCollider(nullptr, interaction_layer, {0.f, -75}, {180.f,230.f}, "INTERACTION");
                 building->offsetTexture({0.0, -80.0});
                 building->setScale(World_View_Scale);
             }
@@ -167,24 +169,24 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             else if(ObjectType == "lamp_left")
             {
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Lamp_Left", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
-                obiekt->addCollider(static_layer, nullptr, {-6.f, 10.f}, 5.0, "COLLISION");
-                obiekt->addCollider(nullptr, interaction_layer, {-6.f, 10.f}, 5.0, "INTERACTION");
+                obiekt->addCollider(static_layer, nullptr, {-2, 5}, 5.0, "COLLISION");
+                obiekt->addCollider(nullptr, interaction_layer, {-2, 5}, 5.0, "INTERACTION");
                 obiekt->offsetTexture({6.0, -10.0});
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "lamp_right")
             {
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Lamp_Right", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
-                obiekt->addCollider(static_layer, nullptr, {6.f, 10.f}, 5.0, "COLLISION");
-                obiekt->addCollider(nullptr, interaction_layer, {6.f, 10.f}, 5.0, "INTERACTION");
+                obiekt->addCollider(static_layer, nullptr, {13, 5}, 5.0, "COLLISION");
+                obiekt->addCollider(nullptr, interaction_layer, {13, 5}, 5.0, "INTERACTION");
                 obiekt->offsetTexture({6.0, -10.0});
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "shop")
             {
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Shop", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
-                obiekt->addCollider(static_layer, nullptr, {0.f, 0.f}, {140.0, 100.0}, "COLLISION");
-                obiekt->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
+                obiekt->addCollider(static_layer, nullptr, {0.f, -38.f}, {140.0, 90.0}, "COLLISION");
+                obiekt->addCollider(nullptr, interaction_layer, {0.f, -38.f}, {140.0, 90.0}, "INTERACTION");
                 obiekt->offsetTexture({0.0, -40.0});
                 obiekt->setScale(World_View_Scale);
             }
