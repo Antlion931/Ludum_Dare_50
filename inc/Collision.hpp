@@ -57,7 +57,7 @@ class Collidable : public Node
         void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, float _radius, std::string name);
         void addCollider(std::shared_ptr<CollisionLayer> layer, sf::Vector2f _position, sf::Vector2f _size, std::string name);
 
-    private:
+    //private:
         std::vector<std::shared_ptr<CollisionLayer>> scan_layers;
         std::vector<std::shared_ptr<Collider>> colliders;
 };

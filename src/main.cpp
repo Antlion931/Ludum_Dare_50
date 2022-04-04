@@ -86,11 +86,8 @@ int main()
     std::shared_ptr<ButtonsContainer> testButtons;
     levelSetUpper.setUp(testLevel, testYsort, testLevelGUI, testButtons, TEST_PLAY); 
 
-<<<<<<< HEAD
     testButtons->makeColoredButton("KILL", 90, { 800,50 }, { 300,100 });
 
-=======
->>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
     std::shared_ptr<CollisionLayer> test_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
     std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(test_layer, testYsort, interaction_layer));
@@ -115,14 +112,11 @@ int main()
     testLevelGUI->addChild(testTextBox);
 
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
-<<<<<<< HEAD
-=======
     
     std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
     
     player->addCollider(test_layer, {0.0, 31.0}, 20.0);
->>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
-    player->addCollider(interaction_layer, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
+    player->addCollider(interaction_layer, {50.0, 0.0}, {30.0, 50.0},"idle-box");
     testYsort->addChild(player);
 
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
@@ -153,8 +147,9 @@ int main()
     obstacle_3->setTranslation({700, 500});
     obstacle_3->scale({2.0,2.0});
     testYsort->addChild(obstacle_3);
-
+    
     int index = 0;
+    
  
     //===================================================================================================SETTINGS
     std::shared_ptr<Node> settingsLevel;
@@ -185,7 +180,9 @@ int main()
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
-    sf::Clock deltaClock;
+    sf::Clock deltaClock;        
+    std::shared_ptr<DialogueBox> db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Kurwa moje pole",font,24)));
+    player->addChild(db);
     while (window.isOpen())
     {
         sf::Event event;
@@ -217,6 +214,7 @@ int main()
                 break;
             }
         }
+
 
         if(settingsButtons->get("1280 x 720")->isPressed(window))
         {
@@ -268,7 +266,6 @@ int main()
             GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
         }
 
-<<<<<<< HEAD
         if(testButtons->get("KILL")->isPressed(window))
         {
             if(index < test_NPCCreator->NPCs.size())
@@ -278,10 +275,7 @@ int main()
             }
         }
 
-        GLOBAL_SOUND_SYSTEM.update();
         questCreator->update();
-=======
->>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
         if(volumeBar->isVisible())
         {
             volumeBar->update(window);
@@ -290,10 +284,7 @@ int main()
         }
 
         GLOBAL_SOUND.update();
-<<<<<<< HEAD
-=======
         questCreator->update();
->>>>>>> 7b31bafa7e4fb3bebb831486478570c0ccddf180
 
         sf::Time delta = deltaClock.restart();
         window.clear();

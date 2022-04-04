@@ -6,11 +6,10 @@
 
 
 
-DialogueBox::DialogueBox(sf::Text _content, std::shared_ptr<Node> _target):TextButton(
-    {_target->getGlobalTransform().getPosition().x,_target->getGlobalTransform().getPosition().y-60.f},
+DialogueBox::DialogueBox(sf::Text _content):TextButton(
+    {0.f,-80.f},
     {0.f,0.f},
     _content){
-    target = _target;
     message = text.getString();
     text.setString("");
     text.setCharacterSize(16);
@@ -18,12 +17,13 @@ DialogueBox::DialogueBox(sf::Text _content, std::shared_ptr<Node> _target):TextB
 
 void DialogueBox::adjustText()
 {
-    float x = 0;
-    float y = 0;
-    sf::Vector2f targetV = target->getGlobalTransform().getPosition();
-    x = targetV.x - text.getGlobalBounds().width/2-60.f;
-    y = targetV.y - 90.f;
-    text.setPosition(x,y);
+    float x = text.getLocalBounds().width/2;
+    //float y = 0;
+    //sf::Vector2f targetV = target->getGlobalTransform().getPosition();
+    //x = targetV.x - text.getGlobalBounds().width/2-60.f;
+    //y = targetV.y - 90.f;
+    //text.setPosition(x,y);
+    text.setPosition(-x,0.f);
 }
 
 void DialogueBox::onUpdate(const sf::Time& delta){

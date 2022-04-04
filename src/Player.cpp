@@ -8,7 +8,10 @@
 void Player::onUpdate(const sf::Time &delta)
 {
     velocity = {0,0};
-
+    if(isFaceingRight)
+            colliders.at(1)->setTranslation({30.f,0.f});
+        else
+            colliders.at(1)->setTranslation({-30.f,0.f});
     if(animation.getCurrentAnimation() == DYING)
     {
         currentTime += delta.asSeconds();
@@ -21,11 +24,12 @@ void Player::onUpdate(const sf::Time &delta)
         }
     }
     else if(animation.getCurrentAnimation() == PUNCHING)
-    {
+    {   
+        colliders.at(1)->setName("kill-box");
         currentTime += delta.asSeconds();
-
         if(currentTime > punchTime)
         {
+            colliders.at(1)->setName("talk-box");
             currentTime -= punchTime;
             animation.changeAnimation(IDLE);
         }
@@ -36,6 +40,9 @@ void Player::onUpdate(const sf::Time &delta)
     else if( animation.getCurrentAnimation() != DEAD)
     {
         updateVelocty(delta);
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+            colliders.at(1)->setName("talk-box");
+        };
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {

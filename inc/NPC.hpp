@@ -8,6 +8,7 @@ class NPC : public Character
 private:
     float walkTime;
     float waitTime;
+    bool talkable = false;
     std::shared_ptr<CollisionLayer> player_interaction_layer;
 
     void onUpdate(const sf::Time &delta) override;
