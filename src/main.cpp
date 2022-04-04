@@ -36,6 +36,7 @@
 #include "EntityPrefabs.hpp"
 #include "QuestCreator.hpp"
 #include "TextBox.hpp"
+#include "Cutescene.hpp"
 
 int main()
 {
@@ -106,8 +107,12 @@ int main()
     testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
-    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
-    testLevelGUI->addChild(testTextBox);
+    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testQuestBox);
+
+    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testTimeBox);
+
     std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
     testLevelGUI->addChild(testScoreBox);
 
@@ -146,7 +151,21 @@ int main()
     std::shared_ptr<ButtonsContainer> cutsceneButtons;
     levelSetUpper.setUp(cutsceneLevel, cutsceneLevelGUI, cutsceneButtons, CUTSCENE);
 
-    TextureLoader cutsceneLoader("./res/cutscene");
+    sf::Texture texture1;
+    texture1.loadFromFile("./res/cutescene/1.png");
+
+    sf::Texture texture2;
+    texture2.loadFromFile("./res/cutescene/2.png");
+
+    sf::Texture texture3;
+    texture3.loadFromFile("./res/cutescene/3.png");
+    
+    std::shared_ptr<Cutescene> cutescene = std::make_shared<Cutescene>(Cutescene({0,0}, {1280, 720}, &texture1, &texture2, &texture3));
+    cutescene->setName("cute scene");
+    cutsceneLevelGUI->addChild(cutescene);
+
+    cutsceneLevelGUI->removeChild(cutsceneButtons);
+    cutsceneLevelGUI->addChild(cutsceneButtons);
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
@@ -219,6 +238,7 @@ int main()
         if(mainMenuButtons->get("PLAY")->isPressed(window))
         {
             root->setLevel(CUTSCENE);
+            GLOBAL_SOUND.playSound("notification.wav");
         }
 
         if(mainMenuButtons->get("SETTINGS")->isPressed(window))
@@ -263,29 +283,19 @@ int main()
             GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
         }
 
+        if(cutescene->isVisible())
+        {
+            if(cutescene->isCutesceneEnded())
+            {
+                root->setLevel(TEST_PLAY);
+            }
+        }
+
         GLOBAL_SOUND.update();
         questCreator->update();
 
         sf::Time delta = deltaClock.restart();
         window.clear(sf::Color(242,196,22));
-
-        // if(testTextBox->isVisible())
-        // {
-        //     testTextBox->setString(std::to_string(questCreator->activeQuests.back().returnRemainingTime().asSeconds())); 
-
-        //     if(questCreator->activeQuests.back().Done)
-        //     {
-        //         GLOBAL_MUSIC.stopMusic();
-        //         GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
-        //         questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(4).get(),kill));
-        //         std::cout << "Nowy quest" << std::endl;
-        //     }
-        //     else if(questCreator->failedQuests.size()>0)
-        //     {
-        //         GLOBAL_MUSIC.stopMusic();
-        //         player->kill();
-        //     }
-        // }
 
         if(testScoreBox->isVisible())
         {
