@@ -6,6 +6,7 @@
 #include "StaticNode.hpp"
 #include "EntityPrefabs.hpp"
 #include "ChunkTemplateLoader.hpp"
+#include "NPCCreator.hpp"
 #include <unordered_map>
 #include <map>
 
@@ -43,7 +44,7 @@ private:
     void allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo);
     void deallocateChunk(sf::Vector2i chunkCoords);
 
-    void loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos);
+    void loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos);
 
 public:
     std::shared_ptr<YSort> loadedObjects;

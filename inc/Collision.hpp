@@ -28,10 +28,10 @@ class Collider : public Node
         Collider(sf::Vector2f _position, sf::Vector2f _size);
 
     private: 
-        sf::Vector2f CircleCircle(Collider const &other);
-        sf::Vector2f CircleRectangle(Collider const &other);
-        sf::Vector2f RectangleCircle(Collider const &other);
-        sf::Vector2f RectangleRectangle(Collider const &other);
+        sf::Vector2f CircleCircle(Collider const &other) const;
+        sf::Vector2f CircleRectangle(Collider const &other) const;
+        sf::Vector2f RectangleCircle(Collider const &other) const;
+        sf::Vector2f RectangleRectangle(Collider const &other) const;
         void onDrawDebug(sf::RenderTarget &target) const override;
 };
 

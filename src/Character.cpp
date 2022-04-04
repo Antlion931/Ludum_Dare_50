@@ -7,6 +7,7 @@
 Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
 soundSystem(_soundSystem), speed(_speed), body(size), animation(_animation), dyingTime(_dyingTime)
 {
+    body.setSize({_animation.getIntRect().width, _animation.getIntRect().height});
     setTranslation(position);
     body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
     currentTime = 0.0f;

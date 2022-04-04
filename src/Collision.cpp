@@ -36,7 +36,7 @@ sf::Vector2f Collider::checkCollision(Collider const &other)
     return {0, 0};
 }
 
-sf::Vector2f Collider::CircleCircle(Collider const &other)
+sf::Vector2f Collider::CircleCircle(Collider const &other) const
 {
     sf::Vector2f s_center = getGlobalTransform().getPosition();
     sf::Vector2f o_center = other.getGlobalTransform().getPosition();
@@ -53,7 +53,7 @@ sf::Vector2f Collider::CircleCircle(Collider const &other)
     }
 }
 
-sf::Vector2f Collider::CircleRectangle(Collider const &other)
+sf::Vector2f Collider::CircleRectangle(Collider const &other) const 
 {
     sf::Vector2f s_center = getGlobalTransform().getPosition();
     float s_radius =  shape_info.radius * getGlobalTransform().getScale().x;
@@ -86,13 +86,29 @@ sf::Vector2f Collider::CircleRectangle(Collider const &other)
         return {0,0};
     }
 }
-sf::Vector2f Collider::RectangleCircle(Collider const &other)
+sf::Vector2f Collider::RectangleCircle(Collider const &other) const
 {
-    return {0,0};
+    return -1.0f * other.CircleRectangle(*this);
 }
-sf::Vector2f Collider::RectangleRectangle(Collider const &other)
+sf::Vector2f Collider::RectangleRectangle(Collider const &other) const
 {
-    return {0,0};
+    sf::Vector2f s_center = getGlobalTransform().getPosition();
+    float s_x_left = s_center.x - shape_info.rectangle.x/2 * getGlobalTransform().getScale().x;
+    float s_x_right = s_center.x + shape_info.rectangle.x/2 * getGlobalTransform().getScale().x;
+    float s_y_bottom = s_center.y + shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
+    float s_y_top = s_center.y - shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
+    
+    sf::Vector2f o_center = other.getGlobalTransform().getPosition();
+    float o_x_left = o_center.x - other.shape_info.rectangle.x/2 * getGlobalTransform().getScale().x;
+    float o_x_right = o_center.x + other.shape_info.rectangle.x/2 * getGlobalTransform().getScale().x;
+    float o_y_bottom = o_center.y + other.shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
+    float o_y_top = o_center.y - other.shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
+
+    if(s_x_left > o_x_right || s_x_right < o_x_left || s_y_bottom < o_y_top || s_y_top > o_y_bottom)
+        return {0,0};
+    
+    return {1,1};
+
 }
 void Collider::onDrawDebug(sf::RenderTarget &target) const
 {
