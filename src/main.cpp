@@ -205,6 +205,18 @@ int main()
                 {
                     root->printTree();
                 }
+                else if (event.key.code == sf::Keyboard::Escape)
+                {
+                    player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+                    player->scale({1.6, 1.6});
+                    cameraController = std::make_shared<CameraController>(CameraController(player));
+                    cameraController->setName("Player's camera control");
+                    player->addChild(cameraController);
+    
+                    testLevel->removeChild(worldView);
+                    worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
+                    testLevel->addChild(worldView);
+                }
                 break;
             }
         }
