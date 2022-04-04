@@ -15,6 +15,7 @@ public:
     void setDyingSoundName(std::string _dyingSoundName);
 
     void kill();
+    bool isDead();
    
 protected:
 
