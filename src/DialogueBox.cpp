@@ -25,7 +25,7 @@ DialogueBox::DialogueBox(sf::Text _content):TextButton(
 
 void DialogueBox::adjustText()
 {
-    float x = text.getLocalBounds().width/2;
+    float x = text.getLocalBounds().width/8;
     //float y = 0;
     //sf::Vector2f targetV = target->getGlobalTransform().getPosition();
     //x = targetV.x - text.getGlobalBounds().width/2-60.f;
