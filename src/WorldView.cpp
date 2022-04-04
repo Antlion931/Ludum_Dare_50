@@ -3,23 +3,19 @@
 #include <memory>
 
 WorldView::WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
-: player(_player), currentCenterCoords({100,100}), tileSet(_tileSet)
+: player(_player), tileSet(_tileSet)
 {
+    ChunkContainer = std::make_shared<Node>(Node());
+    addChild(ChunkContainer);
+    ChunkContainer->setScale({2.5,2.5});
+
     Objects = std::make_shared<YSort>(YSort());
     Objects->addChild(player);
-    //allocateChunk({-1,-1}, currentCenterCoords);
-    //allocateChunk({ 0,-1}, currentCenterCoords);
-    //allocateChunk({ 1,-1}, currentCenterCoords);
-    //allocateChunk({-1, 0}, currentCenterCoords);
-    //allocateChunk({ 0, 0}, currentCenterCoords);
-    //allocateChunk({ 1, 0}, currentCenterCoords);
-    //allocateChunk({-1, 1}, currentCenterCoords);
-    //allocateChunk({ 0, 1}, currentCenterCoords);
-    //allocateChunk({ 1, 1}, currentCenterCoords);
+    addChild(Objects);
 }
 
 
-void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader)
+void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos)
 {
     std::cout << "test\n";
     // format:
@@ -50,26 +46,13 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader)
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
-                Objects->addChild(entityPrefabs.getStaticObject("tree"));
+                auto t = entityPrefabs.getStaticObject("tree");
+                Objects->addChild(t);
+                sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
+                t->translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
         }
     }
-}
-
-
-void WorldView::onDraw(sf::RenderTarget &target)
-{
-    // first we draw the chunks
-    for(int i = -1; i <= 1; i++)
-    {
-        for(int j = -1; j <= 1; j++)
-        {
-            sf::Vector2i offsetChunk = {currentCenterCoords.x - i,currentCenterCoords.y - j};
-            chunkMap[offsetChunk].draw(target);
-        }
-    }
-
-    Objects->draw(target);
 }
 
 void WorldView::chunkChange(sf::Vector2i newCenterCoords)
@@ -85,17 +68,15 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
     currentCenterCoords = newCenterCoords;
 }
 
-
 void WorldView::onUpdate(const sf::Time& delta)
 {
-    Objects->update(delta);
     sf::Vector2f playerCoords = player->getGlobalTransform().getPosition();
-    sf::Vector2i WorldChunkSize = Chunk().getWorldChunkSize();
+    ScaledWorldChunkSize = sf::Vector2f(WorldChunkSize) * ChunkContainer->getGlobalTransform().getScale().x;
 
     // find which chunk the player is currently in
     sf::Vector2i newCenterCoords;
-    newCenterCoords.x = floor(playerCoords.x / WorldChunkSize.x);
-    newCenterCoords.y = floor(playerCoords.y / WorldChunkSize.y);
+    newCenterCoords.x = floor(playerCoords.x / ScaledWorldChunkSize.x);
+    newCenterCoords.y = floor(playerCoords.y / ScaledWorldChunkSize.y);
 
     if( currentCenterCoords != newCenterCoords )
         chunkChange(newCenterCoords);
@@ -103,37 +84,31 @@ void WorldView::onUpdate(const sf::Time& delta)
     Objects->update(delta);
 }
 
-
-void WorldView::onTransform()
-{
-    Objects->updateTransform(getGlobalTransform());
-}
-
-
 void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
 {
     sf::Vector2i relativeCoords = {relativeTo.x - chunkCoords.x, relativeTo.y - chunkCoords.y};
-    if(chunkMap.count(relativeCoords))
+    if(chunkMap.contains(relativeCoords))
     {
-        std::cout << "Found the chunk at: " << relativeCoords.x << ", " << relativeCoords.y << ")\n";
+        //std::cout << "Found the chunk at: " << relativeCoords.x << ", " << relativeCoords.y << ")\n";
         return;
     }
-    Chunk newChunk = Chunk();
-    std::shared_ptr<std::ifstream> loader = newChunk.loadChunk(tileSet);
+    std::shared_ptr<Chunk> chunk = std::make_shared<Chunk>(Chunk());
+    std::shared_ptr<std::ifstream> loader = chunk->loadChunk(tileSet);
 
-    while(loader->good())
-    {
-        loadStaticObject(loader);
-    }
+    // while(loader->good())
+    // {
+    // }
 
+    // get global coords of the chunk
+    sf::Vector2f trans = {relativeCoords.x * WorldChunkSize.x, relativeCoords.y * WorldChunkSize.y};
+    chunk->translate(trans);
+         
+    loadStaticObject(loader, trans * ChunkContainer->getGlobalTransform().getScale().x);
     loader->close();
-    // get relative coords of the chunk
-    sf::Vector2i WorldChunkSize = newChunk.getWorldChunkSize();
-    newChunk.translate({relativeCoords.x * WorldChunkSize.x, relativeCoords.y * WorldChunkSize.y});
 
-    std::shared_ptr<Chunk> newChunkPtr = std::make_shared<Chunk>(newChunk);
 
-    chunkMap.insert({relativeCoords, newChunk});
+    ChunkContainer->addChild(chunk);
+    chunkMap.insert({relativeCoords, chunk});
 }
 
 
