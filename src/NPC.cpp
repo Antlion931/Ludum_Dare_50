@@ -1,10 +1,9 @@
 #include "NPC.hpp"
 #include <cmath>
 
-NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, std::shared_ptr<CollisionLayer> _player_interaction_layer) : 
+NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime)
 {
-    player_interaction_layer = _player_interaction_layer;
     randomVelocityAndTimes();
     animation.changeAnimation(RUN);
 }
@@ -53,7 +52,7 @@ void NPC::onUpdate(const sf::Time &delta)
         }
     }
     
-    auto interaction_result = scanCollisions(0, player_interaction_layer);
+    auto interaction_result = scanCollisions(1);
     if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "kill-box")
     {
         kill();
