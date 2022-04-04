@@ -52,7 +52,6 @@ void NPC::onUpdate(const sf::Time &delta)
             animation.changeAnimation(DEAD);
         }
     }
-    
     auto interaction_result = scanCollisions("INTERACTION");
     if(!dead){
         if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
@@ -73,7 +72,7 @@ void NPC::onUpdate(const sf::Time &delta)
             }
         }
         else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "100-unit"){
-            //std::cout<<getName()<<std::endl;
+            std::cout<<getName()<<std::endl;
             qC->sendPulse(QuestCreator::PulseType::HUG,getName());
         }
         if(db!=nullptr && db->isHidden()){

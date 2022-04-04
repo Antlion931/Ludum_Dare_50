@@ -71,7 +71,9 @@ void QuestCreator::update(){
             activeQuests.erase(activeQuests.begin()+i);
             i=i-1;
         }
-    }
+    }    
+    if(lastPulse.pulseType!=CLEAR)
+        std::cout<<lastPulse.pulseType<<" : "<<lastPulse.pulseEmitter<<std::endl;
     sendPulse(CLEAR,"");
 };
 void QuestCreator::sendPulse(PulseType _pulse, std::string _name){

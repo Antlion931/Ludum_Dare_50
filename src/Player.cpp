@@ -45,20 +45,24 @@ void Player::onUpdate(const sf::Time &delta)
     {
         updateVelocty(delta);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
+            //colliders["100-unit"]->setActive(false);
             colliders["TALK"]->setActive(true);
         }else{
+            //colliders["100-unit"]->setActive(true);
             colliders["TALK"]->setActive(false);
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            colliders["KILL"]->setActive(1);
+            //colliders["100-unit"]->setActive(false);
+            colliders["KILL"]->setActive(true);
             animation.changeAnimation(PUNCHING);
             soundSystem.playSound(punchSoundDirectory);
         }
         else 
         {
-            colliders["KILL"]->setActive(0);
+            colliders["KILL"]->setActive(false);
+            //colliders["100-unit"]->setActive(true);
             if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
             {
                 animation.changeAnimation(RUN);
