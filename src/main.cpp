@@ -103,7 +103,7 @@ int main()
     worldView->setName("world view");
     testLevel->addChild(worldView);
 
-    testButtons->makeColoredButton("TRY AGAIN", 90, {390, 600}, {500, 100});
+    testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
     // std::shared_ptr<CollisionLayer> static_layer = std::make_shared<CollisionLayer>(CollisionLayer());
@@ -126,9 +126,13 @@ int main()
     // player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
     // player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
 
-    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
-    testLevelGUI->addChild(testTextBox);
-    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
+    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({1000, 20}, {200, 60}, sf::Text("Place holder", font, 40)));
+    testLevelGUI->addChild(testTimeBox);
+
+    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 40)));
+    testLevelGUI->addChild(testQuestBox);
+
+    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({390, 435}, {500, 100}, sf::Text("Place holder", font, 60)));
     testLevelGUI->addChild(testScoreBox);
 
     std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
@@ -182,7 +186,7 @@ int main()
     settingsLevelGUI->addChild(volumeBar);
 
     GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
-    GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 50.0f);
+    GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
 
     //========================================================================================GAME
     std::shared_ptr<Node> gameLevel;
@@ -302,7 +306,7 @@ int main()
         {
             volumeBar->update(window);
             GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
-            GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 50.0f);
+            GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
         }
 
         GLOBAL_SOUND.update();

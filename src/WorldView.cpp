@@ -16,7 +16,7 @@ soundSystem(_soundSystem)
 
 
     player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
-    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
+    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {30.0, 60.0}, "kill-box");
 
     NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100});
     NPCcreator.makeNPC("Archer", soundSystem, {500,400}, {100,100});
