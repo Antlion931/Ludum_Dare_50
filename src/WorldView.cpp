@@ -27,7 +27,7 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
 }
 
 
-void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos)
+void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos)
 {
     // format:
     // type spawning_area spawning_area_args amount_lower_bound amount_upper_bound
@@ -37,6 +37,16 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
     std::string ObjectType, spawning_area;
     *loader >> ObjectType;
     *loader >> spawning_area;
+
+    float minDist = 0;
+    if(ObjectType == "tree") { minDist = 20; }
+    else if(ObjectType == "building") { minDist = 200; }
+    else if(ObjectType == "bench_down") { minDist = 20; }
+    else if(ObjectType == "pot") { minDist = 10; }
+    else if(ObjectType == "hydrant") { minDist = 10; }
+    else if(ObjectType == "Umbrella") { minDist = 20; }
+    else if(ObjectType == "NPC") { minDist = 20; }
+
     if(spawning_area == "box")
     {
         sf::Vector2i topleft, bottomright;
@@ -51,15 +61,23 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
         std::random_device randomizer;
         std::uniform_int_distribution<int> randAmount(lowerBound, upperBound);
         int amountToSpawn = randAmount(randomizer);
-        for(int i = 0; i < amountToSpawn; i++)
+
+        std::vector<sf::Vector2f> spawningPoints;
+
+        sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
+
+        generatePoints(spawningPoints, amountToSpawn, topleft, bottomright, minDist);
+
+        for(auto &point : spawningPoints)
         {
-            sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
-            std::uniform_int_distribution<int> xDist(topleft.x, bottomright.x);
-            std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
+            sf::Vector2f transformedPosition = point;
+            transformedPosition.x = point.x * ScaledTileSize.x + chunk_pos.x;
+            transformedPosition.y = point.y * ScaledTileSize.y + chunk_pos.y;
+
+            std::cout << "Spawning at: (" << transformedPosition.x << ", " << transformedPosition.y << ")\n";
             if(ObjectType == "tree")
             {
-                std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {32,48}, NON_MOVE_NPC);
+                std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, transformedPosition, {32,48}, NON_MOVE_NPC);
                 tree->addCollider(static_layer, nullptr, {0.0, 0.0}, 10.0, "COLLISION");
                 tree->addCollider(nullptr, interaction_layer, {0.0, 0.0}, 10.0, "INTERACTION");
                 tree->setScale(World_View_Scale);
@@ -70,8 +88,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             }
             else if(ObjectType == "building")
             {
-                std::shared_ptr<NPC> building = NPCcreator->makeNPC("Building", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {180,240}, NON_MOVE_NPC);
+                std::shared_ptr<NPC> building = NPCcreator->makeNPC("Building", soundSystem, transformedPosition, {180,240}, NON_MOVE_NPC);
                 building->addCollider(static_layer, nullptr, {0.f, 5.f}, {180.f,212.f}, "COLLISION");
                 building->addCollider(nullptr, interaction_layer, {0.f, 5.f}, {180.f,212.f}, "INTERACTION");
                 //building->right
@@ -79,8 +96,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             }
             else if(ObjectType == "bench_down")
             {
-                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Bench_Down", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {40.0,20.0}, NON_MOVE_NPC);
+                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Bench_Down", soundSystem, transformedPosition, {40.0,20.0}, NON_MOVE_NPC);
                 bench->addCollider(static_layer, nullptr, {0.f, 5.f}, {40.0,20.0}, "COLLISION");
                 bench->addCollider(nullptr, interaction_layer, {0.f, 5.f}, {40.0,20.0}, "INTERACTION");
                 //building->right
@@ -88,8 +104,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             }
             else if(ObjectType == "pot")
             {
-                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Pot", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {45.0,30.0}, NON_MOVE_NPC);
+                std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Pot", soundSystem, transformedPosition, {45.0,30.0}, NON_MOVE_NPC);
                 bench->addCollider(static_layer, nullptr, {0.f, 5.f}, {35.0,20.0}, "COLLISION");
                 bench->addCollider(nullptr, interaction_layer, {0.f, 5.f}, {35.0,20.0}, "INTERACTION");
                 //building->right
@@ -97,8 +112,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             }
             else if(ObjectType == "hydrant")
             {
-                std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Hydrant", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {16.0,16.0}, NON_MOVE_NPC);
+                std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Hydrant", soundSystem, transformedPosition, {16.0,16.0}, NON_MOVE_NPC);
                 obiekt->addCollider(static_layer, nullptr, {0.f, 5.f}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
                 //building->right
@@ -106,8 +120,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             }
             else if(ObjectType == "umbrella")
             {
-                std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Umbrella", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {30.0,45.0}, NON_MOVE_NPC);
+                std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Umbrella", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
                 obiekt->addCollider(static_layer, nullptr, {0.f, 5.f}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
                 //building->right
@@ -117,8 +130,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             {
                 std::uniform_int_distribution<int> dist = std::uniform_int_distribution<int>(0, POSSIBLE_NPCS.size() - 1);
                 std::string random_npc = POSSIBLE_NPCS[dist(randomizer)];
-                std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC(random_npc, soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
-                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {50.0,50.0}, STANDARD_NPC);
+                std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC(random_npc, soundSystem, transformedPosition, {50.0,50.0}, STANDARD_NPC);
                 obiekt->addCollider(nullptr, static_layer, {0.f, 5.f}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
                 //building->right
@@ -233,7 +245,7 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
 
     while(loader->good())
     {
-        loadStaticObject(loader, trans * ChunkContainer->getGlobalTransform().getScale().x);
+        loadObject(loader, trans * ChunkContainer->getGlobalTransform().getScale().x);
     }
     loader->close();
 
