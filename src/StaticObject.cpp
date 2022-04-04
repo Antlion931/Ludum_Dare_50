@@ -16,7 +16,7 @@ StaticObject::StaticObject(std::shared_ptr<sf::Texture> texture, std::shared_ptr
 void StaticObject::setTexture(std::shared_ptr<sf::Texture> texture)
 {
     body.setTexture(texture.get());
-    body.setSize({texture.get()->getSize().x,texture.get()->getSize().y});
+    body.setSize(sf::Vector2f(texture.get()->getSize().x,texture.get()->getSize().y));
 }
 
 

@@ -52,8 +52,8 @@ void NPC::onUpdate(const sf::Time &delta)
         }
     }
     
-    auto interaction_result = scanCollisions(1);
-    if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "kill-box")
+    auto interaction_result = scanCollisions("INTERACTION");
+    if (interaction_result.collider != nullptr && interaction_result.collider->getName() == "KILL")
     {
         kill();
     }

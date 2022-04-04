@@ -113,10 +113,14 @@ void Collider::onDrawDebug(sf::RenderTarget &target) const
     }
 }
 
-Collidable::CollisionResult Collidable::scanCollisions (int collider_id) 
+Collidable::CollisionResult Collidable::scanCollisions (std::string collider_id) 
 {
     std::shared_ptr<Collider> last_collision = nullptr;
     sf::Vector2f move_vector = {0,0};
+    
+    if (!scan_layers.contains(collider_id))
+        return {last_collision, move_vector};
+    
     for (const auto& coll : scan_layers[collider_id]->list) 
     {
         if (coll != colliders[collider_id] && coll->isActive())
@@ -132,43 +136,23 @@ Collidable::CollisionResult Collidable::scanCollisions (int collider_id)
     return {last_collision, move_vector};
 }
 
-void Collidable::addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, float _radius)
+void Collidable::addCollider(std::shared_ptr<CollisionLayer> collider_layer, std::shared_ptr<CollisionLayer> scanning_layer, sf::Vector2f _position, float _radius, std::string collider_id)
 {
-    scan_layers.push_back(target_layer);
+    scan_layers[collider_id] = scanning_layer;
     std::shared_ptr<Collider> coll = std::make_shared<Collider>(Collider(_position, _radius));
-    coll->setName(getName() + " collider");
+    coll->setName(collider_id);
     addChild(coll);
-    colliders.push_back(coll);
-    if(coll_layer != nullptr)
-        coll_layer->list.push_back(coll);
+    colliders[collider_id] = coll;
+    if(collider_layer != nullptr)
+        collider_layer->list.push_back(coll);
 }
-void Collidable::addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer,  sf::Vector2f _position, float _radius, std::string name)
+void Collidable::addCollider(std::shared_ptr<CollisionLayer> collider_layer, std::shared_ptr<CollisionLayer> scanning_layer, sf::Vector2f _position, sf::Vector2f _size, std::string collider_id)
 {
-    scan_layers.push_back(target_layer);
-    std::shared_ptr<Collider> coll = std::make_shared<Collider>(Collider(_position, _radius));
-    coll->setName(name);
-    addChild(coll);
-    colliders.push_back(coll);
-    if(coll_layer != nullptr)
-        coll_layer->list.push_back(coll);
-}
-void Collidable::addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, sf::Vector2f _size)
-{
-    scan_layers.push_back(target_layer);
+    scan_layers[collider_id] = scanning_layer;
     std::shared_ptr<Collider> coll = std::make_shared<Collider>(Collider(_position, _size));
-    coll->setName(getName() + " collider");
+    coll->setName(collider_id);
     addChild(coll);
-    colliders.push_back(coll);
-    if(coll_layer != nullptr)
-        coll_layer->list.push_back(coll);
-}
-void Collidable::addCollider(std::shared_ptr<CollisionLayer> coll_layer, std::shared_ptr<CollisionLayer> target_layer, sf::Vector2f _position, sf::Vector2f _size, std::string name)
-{
-    scan_layers.push_back(target_layer);
-    std::shared_ptr<Collider> coll = std::make_shared<Collider>(Collider(_position, _size));
-    coll->setName(name);
-    addChild(coll);
-    colliders.push_back(coll);
-    if(coll_layer != nullptr)
-        coll_layer->list.push_back(coll);
+    colliders[collider_id] = coll;
+    if(collider_layer != nullptr)
+        collider_layer->list.push_back(coll);
 }
