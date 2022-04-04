@@ -232,7 +232,7 @@ void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, float 
 		{
 			const sf::Vector2f newPoint = generateRandomPointAround( point, minDist);
 
-			std::cout << "New Point: (" << newPoint.x << ", " << newPoint.y << ")\n";
+			//std::cout << "New Point: (" << newPoint.x << ", " << newPoint.y << ")\n";
 			const bool canFitPoint = isInRectangle(newPoint, YtoX);
 
 			if( canFitPoint && !grid.isInNeighbourhood(newPoint ,minDist, cellSize ) )
