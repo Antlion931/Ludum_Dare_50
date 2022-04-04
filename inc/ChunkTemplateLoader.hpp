@@ -18,6 +18,6 @@ private:
 public:
     ChunkTemplateLoader();
 
-    std::stringstream returnChunkMap(std::string name);
+    std::shared_ptr<std::ifstream> returnChunkMap(std::string name);
     int getChunkTemplatesAmount();
 };
