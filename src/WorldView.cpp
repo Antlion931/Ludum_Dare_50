@@ -100,8 +100,9 @@ void WorldView::onUpdate(const sf::Time& delta)
     if( currentCenterCoords != newCenterCoords )
         chunkChange(newCenterCoords);
 
-    Objects.update(delta);
+    Objects->update(delta);
 }
+
 
 void WorldView::onTransform()
 {
@@ -111,7 +112,6 @@ void WorldView::onTransform()
 
 void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
 {
-
     sf::Vector2i relativeCoords = {relativeTo.x - chunkCoords.x, relativeTo.y - chunkCoords.y};
     if(chunkMap.count(relativeCoords))
     {

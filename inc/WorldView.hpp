@@ -5,6 +5,7 @@
 #include "Player.hpp"
 #include "StaticNode.hpp"
 #include "EntityPrefabs.hpp"
+#include "ChunkTemplateLoader.hpp"
 #include <unordered_map>
 #include <map>
 
@@ -23,6 +24,7 @@ private:
     std::shared_ptr<sf::Texture> tileSet;
 
     EntityPrefabs entityPrefabs;
+    ChunkTemplateLoader chunkTemplateLoader;
     
     std::unordered_map<sf::Vector2i, Chunk, KeyHasher> chunkMap;
 
