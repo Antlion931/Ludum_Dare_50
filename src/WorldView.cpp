@@ -7,17 +7,18 @@ WorldView::WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Textur
 {
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
-    ChunkContainer->setScale({2.5,2.5});
+    ChunkContainer->setScale({0.5f,0.5f});
 
-    Objects = std::make_shared<YSort>(YSort());
-    Objects->addChild(player);
-    addChild(Objects);
+    loadedObjects = std::make_shared<YSort>(YSort());
+    loadedObjects->addChild(player);
+    addChild(loadedObjects);
+
+    chunkChange(currentCenterCoords);
 }
 
 
 void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos)
 {
-    std::cout << "test\n";
     // format:
     // type spawning_area spawning_area_args amount_lower_bound amount_upper_bound
     // example: tree box 5 5 25 25 10 20
@@ -47,7 +48,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             if(ObjectType == "tree")
             {
                 auto t = entityPrefabs.getStaticObject("tree");
-                Objects->addChild(t);
+                loadedObjects->addChild(t);
                 sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
                 t->translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
@@ -62,7 +63,31 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
     {
         for(int j = -1; j <= 1; j++)
         {
-            allocateChunk({j,i}, newCenterCoords);
+            if(chunkMap.contains({newCenterCoords.x-j,newCenterCoords.y-i}))
+            {
+                if(!ChunkContainer->isChild(chunkMap[{newCenterCoords.x-j,newCenterCoords.y-i}]))
+                {
+                    allocateChunk({j,i}, newCenterCoords);
+                }
+            }
+            else
+                allocateChunk({j,i}, newCenterCoords);
+            
+        }
+    }
+    for(int i = -1; i <= 1; i++)
+    {
+        for(int j = -1; j <= 1; j++)
+        {
+            if(abs(newCenterCoords.x - (currentCenterCoords.x - j)) > 1 || 
+               abs(newCenterCoords.y - (currentCenterCoords.y - i)) > 1)
+            {
+                ChunkContainer->removeChild(chunkMap[{currentCenterCoords.x - j,currentCenterCoords.y - i}]);
+            }
+            std::cout << "coords diff: (" << abs(newCenterCoords.x - (currentCenterCoords.x + j)) 
+            << ", " << abs(newCenterCoords.y - (currentCenterCoords.y + i)) << ")\n";
+            //if(chunkMap.contains({currentCenterCoords.x - j,currentCenterCoords.y - i}))
+            //ChunkContainer->removeChild(chunkMap[{currentCenterCoords.x - j,currentCenterCoords.y - i}]);
         }
     }
     currentCenterCoords = newCenterCoords;
@@ -81,7 +106,7 @@ void WorldView::onUpdate(const sf::Time& delta)
     if( currentCenterCoords != newCenterCoords )
         chunkChange(newCenterCoords);
 
-    Objects->update(delta);
+    loadedObjects->update(delta);
 }
 
 void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
@@ -89,6 +114,7 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
     sf::Vector2i relativeCoords = {relativeTo.x - chunkCoords.x, relativeTo.y - chunkCoords.y};
     if(chunkMap.contains(relativeCoords))
     {
+        ChunkContainer->addChild(chunkMap[{relativeCoords}]);
         //std::cout << "Found the chunk at: " << relativeCoords.x << ", " << relativeCoords.y << ")\n";
         return;
     }

@@ -79,6 +79,11 @@ void Node::removeChild(std::shared_ptr<Node> child)
     m_children.erase(element);
 }
 
+bool Node::isChild(std::shared_ptr<Node> child)
+{
+    return std::find(m_children.begin(), m_children.end(), child) != m_children.end();
+}
+
 void Node::printTree(int depth)
 {   
     std::cout << std::string(depth * 4, ' ') << "-" << getName() << "(" << isActive() << ")\n";

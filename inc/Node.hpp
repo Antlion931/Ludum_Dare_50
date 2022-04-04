@@ -17,6 +17,7 @@ public:
 
     void addChild(std::shared_ptr<Node> child);
     void removeChild(std::shared_ptr<Node> child);
+    bool isChild(std::shared_ptr<Node> child);
 
     void translate(sf::Vector2f vec);
     void setTranslation(sf::Vector2f vec);

@@ -6,10 +6,10 @@ ChunkTemplateLoader::ChunkTemplateLoader()
     std::string chunkTemplatesPath = "./res/chunkTemplates";
     for(const auto & chunkTemplate : std::filesystem::directory_iterator(chunkTemplatesPath))
     {
-        input.open(chunkTemplate.path());
-        std::string name = chunkTemplatesPath.substr(chunkTemplatesPath.find_last_of('/')+1);
-        input.close();
-        chunkTemplates[name] = std::make_shared<std::ifstream>(input);
+        //input.open(chunkTemplate.path());
+        //std::string name = chunkTemplatesPath.substr(chunkTemplatesPath.find_last_of('/')+1);
+        //input.close();
+        //chunkTemplates[name] = std::make_shared<std::ifstream>(input);
         size++;
     }
     input.close();

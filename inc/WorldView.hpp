@@ -24,15 +24,13 @@ private:
     std::shared_ptr<sf::Texture> tileSet;
 
     EntityPrefabs entityPrefabs;
-    ChunkTemplateLoader chunkTemplateLoader;
     
     std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
-
     std::shared_ptr<Node> ChunkContainer;
     //NPCCreator NPCcreator;
 
     std::shared_ptr<Player> player;
-    sf::Vector2i currentCenterCoords = {100,100};
+    sf::Vector2i currentCenterCoords = {0,0};
 
     sf::Vector2f ScaledWorldChunkSize = {0.0,0.0};
 
@@ -44,7 +42,9 @@ private:
     void loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos);
 
 public:
-    std::shared_ptr<YSort> Objects;
+    std::shared_ptr<YSort> loadedObjects;
+    std::vector<std::shared_ptr<Node>> allObjects;
+
     WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
 
 protected:
