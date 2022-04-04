@@ -58,7 +58,6 @@ void NPC::onUpdate(const sf::Time &delta)
         {   
             if(!dead){
                 qC->sendPulse(QuestCreator::PulseType::KILL,getName());
-                std::cout<<QuestCreator::PulseType::KILL<<std::endl;
                 dead = true;
                 kill();
             }
@@ -72,7 +71,6 @@ void NPC::onUpdate(const sf::Time &delta)
             }
         }
         else if(interaction_result.collider != nullptr && interaction_result.collider->getName() == "100-unit"){
-            std::cout<<getName()<<std::endl;
             qC->sendPulse(QuestCreator::PulseType::HUG,getName());
         }
         if(db!=nullptr && db->isHidden()){
