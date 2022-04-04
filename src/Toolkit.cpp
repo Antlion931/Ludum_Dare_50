@@ -87,9 +87,9 @@ sf::Vector2f norm(const sf::Vector2f a)
 /// RANDOM POINT GENERATION UTILS
 /// =========================================================================
 
-bool isInRectangle(sf::Vector2f vec)
+bool isInRectangle(sf::Vector2f vec, float YtoX)
 {
-	return vec.x >= 0 && vec.y >= 0 && vec.x <= 1 && vec.y <= 1;
+	return vec.x >= 0 && vec.y >= 0 && vec.x <= 1 && vec.y <= YtoX;
 }
 
 bool isInCircle(sf::Vector2f vec)
@@ -148,8 +148,8 @@ struct Grid
 	, h_( h )
 	, cellSize_( cellSize )
 	{
-		grid_.resize( h_ );
-		for ( auto i = grid_.begin(); i != grid_.end(); i++ ) { i->resize( w ); }
+		grid_.resize( w );
+		for ( auto i = grid_.begin(); i != grid_.end(); i++ ) { i->resize( h ); }
 	}
 	void insert( const sf::Vector2f& p )
 	{
@@ -189,12 +189,12 @@ private:
 };
 
 
-void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, sf::Vector2i topleft, sf::Vector2i bottomright, float minDist)
+void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, float minDist, float YtoX)
 {
 	std::random_device generator;
 
-	std::uniform_real_distribution<> randx(topleft.x, bottomright.x);
-	std::uniform_real_distribution<> randy(topleft.y, bottomright.y);
+	std::uniform_real_distribution<> randx(0.0, 1.0);
+	std::uniform_real_distribution<> randy(0.0, YtoX);
 	// if minimum distance is not specified we simply return a list of random points
 	if(minDist == 0)
 	{
@@ -210,7 +210,7 @@ void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, sf::Ve
 	const float cellSize = minDist / sqrt(2);
 
 	const int gridW = ( int )ceil( 1.0f / cellSize );
-	const int gridH = ( int )ceil( 1.0f / cellSize );
+	const int gridH = ( int )ceil( YtoX / cellSize );
 
 	std::vector<sf::Vector2f> processList;
 	Grid grid( gridW, gridH, cellSize );
@@ -233,7 +233,7 @@ void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, sf::Ve
 			const sf::Vector2f newPoint = generateRandomPointAround( point, minDist);
 
 			std::cout << "New Point: (" << newPoint.x << ", " << newPoint.y << ")\n";
-			const bool canFitPoint = isInRectangle(newPoint);
+			const bool canFitPoint = isInRectangle(newPoint, YtoX);
 
 			if( canFitPoint && !grid.isInNeighbourhood(newPoint ,minDist, cellSize ) )
 			{
@@ -244,4 +244,9 @@ void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, sf::Ve
 			}
 		}
 	}
+	while (points.size() > amountToSpawn)
+	{
+		popRandom(points);
+	}
+	
 }

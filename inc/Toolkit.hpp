@@ -34,5 +34,5 @@ bool clamp(sf::RectangleShape a, sf::Vector2i b);
 
 std::ostream& operator<< (std::ostream& out, sf::Vector2f const& vec);
 
-void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, sf::Vector2i topleft, sf::Vector2i bottomright, float minDist = 0);
+void generatePoints(std::vector<sf::Vector2f> &points, int amountToSpawn, float minDist = 0, float YtoX = 1.0);
 

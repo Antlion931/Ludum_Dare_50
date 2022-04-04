@@ -39,13 +39,13 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
     *loader >> spawning_area;
 
     float minDist = 0;
-    if(ObjectType == "tree") { minDist = 20; }
-    else if(ObjectType == "building") { minDist = 200; }
-    else if(ObjectType == "bench_down") { minDist = 20; }
-    else if(ObjectType == "pot") { minDist = 10; }
-    else if(ObjectType == "hydrant") { minDist = 10; }
-    else if(ObjectType == "Umbrella") { minDist = 20; }
-    else if(ObjectType == "NPC") { minDist = 20; }
+    if(ObjectType == "tree") { minDist = 4.0; }
+    else if(ObjectType == "building") { minDist = 20.0; }
+    else if(ObjectType == "bench_down") { minDist = 6.0; }
+    else if(ObjectType == "pot") { minDist = 8.0; }
+    else if(ObjectType == "hydrant") { minDist = 6.0; }
+    else if(ObjectType == "Umbrella") { minDist = 6.0; }
+    else if(ObjectType == "NPC") { minDist = 7.0; }
 
     if(spawning_area == "box")
     {
@@ -66,13 +66,16 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
 
         sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
 
-        generatePoints(spawningPoints, amountToSpawn, topleft, bottomright, minDist);
+        float YtoX = float(bottomright.y - topleft.y + 1) / float(bottomright.x - topleft.x + 1);
+        float relMinDist = minDist / (bottomright.x - topleft.x + 1);
+
+        generatePoints(spawningPoints, amountToSpawn, relMinDist, YtoX);
 
         for(auto &point : spawningPoints)
         {
             sf::Vector2f transformedPosition = point;
-            transformedPosition.x = point.x * ScaledTileSize.x + chunk_pos.x;
-            transformedPosition.y = point.y * ScaledTileSize.y + chunk_pos.y;
+            transformedPosition.x = (topleft.x * (1.0 - point.x) + bottomright.x * point.x) * ScaledTileSize.x + chunk_pos.x;
+            transformedPosition.y = (topleft.y * (1.0 - point.y) + bottomright.y * point.y) * ScaledTileSize.y + chunk_pos.y;
 
             std::cout << "Spawning at: (" << transformedPosition.x << ", " << transformedPosition.y << ")\n";
             if(ObjectType == "tree")
