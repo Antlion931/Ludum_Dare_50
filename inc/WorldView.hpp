@@ -46,7 +46,7 @@ private:
 
 public:
     std::shared_ptr<YSort> loadedObjects;
-    std::vector<std::shared_ptr<Node>> allObjects;
+    std::shared_ptr<std::vector<std::shared_ptr<Node>>> allObjects;
 
     SoundSystem& soundSystem;
 

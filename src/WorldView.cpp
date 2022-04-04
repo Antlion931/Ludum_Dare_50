@@ -5,9 +5,11 @@
 #include <memory>
 
 WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
-: player(_player), tileSet(_tileSet), NPCcreator(std::make_shared<NPCCreator>(NPCCreator(static_layer, allObjects, interaction_layer))),
-soundSystem(_soundSystem)
+: player(_player), tileSet(_tileSet), soundSystem(_soundSystem)
 {
+    allObjects = std::make_shared<std::vector<std::shared_ptr<Node>>>();
+
+    NPCcreator = std::make_shared<NPCCreator>(NPCCreator(static_layer, allObjects, interaction_layer));
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
     ChunkContainer->setScale({0.5f,0.5f});
@@ -121,7 +123,7 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
     //std::cout << "Current Chunk Coords: (" << currentCenterCoords.x << ", " << currentCenterCoords.y << ")\n";
     //std::cout << "Chunk size: (" << ScaledWorldChunkSize.x << ", " << ScaledWorldChunkSize.y << ")\n";
     //std::cout << "Center of current chink: (" << centerOfCurrentChunk.x << ", " << centerOfCurrentChunk.y << ")\n";
-    for(auto object : allObjects)
+    for(auto object : *allObjects.get())
     {
         sf::Vector2f objectCoords = object->getGlobalTransform().getPosition();
         // we check whether the object is in the worldview 
