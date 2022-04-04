@@ -118,7 +118,7 @@ Collidable::CollisionResult Collidable::scanCollisions (std::string collider_id)
     std::shared_ptr<Collider> last_collision = nullptr;
     sf::Vector2f move_vector = {0,0};
     
-    if (!scan_layers.contains(collider_id))
+    if (!scan_layers.contains(collider_id) or scan_layers[collider_id] == nullptr)
         return {last_collision, move_vector};
     
     for (const auto& coll : scan_layers[collider_id]->list) 
