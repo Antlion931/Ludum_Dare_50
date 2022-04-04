@@ -45,9 +45,6 @@ std::shared_ptr<std::ifstream> Chunk::loadChunk(std::shared_ptr<sf::Texture> _ti
     std::shared_ptr<std::ifstream> loader = 
     make_shared<std::ifstream>(std::ifstream("./res/chunkTemplates/chunk" + std::to_string(randomNumber) + ".chunk"));
 
-    //std::shared_ptr<std::ifstream> loader = 
-    //make_shared<std::ifstream>(std::ifstream("./res/chunkTemplates/chunk0.chunk"));
-
     // load the tilemap
     *loader >> size.x;
     *loader >> size.y;

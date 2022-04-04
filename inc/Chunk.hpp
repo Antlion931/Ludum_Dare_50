@@ -7,7 +7,7 @@
 #include <fstream>
 #include <random>
 
-const int amountOfChunkTemplates = 8;
+const int amountOfChunkTemplates = 16;
 
 // SETTINGS
 const sf::Vector2i TileSize = {16,16};
