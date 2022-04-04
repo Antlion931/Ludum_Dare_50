@@ -4,6 +4,9 @@
 #include <cmath>
 #include <memory>
 
+const sf::Vector2f World_View_Scale = {4.f,4.f};
+
+
 WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
 : player(_player), tileSet(_tileSet), soundSystem(_soundSystem)
 {
@@ -12,7 +15,7 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     NPCcreator = std::make_shared<NPCCreator>(NPCCreator(static_layer, allObjects, interaction_layer));
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
-    ChunkContainer->setScale({3.f,3.f});
+    ChunkContainer->setScale(World_View_Scale);
 
     loadedObjects = std::make_shared<YSort>(YSort());
     loadedObjects->addChild(player);
@@ -71,12 +74,12 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
-                std::cout << "Added a new tree\n";
                 std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
                 chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {32,48}, NON_MOVE_NPC);
-                tree->setScale({3.f,3.f});
-                tree->addCollider(nullptr,static_layer, {0.0, 35.0}, 15.0, "COLLISION");
-                tree->offsetTexture({0,-5.f});
+                tree->addCollider(static_layer, nullptr, {0.0, 0.0}, 10.0, "COLLISION");
+                tree->addCollider(nullptr, interaction_layer, {0.0, 0.0}, 10.0, "INTERACTION");
+                tree->setScale(World_View_Scale);
+                tree->offsetTexture({0,-20.f});
                 /*auto t = entityPrefabs.getStaticObject("tree");
                 allObjects.push_back(t);*/
                 //tree.translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
@@ -85,7 +88,10 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             {
                 std::shared_ptr<NPC> building = NPCcreator->makeNPC("Building", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
                 chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {180,240}, NON_MOVE_NPC);
-                building->setScale({3.f,3.f});
+                building->addCollider(static_layer, nullptr, {0.f, 5.f}, {180.f,212.f}, "COLLISION");
+                building->addCollider(nullptr, interaction_layer, {0.f, 5.f}, {180.f,212.f}, "INTERACTION");
+                //building->right
+                building->setScale(World_View_Scale);
             }
         }
     }
