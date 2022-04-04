@@ -23,8 +23,8 @@ void LevelSetUpper::setUp(std::shared_ptr<Node>& level, std::shared_ptr<Node>& l
         prefix = "settings ";
     break;
 
-    case GAME:
-        prefix = "game ";
+    case CUTSCENE:
+        prefix = "cutescene ";
     break;
     }
 

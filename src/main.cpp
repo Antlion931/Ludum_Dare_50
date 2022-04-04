@@ -140,11 +140,13 @@ int main()
     GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
     GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
 
-    //========================================================================================GAME
-    std::shared_ptr<Node> gameLevel;
-    std::shared_ptr<Node> gameLevelGUI;
-    std::shared_ptr<ButtonsContainer> gameButtons;
-    levelSetUpper.setUp(gameLevel, gameLevelGUI, gameButtons, GAME);
+    //========================================================================================CUTSCENE
+    std::shared_ptr<Node> cutsceneLevel;
+    std::shared_ptr<Node> cutsceneLevelGUI;
+    std::shared_ptr<ButtonsContainer> cutsceneButtons;
+    levelSetUpper.setUp(cutsceneLevel, cutsceneLevelGUI, cutsceneButtons, CUTSCENE);
+
+    TextureLoader cutsceneLoader("./res/cutscene");
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
@@ -216,7 +218,7 @@ int main()
 
         if(mainMenuButtons->get("PLAY")->isPressed(window))
         {
-            root->setLevel(GAME);
+            root->setLevel(CUTSCENE);
         }
 
         if(mainMenuButtons->get("SETTINGS")->isPressed(window))

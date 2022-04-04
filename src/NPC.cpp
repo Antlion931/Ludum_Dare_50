@@ -63,19 +63,22 @@ void NPC::onUpdate(const sf::Time &delta)
 
 void NPC::randomVelocityAndTimes()
 {
-    velocity.x = std::fmod(rand(), speed * 1000.0);
-    velocity.x /= 1000.0f;
-    velocity.y = std::sqrt(pow(speed,2) - pow(velocity.x, 2));
-
-    waitTime = rand()%500 / 100.0f;
-    walkTime = rand()%500 / 100.0f;
-
-    if(rand()%2)
+    if(speed > 0.0f)
     {
-        velocity.x *= -1;
-    }
-    if(rand()%2)
-    {
-        velocity.y *= -1;
+        velocity.x = std::fmod(rand(), speed * 1000.0);
+        velocity.x /= 1000.0f;
+        velocity.y = std::sqrt(pow(speed,2) - pow(velocity.x, 2));
+
+        waitTime = rand()%500 / 100.0f;
+        walkTime = rand()%500 / 100.0f;
+
+        if(rand()%2)
+        {
+            velocity.x *= -1;
+        }
+        if(rand()%2)
+        {
+            velocity.y *= -1;
+        }
     }
 }
