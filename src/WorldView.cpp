@@ -48,7 +48,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             if(ObjectType == "tree")
             {
                 auto t = entityPrefabs.getStaticObject("tree");
-                loadedObjects->addChild(t);
+                allObjects.push_back(t);
                 sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
                 t->translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
@@ -75,6 +75,7 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
             
         }
     }
+    // deactivate old tilemaps
     for(int i = -1; i <= 1; i++)
     {
         for(int j = -1; j <= 1; j++)
@@ -84,12 +85,51 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
             {
                 ChunkContainer->removeChild(chunkMap[{currentCenterCoords.x - j,currentCenterCoords.y - i}]);
             }
-            std::cout << "coords diff: (" << abs(newCenterCoords.x - (currentCenterCoords.x + j)) 
-            << ", " << abs(newCenterCoords.y - (currentCenterCoords.y + i)) << ")\n";
             //if(chunkMap.contains({currentCenterCoords.x - j,currentCenterCoords.y - i}))
             //ChunkContainer->removeChild(chunkMap[{currentCenterCoords.x - j,currentCenterCoords.y - i}]);
         }
     }
+    // allocate/activate and deactivate entities
+    // first remove inactive entitites from loadedObjects
+    // then add inactive objects from allObjects to loadedObjects
+    std::shared_ptr<std::vector<std::shared_ptr<Node>>> loadedObjectsChildren = loadedObjects->getChildren();
+    /*for(auto child : *loadedObjects->getChildren())
+    {
+        sf::Vector2f centerOfCurrentChunk = {currentCenterCoords.x * WorldChunkSize.x + 0.5f * WorldChunkSize.x,
+         currentCenterCoords.y * WorldChunkSize.y + 0.5f * WorldChunkSize.y};
+        if(abs(centerOfCurrentChunk.x - child->getGlobalTransform().getPosition().x ) > 1.5 * WorldChunkSize.x ||
+           abs(centerOfCurrentChunk.y - child->getGlobalTransform().getPosition().y ) > 1.5 * WorldChunkSize.y)
+            loadedObjects->removeChild(child);
+    }*/
+    sf::Vector2f centerOfCurrentChunk = {newCenterCoords.x * ScaledWorldChunkSize.x + 0.5f * ScaledWorldChunkSize.x,
+         newCenterCoords.y * ScaledWorldChunkSize.y + 0.5f * ScaledWorldChunkSize.y};
+    //std::cout << "Current Chunk Coords: (" << currentCenterCoords.x << ", " << currentCenterCoords.y << ")\n";
+    //std::cout << "Chunk size: (" << ScaledWorldChunkSize.x << ", " << ScaledWorldChunkSize.y << ")\n";
+    //std::cout << "Center of current chink: (" << centerOfCurrentChunk.x << ", " << centerOfCurrentChunk.y << ")\n";
+    for(auto object : allObjects)
+    {
+        sf::Vector2f objectCoords = object->getGlobalTransform().getPosition();
+        // we check whether the object is in the worldview 
+        if(abs(centerOfCurrentChunk.x - objectCoords.x ) > 1.5 * ScaledWorldChunkSize.x ||
+           abs(centerOfCurrentChunk.y - objectCoords.y ) > 1.5 * ScaledWorldChunkSize.y)
+        { 
+            // we remove the object
+            if(loadedObjects->isChild(object))
+            {
+                loadedObjects->removeChild(object);
+            }
+        }
+        else
+        {
+            // we add the object
+            if(!loadedObjects->isChild(object))
+            {
+                loadedObjects->addChild(object);
+            }
+        }
+    }
+
+
     currentCenterCoords = newCenterCoords;
 }
 
@@ -128,8 +168,11 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
     // get global coords of the chunk
     sf::Vector2f trans = {relativeCoords.x * WorldChunkSize.x, relativeCoords.y * WorldChunkSize.y};
     chunk->translate(trans);
-         
-    loadStaticObject(loader, trans * ChunkContainer->getGlobalTransform().getScale().x);
+
+    while(loader->good())
+    {
+        loadStaticObject(loader, trans * ChunkContainer->getGlobalTransform().getScale().x);
+    }
     loader->close();
 
 

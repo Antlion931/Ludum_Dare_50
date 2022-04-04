@@ -11,4 +11,9 @@ class YSort : public Node
     }
 
     void onDraw(sf::RenderTarget &target) override;
+public:
+    std::shared_ptr<std::vector<std::shared_ptr<Node>>> getChildren()
+    {
+        return std::make_shared<std::vector<std::shared_ptr<Node>>>(m_children);
+    }
 };
