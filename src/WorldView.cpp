@@ -115,7 +115,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             }
             else if(ObjectType == "NPC")
             {
-                std::uniform_int_distribution<int> dist = std::uniform_int_distribution<int>(0, POSSIBLE_NPCS.size());
+                std::uniform_int_distribution<int> dist = std::uniform_int_distribution<int>(0, POSSIBLE_NPCS.size() - 1);
                 std::string random_npc = POSSIBLE_NPCS[dist(randomizer)];
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC(random_npc, soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
                 chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {50.0,50.0}, STANDARD_NPC);
