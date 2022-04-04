@@ -111,6 +111,14 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             intPosition.x = int(topleft.x * (1.0 - point.x) + bottomright.x * point.x);
             intPosition.y = int(topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
 
+            if (topleft.x == bottomright.x)
+                intPosition.x = topleft.x;
+            if (topleft.y == bottomright.y)
+                intPosition.y = topleft.y;
+
+            if(intPosition.x > bottomright.x)
+                std::cout << "AA";
+
             sf::Vector2f transformedPosition;
             transformedPosition.x = intPosition.x * ScaledTileSize.x + chunk_pos.x;
             transformedPosition.y = intPosition.y * ScaledTileSize.y + chunk_pos.y;
