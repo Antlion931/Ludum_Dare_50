@@ -39,17 +39,28 @@ void Player::onUpdate(const sf::Time &delta)
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
+            colliders[1]->setActive(1);
             animation.changeAnimation(PUNCHING);
         }
-        else if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
+        else 
         {
-            animation.changeAnimation(RUN);
-        }
-        else
-        {
-            animation.changeAnimation(IDLE);
+            colliders[1]->setActive(0);
+            if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
+            {
+                animation.changeAnimation(RUN);
+            }
+            else
+            {
+                animation.changeAnimation(IDLE);
+            }
         }
     }
+
+    if(isFaceingRight)
+        colliders[1]->setTranslation({50.0,0.0});
+    else
+        colliders[1]->setTranslation({-50.0,0.0});
+        
 
     updateSinpersRedDot(delta);
     updateBody(delta);
