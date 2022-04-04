@@ -1,5 +1,4 @@
 #include "WorldView.hpp"
-#include "AnimationSequences.hpp"
 #include <cmath>
 #include <memory>
 
@@ -9,7 +8,7 @@ soundSystem(_soundSystem)
 {
     ChunkContainer = std::make_shared<Node>(Node());
     addChild(ChunkContainer);
-    ChunkContainer->setScale({3.f,3.f});
+    ChunkContainer->setScale({0.5f,0.5f});
 
     loadedObjects = std::make_shared<YSort>(YSort());
     loadedObjects->addChild(player);
@@ -17,7 +16,7 @@ soundSystem(_soundSystem)
 
 
     player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
-    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {30.0, 60.0}, "kill-box");
+    player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
 
     NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100}, NPCAnimationSequences);
     NPCcreator.makeNPC("Archer", soundSystem, {500,400}, {100,100}, NPCAnimationSequences);
@@ -68,11 +67,13 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
-                //auto tree = NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100});
+                std::cout << "Added a new tree\n";
+                sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
+                std::shared_ptr<NPC> tree = NPCcreator.makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
+                chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {100,100}, NonAnimationSequences);
                 /*auto t = entityPrefabs.getStaticObject("tree");
                 allObjects.push_back(t);*/
-                sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
-                //tree->setVelocity({0,0});
+                tree->setVelocity({0,0});
                 //tree.translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
         }
@@ -133,7 +134,6 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
         }
         else
         {
-            std::cout << "OBJECT!\n";
             // we add the object
             if(!loadedObjects->isChild(object))
             {

@@ -1,16 +1,16 @@
 #pragma once
-#include "NPC.hpp"
+#include "StaticObject.hpp"
 #include "TextureLoader.hpp"
 class EntityPrefabs
 {
 private:
     std::shared_ptr<TextureLoader> treeTexture
-        = std::make_shared<TextureLoader>(TextureLoader("./res/textures/npc/Tree"));
+        = std::make_shared<TextureLoader>(TextureLoader("./res/textures"));
 public:
-    std::shared_ptr<NPC> getStaticObject(std::string type)
+    std::shared_ptr<StaticObject> getStaticObject(std::string type)
     {
         
-        /*std::shared_ptr<NPC> object = std::make_shared<NPC>();
+        std::shared_ptr<StaticObject> object = std::make_shared<StaticObject>();
         if(type == "tree")
         {
             object->setTexture(treeTexture->returnTexture("tree.png"));
@@ -20,6 +20,6 @@ public:
             //object->setActive(0);
             //object->setVisible(0);
         }
-        return object;*/
+        return object;
     }
 };

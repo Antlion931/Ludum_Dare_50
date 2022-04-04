@@ -4,7 +4,7 @@ NPCCreator::NPCCreator(std::shared_ptr<CollisionLayer>& _collisionLayer, std::ve
     : collisionLayer(_collisionLayer), objectVector(_objectVector), interactionLayer(_interactionLayer)
 {}
 
-NPC& NPCCreator::makeNPC(std::string NPCName, SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, std::vector<float> speeds, std::vector<int> indexes)
+std::shared_ptr<NPC> NPCCreator::makeNPC(std::string NPCName, SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, std::vector<float> speeds, std::vector<int> indexes)
 {
     auto npc = std::make_shared<NPC>(NPC(soundSystem, position, size, 100, Animation("./res/textures/npc/" + NPCName, speeds, indexes), 0.32));
     //NPCs.push_back(npc);
@@ -13,5 +13,5 @@ NPC& NPCCreator::makeNPC(std::string NPCName, SoundSystem& soundSystem, sf::Vect
     npc->addCollider(nullptr, collisionLayer, {0.0, 35.0}, 15.0);
     npc->addCollider(nullptr, interactionLayer, {0.0, 35.0}, 40.0);
     objectVector.push_back(npc);
-    return *npc.get();
+    return npc;
 }
