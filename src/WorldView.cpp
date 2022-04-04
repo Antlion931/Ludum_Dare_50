@@ -130,8 +130,8 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             else if(ObjectType == "building")
             {
                 std::shared_ptr<NPC> building = NPCcreator->makeNPC("Building", soundSystem, transformedPosition, {180,240}, NON_MOVE_NPC);
-                building->addCollider(static_layer, nullptr, {0.f, -60}, {180.f,180.f}, "COLLISION");
-                building->addCollider(nullptr, interaction_layer, {0.f, -60}, {180.f,180.f}, "INTERACTION");
+                building->addCollider(static_layer, nullptr, {0.f, -75}, {180.f,230.f}, "COLLISION");
+                building->addCollider(nullptr, interaction_layer, {0.f, -75}, {180.f,230.f}, "INTERACTION");
                 building->offsetTexture({0.0, -80.0});
                 building->setScale(World_View_Scale);
             }
@@ -224,8 +224,8 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             else if(ObjectType == "shop")
             {
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Shop", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
-                obiekt->addCollider(static_layer, nullptr, {0.f, -40.f}, {140.0, 80.0}, "COLLISION");
-                obiekt->addCollider(nullptr, interaction_layer, {0.f, -40.f}, 5.0, "INTERACTION");
+                obiekt->addCollider(static_layer, nullptr, {0.f, -38.f}, {140.0, 90.0}, "COLLISION");
+                obiekt->addCollider(nullptr, interaction_layer, {0.f, -38.f}, {140.0, 90.0}, "INTERACTION");
                 obiekt->offsetTexture({0.0, -40.0});
                 obiekt->setScale(World_View_Scale);
             }
