@@ -13,8 +13,6 @@ std::shared_ptr<NPC> NPCCreator::makeNPC(std::string NPCName, SoundSystem& sound
     //NPCs.push_back(npc);
     npc->setName(NPCName);
     npc->setDyingSoundName("dead.wav");
-    npc->addCollider(nullptr, collisionLayer, {0.0, 35.0}, 15.0, "COLLISION");
-    npc->addCollider(nullptr, interactionLayer, {0.0, 35.0}, 40.0, "INTERACTION");
     objectVector->push_back(npc);
     return npc;
 }

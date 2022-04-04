@@ -1,6 +1,4 @@
 #include "WorldView.hpp"
-#define STANDAR_NPC 100,{0.1,0.2,0.08,1,0.0f},{5,9,13,14,14}
-#define NON_MOVE_NPC 0,{10,10,10,10,10},{1,1,1,1,1}
 #include <cmath>
 #include <memory>
 
@@ -17,7 +15,6 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     loadedObjects = std::make_shared<YSort>(YSort());
     loadedObjects->addChild(player);
     addChild(loadedObjects);
-
 
     player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0, "COLLISION");
     player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "KILL");
@@ -75,6 +72,7 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
                 sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
                 std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, {chunk_pos.x + xDist(randomizer) * ScaledTileSize.x,
                 chunk_pos.y + yDist(randomizer) * ScaledTileSize.y}, {100,100}, NON_MOVE_NPC);
+                tree->addCollider(static_layer, nullptr, {0,0}, 40.0, "COLLISION");
                 /*auto t = entityPrefabs.getStaticObject("tree");
                 allObjects.push_back(t);*/
                 tree->setVelocity({0,0});

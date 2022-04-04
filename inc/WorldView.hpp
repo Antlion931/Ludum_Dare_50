@@ -6,6 +6,7 @@
 #include "StaticNode.hpp"
 #include "EntityPrefabs.hpp"
 #include "ChunkTemplateLoader.hpp"
+#include "NPCCreator.hpp"
 #include <unordered_map>
 #include <map>
 
