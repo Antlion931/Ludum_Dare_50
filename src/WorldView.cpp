@@ -2,7 +2,7 @@
 #include <cmath>
 #include <memory>
 
-const sf::Vector2f World_View_Scale = {1.f,1.f};
+const sf::Vector2f World_View_Scale = {4.f,4.f};
 const std::vector<std::string> POSSIBLE_NPCS = {"Alchemist", "Archer", "Blacksmith", "Butcher", "Female", "Herald", "King",
     "Mage", "Male", "Merchant", "Princess", "Queen", "Thief"};
 
@@ -204,16 +204,16 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             else if(ObjectType == "lamp_left")
             {
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Lamp_Left", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
-                obiekt->addCollider(static_layer, nullptr, {-2, 5}, 5.0, "COLLISION");
-                obiekt->addCollider(nullptr, interaction_layer, {-2, 5}, 5.0, "INTERACTION");
+                obiekt->addCollider(static_layer, nullptr, {13, 5}, 5.0, "COLLISION");
+                obiekt->addCollider(nullptr, interaction_layer, {13, 5}, 5.0, "INTERACTION");
                 obiekt->offsetTexture({6.0, -10.0});
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "lamp_right")
             {
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Lamp_Right", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
-                obiekt->addCollider(static_layer, nullptr, {13, 5}, 5.0, "COLLISION");
-                obiekt->addCollider(nullptr, interaction_layer, {13, 5}, 5.0, "INTERACTION");
+                obiekt->addCollider(static_layer, nullptr, {-2, 5}, 5.0, "COLLISION");
+                obiekt->addCollider(nullptr, interaction_layer, {-2, 5}, 5.0, "INTERACTION");
                 obiekt->offsetTexture({6.0, -10.0});
                 obiekt->setScale(World_View_Scale);
             }
