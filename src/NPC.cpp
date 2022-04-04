@@ -1,5 +1,17 @@
 #include "NPC.hpp"
 #include <cmath>
+#include <random>
+
+std::vector<std::string> const RANDOM_QUOTES = {
+    "Hey",
+    "Hello",
+    "Bonjour",
+    "Hi",
+    "M'lady",
+    "42", 
+    "NULL REFERENCE",
+    "SEGFAULT"   
+};
 
 NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
 Character(soundSystem, position, size, _speed, _animation, _dyingTime)
@@ -66,7 +78,10 @@ void NPC::onUpdate(const sf::Time &delta)
             if(talkable){
                 qC->sendPulse(QuestCreator::PulseType::TALK,getName());
                 talkable = false;
-                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text("Hey",font,24)));
+                auto randomizer = std::random_device();
+                auto dist = std::uniform_int_distribution(0, (int)(RANDOM_QUOTES.size() - 1));
+
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text(RANDOM_QUOTES[dist(randomizer)],font,15)));
                 addChild(db);
             }
         }
