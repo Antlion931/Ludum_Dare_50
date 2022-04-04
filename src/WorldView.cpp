@@ -2,7 +2,7 @@
 #include <cmath>
 #include <memory>
 
-const sf::Vector2f World_View_Scale = {4.f,4.f};
+const sf::Vector2f World_View_Scale = {1.f,1.f};
 const std::vector<std::string> POSSIBLE_NPCS = {"Alchemist", "Archer", "Blacksmith", "Butcher", "Female", "Herald", "King",
     "Mage", "Male", "Merchant", "Princess", "Queen", "Thief"};
 
@@ -27,16 +27,27 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
 }
 
 
-void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos)
+void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos, bool overrideSpawn)
 {
     // format:
-    // type spawning_area spawning_area_args amount_lower_bound amount_upper_bound
-    // example: tree box 5 5 25 25 10 20
+    // BOX SPAWNING:
+    // type spawning_chance spawning_area_args amount_lower_bound amount_upper_bound
+    // example: tree 100 5 5 25 25 10 20
+
+    // LIST SPAWNING:
+    // list spawning_chance list_length objects
+    // example: list 50 4
+    // tree 50 1 1 15 15 10 20
+    // tree 30 3 3 25 25 10 20
+    // tree 20 5 5 20 25 10 20
+    // tree 10 7 7 10 25 10 20
     // will spawn 10 to 20 trees in a box with left top corner at (5,5)
     // and bottom right corner at (25,25)
-    std::string ObjectType, spawning_area;
+
+    std::string ObjectType;
+    int spawningChance;
     *loader >> ObjectType;
-    *loader >> spawning_area;
+    *loader >> spawningChance;
 
     float minDist = 1.0;
     if(ObjectType == "tree") { minDist = 1.0; }
@@ -47,7 +58,23 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
     else if(ObjectType == "Umbrella") { minDist = 4.0; }
     else if(ObjectType == "NPC") { minDist = 5.0; }
 
-    if(spawning_area == "box")
+    std::random_device randomizer;
+    std::uniform_int_distribution<int> spawningChanceGenerator(1, 100);
+
+    if(ObjectType == "list" || ObjectType == "List")
+    {
+        int listLength;
+        *loader >> listLength;
+        int chance = spawningChanceGenerator(randomizer);
+        std::cout << "CHANCE: " << chance << std::endl;
+        bool isListSpawned = overrideSpawn && chance <= spawningChance;
+        std::cout << "List overriden spawn: " << isListSpawned << std::endl;
+        for(int i = 0; i < listLength; i++)
+        {
+            loadObject(loader, chunk_pos, isListSpawned);
+        }
+    }
+    else
     {
         sf::Vector2i topleft, bottomright;
         *loader >> topleft.x;
@@ -58,7 +85,15 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
         *loader >> lowerBound;
         *loader >> upperBound;
 
-        std::random_device randomizer;
+        std::cout << "Overriden spawn: " << overrideSpawn << std::endl;
+        /// SPAWNING CHANCE CHECK
+        if (!(overrideSpawn && spawningChanceGenerator(randomizer) <= spawningChance))
+        {
+            std::cout << "Spawn Overriden\n";
+            return;
+        }
+
+
         std::uniform_int_distribution<int> randAmount(lowerBound, upperBound);
         int amountToSpawn = randAmount(randomizer);
 
@@ -77,7 +112,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             transformedPosition.x = (topleft.x * (1.0 - point.x) + bottomright.x * point.x) * ScaledTileSize.x + chunk_pos.x;
             transformedPosition.y = (topleft.y * (1.0 - point.y) + bottomright.y * point.y) * ScaledTileSize.y + chunk_pos.y;
 
-            std::cout << "Spawning at: (" << transformedPosition.x << ", " << transformedPosition.y << ")\n";
+            //std::cout << "Spawning at: (" << transformedPosition.x << ", " << transformedPosition.y << ")\n";
             if(ObjectType == "tree")
             {
                 std::shared_ptr<NPC> tree = NPCcreator->makeNPC("Tree", soundSystem, transformedPosition, {32,48}, NON_MOVE_NPC);
@@ -187,7 +222,6 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
                 //building->right
                 obiekt->setScale(World_View_Scale);
             }
-
         }
     }
 }
