@@ -12,6 +12,7 @@ void QuestCreator::addQuest(Quest _quest){
 };
 // NEEDS TESTING
 void QuestCreator::update(){
+
     for(int i=0; i<activeQuests.size();i++){
         switch(activeQuests.at(i).returnQuestType()){
             case hug:
@@ -71,8 +72,7 @@ void QuestCreator::update(){
             i=i-1;
         }
     }
-
-
+    sendPulse(CLEAR,"");
 };
 void QuestCreator::sendPulse(PulseType _pulse, std::string _name){
     lastPulse = {_pulse,_name};
