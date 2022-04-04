@@ -106,33 +106,9 @@ int main()
     testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
-    // std::shared_ptr<CollisionLayer> static_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    // std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());
-    // std::shared_ptr<NPCCreator> test_NPCCreator = std::make_shared<NPCCreator>(NPCCreator(static_layer, worldView->loadedObjects, interaction_layer));
-    // test_NPCCreator->makeNPC("Alchemist", GLOBAL_SOUND, {400,400}, {100,100});
-    // test_NPCCreator->makeNPC("Archer", GLOBAL_SOUND, {500,400}, {100,100});
-    // test_NPCCreator->makeNPC("Blacksmith", GLOBAL_SOUND, {600,400}, {100,100});
-    // test_NPCCreator->makeNPC("Butcher", GLOBAL_SOUND, {700,400}, {100,100});
-    // test_NPCCreator->makeNPC("Female", GLOBAL_SOUND, {800,400}, {100,100});
-    // test_NPCCreator->makeNPC("Herald", GLOBAL_SOUND, {900,400}, {100,100});
-    // test_NPCCreator->makeNPC("King", GLOBAL_SOUND, {1000,400}, {100,100});
-    // test_NPCCreator->makeNPC("Mage", GLOBAL_SOUND, {1100,400}, {100,100});
-    // test_NPCCreator->makeNPC("Male", GLOBAL_SOUND, {1200,400}, {100,100});
-    // test_NPCCreator->makeNPC("Merchant", GLOBAL_SOUND, {1300,400}, {100,100});
-    // test_NPCCreator->makeNPC("Princess", GLOBAL_SOUND, {1400,400}, {100,100});
-    // test_NPCCreator->makeNPC("Queen", GLOBAL_SOUND, {1500,400}, {100,100});
-    // test_NPCCreator->makeNPC("Thief", GLOBAL_SOUND, {1600,400}, {100,100});
-
-    // player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
-    // player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {40.0, 70.0}, "kill-box");
-
-    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({1000, 20}, {200, 60}, sf::Text("Place holder", font, 40)));
-    testLevelGUI->addChild(testTimeBox);
-
-    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 40)));
-    testLevelGUI->addChild(testQuestBox);
-
-    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({390, 435}, {500, 100}, sf::Text("Place holder", font, 60)));
+    std::shared_ptr<TextBox> testTextBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    testLevelGUI->addChild(testTextBox);
+    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
     testLevelGUI->addChild(testScoreBox);
 
     std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
@@ -140,30 +116,6 @@ int main()
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
     player->addChild(cameraController);
-
-    /*EntityPrefabs e;
-    TextureLoader treeTexture("./res/textures");
-    std::shared_ptr<StaticObject> treeObject = e.getStaticObject("tree");
-    treeObject->setTranslation({500, 500});
-
-    std::shared_ptr<Collidable> obstacle_1 = std::make_shared<Collidable>(Collidable());
-    obstacle_1->setName("obstacle 1");
-    obstacle_1->addCollider(test_layer, {0, 0}, 50.0);
-    obstacle_1->setTranslation({500, 500});
-    testYsort->addChild(obstacle_1);
-
-    std::shared_ptr<Collidable> obstacle_2 = std::make_shared<Collidable>(Collidable());
-    obstacle_2->setName("obstacle 2");
-    obstacle_2->addCollider(test_layer, {0, 0}, 50.0);
-    obstacle_2->setTranslation({550, 500});
-    testYsort->addChild(obstacle_2);
-
-    std::shared_ptr<Collidable> obstacle_3 = std::make_shared<Collidable>(Collidable());
-    obstacle_3->setName("obstacle 3");
-    obstacle_3->addCollider(test_layer, {0, 0}, {100.0, 50.0});
-    obstacle_3->setTranslation({700, 500});
-    obstacle_3->scale({2.0,2.0});
-    testYsort->addChild(obstacle_3);*/
 
     int index = 0;
  
@@ -347,9 +299,6 @@ int main()
         GUI->setTranslation(cameraController->getRequiredTranslation() - new_view.getSize() / 2.0f);
         root->draw(window);
 
-        //sf::Sprite Tree(*treeTexture.returnTexture("tree.png").get());
-        sf::RectangleShape Tree;
-        window.draw(Tree);
         window.display();
     }
 }

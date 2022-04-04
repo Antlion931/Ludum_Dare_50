@@ -1,77 +1,192 @@
 [
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Button.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Button.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Button.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Animation.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Animation.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Animation.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/ColoredButton.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/ColoredButton.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/ColoredButton.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Button.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Button.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Button.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Container.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Container.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Container.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/ButtonsContainer.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/ButtonsContainer.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/ButtonsContainer.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/DynamicNode.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/DynamicNode.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/DynamicNode.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/CameraController.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/CameraController.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/CameraController.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/LevelLoader.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/LevelLoader.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/LevelLoader.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Character.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Character.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Character.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/MouseChangeableProgressbar.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/MouseChangeableProgressbar.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/MouseChangeableProgressbar.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Chunk.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Chunk.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Chunk.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/MovingCircle.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/MovingCircle.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/MovingCircle.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/ChunkTemplateLoader.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/ChunkTemplateLoader.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/ChunkTemplateLoader.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Node.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Node.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Node.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Collision.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Collision.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Collision.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Progressbar.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Progressbar.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Progressbar.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/ColoredButton.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/ColoredButton.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/ColoredButton.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Resolution.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Resolution.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Resolution.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Container.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Container.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Container.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Style.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Style.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Style.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/DialogueBox.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/DialogueBox.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/DialogueBox.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/TextButton.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/TextButton.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/TextButton.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/DynamicNode.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/DynamicNode.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/DynamicNode.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/TextureLoader.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/TextureLoader.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/TextureLoader.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/LevelLoader.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/LevelLoader.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/LevelLoader.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/Toolkit.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/Toolkit.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/Toolkit.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/LevelSetUpper.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/LevelSetUpper.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/LevelSetUpper.cpp"
 },
 {
-  "directory": "/home/dawiderter/Ludum_Dare_50/build",
-  "command": "/usr/bin/g++-11   -I/home/dawiderter/Ludum_Dare_50/inc -I/home/dawiderter/Ludum_Dare_50/src  -g   -o CMakeFiles/main.dir/src/main.cpp.o -c /home/dawiderter/Ludum_Dare_50/src/main.cpp",
-  "file": "/home/dawiderter/Ludum_Dare_50/src/main.cpp"
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/MouseChangeableProgressbar.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/MouseChangeableProgressbar.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/MouseChangeableProgressbar.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/MovingCircle.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/MovingCircle.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/MovingCircle.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Music.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Music.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Music.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/NPC.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/NPC.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/NPC.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/NPCCreator.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/NPCCreator.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/NPCCreator.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Node.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Node.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Node.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Player.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Player.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Player.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Progressbar.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Progressbar.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Progressbar.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Quest.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Quest.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Quest.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/QuestCreator.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/QuestCreator.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/QuestCreator.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Resolution.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Resolution.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Resolution.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Root.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Root.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Root.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/SoundSystem.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/SoundSystem.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/SoundSystem.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/StaticNode.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/StaticNode.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/StaticNode.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/StaticObject.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/StaticObject.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/StaticObject.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Style.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Style.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Style.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/TextBox.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/TextBox.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/TextBox.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/TextButton.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/TextButton.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/TextButton.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/TextureLoader.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/TextureLoader.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/TextureLoader.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/TileMap.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/TileMap.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/TileMap.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Toolkit.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Toolkit.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Toolkit.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/WorldView.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/WorldView.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/WorldView.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/Y-sort.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/Y-sort.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/Y-sort.cpp"
+},
+{
+  "directory": "/home/bolidnik/Desktop/ludum_dare_50/build",
+  "command": "/usr/bin/g++   -I/home/bolidnik/Desktop/ludum_dare_50/inc -I/home/bolidnik/Desktop/ludum_dare_50/src  -std=c++2a -g   -std=gnu++2a -o CMakeFiles/main.dir/src/main.cpp.o -c /home/bolidnik/Desktop/ludum_dare_50/src/main.cpp",
+  "file": "/home/bolidnik/Desktop/ludum_dare_50/src/main.cpp"
 }
 ]

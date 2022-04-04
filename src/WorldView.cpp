@@ -1,4 +1,5 @@
 #include "WorldView.hpp"
+#include "AnimationSequences.hpp"
 #include <cmath>
 #include <memory>
 
@@ -18,19 +19,20 @@ soundSystem(_soundSystem)
     player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0);
     player->addCollider(interaction_layer, nullptr, {50.0, 0.0}, {30.0, 60.0}, "kill-box");
 
-    NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100});
-    NPCcreator.makeNPC("Archer", soundSystem, {500,400}, {100,100});
-    NPCcreator.makeNPC("Blacksmith", soundSystem, {600,400}, {100,100});
-    NPCcreator.makeNPC("Butcher", soundSystem, {700,400}, {100,100});
-    NPCcreator.makeNPC("Female", soundSystem, {800,400}, {100,100});
-    NPCcreator.makeNPC("Herald", soundSystem, {900,400}, {100,100});
-    NPCcreator.makeNPC("King", soundSystem, {1000,400}, {100,100});
-    NPCcreator.makeNPC("Mage", soundSystem, {1100,400}, {100,100});
-    NPCcreator.makeNPC("Male", soundSystem, {1200,400}, {100,100});
-    NPCcreator.makeNPC("Merchant", soundSystem, {1300,400}, {100,100});
-    NPCcreator.makeNPC("Princess", soundSystem, {1400,400}, {100,100});
-    NPCcreator.makeNPC("Queen", soundSystem, {1500,400}, {100,100});
-    NPCcreator.makeNPC("Thief", soundSystem, {1600,400}, {100,100});
+    NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Archer", soundSystem, {500,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Blacksmith", soundSystem, {600,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Butcher", soundSystem, {700,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Female", soundSystem, {800,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Herald", soundSystem, {900,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("King", soundSystem, {1000,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Mage", soundSystem, {1100,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Male", soundSystem, {1200,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Merchant", soundSystem, {1300,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Princess", soundSystem, {1400,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Queen", soundSystem, {1500,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Thief", soundSystem, {1600,400}, {100,100}, NPCAnimationSequences);
+    NPCcreator.makeNPC("Tree", soundSystem, {1600,400}, {100,100}, NonAnimationSequences);
 
     chunkChange(currentCenterCoords);
 }
@@ -66,10 +68,12 @@ void WorldView::loadStaticObject(std::shared_ptr<std::ifstream> loader, sf::Vect
             std::uniform_int_distribution<int> yDist(topleft.y, bottomright.y);
             if(ObjectType == "tree")
             {
-                auto t = entityPrefabs.getStaticObject("tree");
-                allObjects.push_back(t);
+                //auto tree = NPCcreator.makeNPC("Alchemist", soundSystem, {400,400}, {100,100});
+                /*auto t = entityPrefabs.getStaticObject("tree");
+                allObjects.push_back(t);*/
                 sf::Vector2f ScaledTileSize = sf::Vector2f(TileSize) * ChunkContainer->getGlobalTransform().getScale().x;
-                t->translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
+                //tree->setVelocity({0,0});
+                //tree.translate(chunk_pos + sf::Vector2f(xDist(randomizer),yDist(randomizer)) * ScaledTileSize.x);
             }
         }
     }
