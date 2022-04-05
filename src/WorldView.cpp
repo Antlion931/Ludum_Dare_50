@@ -60,6 +60,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
     else if(ObjectType == "bench") { minDist = 2; }
     else if(ObjectType == "lamp_left"){minDist = 7;}
     else if(ObjectType == "lamp_right"){minDist = 7;}
+    else if(ObjectType == "hydrant"){minDist = 7;}
 
     std::random_device randomizer;
     std::uniform_int_distribution<int> spawningChanceGenerator(1, 100);

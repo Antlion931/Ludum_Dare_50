@@ -36,3 +36,9 @@
 lamp_left 100 2 5 2 21 1 10
 lamp_left 100 8 24 8 26 1 10
 lamp_right 100 29 5 29 26 1 10
+
+hydrant 100 3 5 3 21 1 10
+hydrant 100 29 5 29 26 1 10
+
+umbrella 100 5 5 26 20 1 10
+umbrella 100 11 22 26 26 1 10
