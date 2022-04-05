@@ -114,16 +114,17 @@ int main()
     testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
-    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 90}, {200, 60}, sf::Text("Place holder", font, 60)));
+    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 90}, {200, 60}, sf::Text("Place holder", font, 40)));
     testLevelGUI->addChild(testQuestBox);
 
-    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 40)));
     testLevelGUI->addChild(testTimeBox);
 
-    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1000, 20}, {100, 60}, sf::Text("Place holder", font, 60)));
+    std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1100, 20}, {100, 60}, sf::Text("Place holder", font, 40)));
     testLevelGUI->addChild(testScoreBox);
 
-
+    std::shared_ptr<TextBox> testInfoBox = std::make_shared<TextBox>(TextBox({550, 300}, {200, 60}, sf::Text("New Quest!", font, 60)));
+    testLevelGUI->addChild(testInfoBox);
     
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
@@ -176,7 +177,10 @@ int main()
 
     //=========================================================================================GAME LOOP
     root->setLevel(MAIN_MENU);
-    sf::Clock deltaClock;        
+    sf::Clock deltaClock;
+
+    bool has_lost = false;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -290,7 +294,18 @@ int main()
 
         if(testButtons->get("TRY AGAIN")->isPressed(window))
         {
-            //TODO:
+            player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+            player->scale({1.6, 1.6});
+            cameraController = std::make_shared<CameraController>(CameraController(player));
+            cameraController->setName("Player's camera control");
+            player->addChild(cameraController);
+
+            testLevel->removeChild(worldView);
+            worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
+            testLevel->addChild(worldView);
+            has_lost = false;
+            questCreator->failedQuests.clear();
+            testInfoBox->setText("New Quest!");
         }
 
         if(testButtons->get("MENU")->isPressed(window))
@@ -319,20 +334,45 @@ int main()
         sf::Time delta = deltaClock.restart();
         window.clear(sf::Color(242,196,22));
 
-        if(testScoreBox->isVisible())
+        if(!has_lost)
         {
-            testScoreBox->setString("SCORE: " + std::to_string(questCreator->completedQuests.size())); 
-        }
+            if(testScoreBox->isVisible())
+            {
+                testScoreBox->setString("SCORE: " + std::to_string(questCreator->completedQuests.size())); 
+            }
+            if(testQuestBox->isVisible())
+            {
+                testQuestBox->setString(Quest::questTypeToString(questCreator->activeQuests[0].returnQuestType()) + ": " + questCreator->activeQuests[0].returnQuestObjectiveType()); 
+            }
+            if(testTimeBox->isVisible())
+            {
+                testTimeBox->setString("Remaining " + std::to_string(questCreator->activeQuests[0].returnRemainingTime().asSeconds()) + " s"); 
+            }
+            if(questCreator->activeQuests[0].returnRemainingTime().asSeconds() > 28.0)
+            {
+                testInfoBox->setVisible(1);
+            }
+            else
+            {
+                testInfoBox->setVisible(0);
+            }
 
-
-        if(testQuestBox->isVisible())
-        {
-            testQuestBox->setString(Quest::questTypeToString(questCreator->activeQuests[0].returnQuestType()) + ": " + questCreator->activeQuests[0].returnQuestObjectiveType()); 
-        }
-
-        if(testTimeBox->isVisible())
-        {
-            testTimeBox->setString("Remaining " + std::to_string(questCreator->activeQuests[0].returnRemainingTime().asSeconds()) + " s"); 
+            if(questCreator->failedQuests.size() != 0)
+            {
+                player->kill();
+                testButtons->get("TRY AGAIN")->setVisible(1);
+                testButtons->get("TRY AGAIN")->setActive(1);
+                testTimeBox->setString("");
+                testQuestBox->setString("");
+                testInfoBox->setText("You lost!");
+                testInfoBox->setVisible(1);
+                has_lost = true;
+            }
+            else 
+            {
+                testButtons->get("TRY AGAIN")->setVisible(0);
+                testButtons->get("TRY AGAIN")->setActive(0);
+            }
         }
 
         root->update(delta);

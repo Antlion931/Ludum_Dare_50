@@ -360,3 +360,11 @@ void WorldView::deallocateChunk(sf::Vector2i chunkCoords)
 {
 
 }
+
+void WorldView::reset()
+{
+    currentCenterCoords = {0,0};
+    chunkMap.clear();
+    //ChunkContainer->
+    allObjects->clear();
+}
