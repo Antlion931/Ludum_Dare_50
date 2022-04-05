@@ -34,7 +34,7 @@ public:
 
     sf::Transformable getGlobalTransform() const;
 
-    bool debug_visible = true;
+    bool debug_visible = false;
     virtual void printDebug() const;
 
     void setActive(bool _active);
