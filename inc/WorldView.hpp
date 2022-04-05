@@ -54,6 +54,7 @@ public:
 
     WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
 
+    void reset();
 protected:
     void onUpdate(const sf::Time& delta) override;
 };
