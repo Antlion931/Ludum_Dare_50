@@ -99,10 +99,10 @@ sf::Vector2f Collider::RectangleRectangle(Collider const &other) const
     float s_y_top = s_center.y - shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
     
     sf::Vector2f o_center = other.getGlobalTransform().getPosition();
-    float o_x_left = o_center.x - other.shape_info.rectangle.x/2 * getGlobalTransform().getScale().x;
-    float o_x_right = o_center.x + other.shape_info.rectangle.x/2 * getGlobalTransform().getScale().x;
-    float o_y_bottom = o_center.y + other.shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
-    float o_y_top = o_center.y - other.shape_info.rectangle.y/2 * getGlobalTransform().getScale().x;
+    float o_x_left = o_center.x - other.shape_info.rectangle.x/2 * other.getGlobalTransform().getScale().x;
+    float o_x_right = o_center.x + other.shape_info.rectangle.x/2 * other.getGlobalTransform().getScale().x;
+    float o_y_bottom = o_center.y + other.shape_info.rectangle.y/2 * other.getGlobalTransform().getScale().x;
+    float o_y_top = o_center.y - other.shape_info.rectangle.y/2 * other.getGlobalTransform().getScale().x;
 
     if(s_x_left > o_x_right || s_x_right < o_x_left || s_y_bottom < o_y_top || s_y_top > o_y_bottom)
         return {0,0};
@@ -131,11 +131,11 @@ void Collider::onDrawDebug(sf::RenderTarget &target) const
 
 Collidable::CollisionResult Collidable::scanCollisions (std::string collider_id) 
 {
-    std::shared_ptr<Collider> last_collision = nullptr;
+    std::set<std::string> collision_names;
     sf::Vector2f move_vector = {0,0};
     
     if (!scan_layers.contains(collider_id) or scan_layers[collider_id] == nullptr)
-        return {last_collision, move_vector};
+        return {collision_names, move_vector};
     
     for (const auto& coll : scan_layers[collider_id]->list) 
     {
@@ -145,11 +145,11 @@ Collidable::CollisionResult Collidable::scanCollisions (std::string collider_id)
             if(result != sf::Vector2f(0.0,0.0))
             {
                 move_vector = move_vector + result;
-                last_collision = coll;
+                collision_names.insert(coll->getName());
             }
         }
     }
-    return {last_collision, move_vector};
+    return {collision_names, move_vector};
 }
 
 void Collidable::addCollider(std::shared_ptr<CollisionLayer> collider_layer, std::shared_ptr<CollisionLayer> scanning_layer, sf::Vector2f _position, float _radius, std::string collider_id)

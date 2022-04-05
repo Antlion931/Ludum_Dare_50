@@ -103,17 +103,18 @@ int main()
     std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
     player->scale({1.6, 1.6});
     
-    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player);
-    NPC::setQuestCreator(questCreator);
 
     std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
     worldView->setName("world view");
     testLevel->addChild(worldView);
 
+    std::shared_ptr<QuestCreator> questCreator = std::make_shared<QuestCreator>(player, worldView->loadedObjects);
+    NPC::setQuestCreator(questCreator);
+
     testButtons->makeColoredButton("TRY AGAIN", 90, {390, 550}, {500, 100});
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
-    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
+    std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 90}, {200, 60}, sf::Text("Place holder", font, 60)));
     testLevelGUI->addChild(testQuestBox);
 
     std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 60)));
@@ -127,9 +128,6 @@ int main()
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));
     cameraController->setName("Player's camera control");
     player->addChild(cameraController);
-
-    int index = 0;
-    
  
     //===================================================================================================SETTINGS
     std::shared_ptr<Node> settingsLevel;
@@ -324,6 +322,17 @@ int main()
         if(testScoreBox->isVisible())
         {
             testScoreBox->setString("SCORE: " + std::to_string(questCreator->completedQuests.size())); 
+        }
+
+
+        if(testQuestBox->isVisible())
+        {
+            testQuestBox->setString(Quest::questTypeToString(questCreator->activeQuests[0].returnQuestType()) + ": " + questCreator->activeQuests[0].returnQuestObjectiveType()); 
+        }
+
+        if(testTimeBox->isVisible())
+        {
+            testTimeBox->setString("Remaining " + std::to_string(questCreator->activeQuests[0].returnRemainingTime().asSeconds()) + " s"); 
         }
 
         root->update(delta);

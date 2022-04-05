@@ -15,6 +15,21 @@ Quest::Quest(std::string _questObjectiveType,QuestType _questType,int _remaining
     timeForQuest = sf::milliseconds(_remainingMiliseconds);
 };
 
+std::string Quest::questTypeToString(QuestType type)
+{
+    switch (type) 
+    {
+        case hug:
+            return "HUG";
+        case talk:
+            return "TALK";
+        case kill:
+            return "KILL";
+        case steal:
+            return "STEAL";
+    }
+}
+
 void Quest::setQuestAsDone(){
     /*
         Coś się dzieje?
@@ -25,7 +40,7 @@ void Quest::setQuestAsFailed(){
     /*
         Też coś się dzieje?
     */
-   Failed = true;
+    Failed = true;
 };
 bool Quest::isDone() const{
     std::cout << "Quest Done!" << std::endl;

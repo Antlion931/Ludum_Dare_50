@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <map>
+#include <set>
 
 class Collider : public Node
 {
@@ -46,7 +47,7 @@ class Collidable : public Node
 {
     struct CollisionResult 
     {
-        std::shared_ptr<Collider> collider;
+        std::set<std::string> collider;
         sf::Vector2f move_vector;
     };
 

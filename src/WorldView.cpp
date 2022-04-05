@@ -20,7 +20,7 @@ WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player,
     loadedObjects->addChild(player);
     addChild(loadedObjects);
 
-    player->addCollider(static_layer, static_layer, {0.0, 31.0}, 20.0, "COLLISION");
+    player->addCollider(static_layer, static_layer, {0.0, 15.0}, 20.0, "COLLISION");
     player->addCollider(interaction_layer, nullptr, {30.0, 0.0}, {40.0, 70.0}, "KILL");
     player->addCollider(interaction_layer, nullptr, {30.0, 0.0}, {140.0, 100.0}, "TALK");
     player->addCollider(interaction_layer, nullptr, {0.0, 0.0}, {55.0, 55.0}, "100-unit");
@@ -69,9 +69,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
         int listLength;
         *loader >> listLength;
         int chance = spawningChanceGenerator(randomizer);
-        std::cout << "CHANCE: " << chance << std::endl;
         bool isListSpawned = overrideSpawn && chance <= spawningChance;
-        std::cout << "List overriden spawn: " << isListSpawned << std::endl;
         for(int i = 0; i < listLength; i++)
         {
             loadObject(loader, chunk_pos, isListSpawned);
@@ -88,11 +86,9 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
         *loader >> lowerBound;
         *loader >> upperBound;
 
-        std::cout << "Overriden spawn: " << overrideSpawn << std::endl;
         /// SPAWNING CHANCE CHECK
         if (!(overrideSpawn && spawningChanceGenerator(randomizer) <= spawningChance))
         {
-            std::cout << "Spawn Overriden\n";
             return;
         }
 
@@ -114,6 +110,14 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
             sf::Vector2i intPosition;
             intPosition.x = int(topleft.x * (1.0 - point.x) + bottomright.x * point.x);
             intPosition.y = int(topleft.y * (1.0 - (point.y/YtoX)) + bottomright.y * (point.y/YtoX));
+
+            if (topleft.x == bottomright.x)
+                intPosition.x = topleft.x;
+            if (topleft.y == bottomright.y)
+                intPosition.y = topleft.y;
+
+            if(intPosition.x > bottomright.x)
+                std::cout << "AA";
 
             sf::Vector2f transformedPosition;
             transformedPosition.x = intPosition.x * ScaledTileSize.x + chunk_pos.x;
@@ -144,6 +148,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
                 std::shared_ptr<NPC> bench = NPCcreator->makeNPC("Bench_Down", soundSystem, transformedPosition, {40.0,20.0}, NON_MOVE_NPC);
                 bench->addCollider(static_layer, nullptr, {0.f, -5.f}, {25.0,10.0}, "COLLISION");
                 bench->addCollider(nullptr, interaction_layer, {0.f, -5.f}, {25.0,10.0}, "INTERACTION");
+                bench->setName("bench");
                 bench->setScale(World_View_Scale);
             }
             else if(ObjectType == "pot")
@@ -188,6 +193,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Chair_Left", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
                 obiekt->addCollider(static_layer, nullptr, {0.f, 5.f}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
+                obiekt->setName("chair");
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "chair_right")
@@ -195,6 +201,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
                 std::shared_ptr<NPC> obiekt = NPCcreator->makeNPC("Chair_Right", soundSystem, transformedPosition, {30.0,45.0}, NON_MOVE_NPC);
                 obiekt->addCollider(static_layer, nullptr, {0.f, 5.f}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {0.f, 5.f}, 5.0, "INTERACTION");
+                obiekt->setName("chair");
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "flowers")
@@ -210,6 +217,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
                 obiekt->addCollider(static_layer, nullptr, {13, 5}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {13, 5}, 5.0, "INTERACTION");
                 obiekt->offsetTexture({6.0, -10.0});
+                obiekt->setName("lamp");
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "lamp_right")
@@ -218,6 +226,7 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
                 obiekt->addCollider(static_layer, nullptr, {-2, 5}, 5.0, "COLLISION");
                 obiekt->addCollider(nullptr, interaction_layer, {-2, 5}, 5.0, "INTERACTION");
                 obiekt->offsetTexture({6.0, -10.0});
+                obiekt->setName("lamp");
                 obiekt->setScale(World_View_Scale);
             }
             else if(ObjectType == "shop")
