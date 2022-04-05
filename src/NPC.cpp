@@ -81,7 +81,7 @@ void NPC::onUpdate(const sf::Time &delta)
                 auto randomizer = std::random_device();
                 auto dist = std::uniform_int_distribution(0, (int)(RANDOM_QUOTES.size() - 1));
 
-                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text(RANDOM_QUOTES[dist(randomizer)],font,15)));
+                db = std::make_shared<DialogueBox>(DialogueBox(sf::Text(RANDOM_QUOTES[dist(randomizer)],font,64)));
                 addChild(db);
             }
         }
