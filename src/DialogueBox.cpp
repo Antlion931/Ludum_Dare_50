@@ -31,7 +31,7 @@ void DialogueBox::adjustText()
     //x = targetV.x - text.getGlobalBounds().width/2-60.f;
     //y = targetV.y - 90.f;
     //text.setPosition(x,y);
-    text.setPosition(-x,0.f);
+    text.setPosition(-x,30.f);
 }
 
 void DialogueBox::onUpdate(const sf::Time& delta){
