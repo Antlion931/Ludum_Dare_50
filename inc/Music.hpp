@@ -11,8 +11,8 @@ class Music{
         std::string returnTrack() const;
         void stopMusic();
         void setRepeat(bool _repeat);
-    private:
         void playMusic();
+    private:
         sf::Music music;
         float volume = 50.f;
         bool repeat = true;

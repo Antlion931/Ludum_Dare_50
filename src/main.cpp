@@ -306,6 +306,7 @@ int main()
             has_lost = false;
             questCreator->failedQuests.clear();
             testInfoBox->setText("New Quest!");
+            GLOBAL_MUSIC.playMusic();
         }
 
         if(testButtons->get("MENU")->isPressed(window))
@@ -367,6 +368,7 @@ int main()
                 testInfoBox->setText("You lost!");
                 testInfoBox->setVisible(1);
                 has_lost = true;
+                GLOBAL_MUSIC.stopMusic();
             }
             else 
             {

@@ -10,7 +10,11 @@ std::vector<std::string> const RANDOM_QUOTES = {
     "M'lady",
     "42", 
     "NULL REFERENCE",
-    "SEGFAULT"   
+    "SEGFAULT",
+    "How is your day?",
+    "How are you?",
+    "Thanks",
+    "Good morning"
 };
 
 NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
