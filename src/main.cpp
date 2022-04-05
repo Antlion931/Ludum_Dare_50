@@ -92,7 +92,7 @@ int main()
 
     mainMenuButtons->makeColoredButton("PLAY", 60, { 850,150 }, { 350,80 });
     mainMenuButtons->makeColoredButton("SETTINGS", 60, { 850,300 }, { 350,80 });
-    mainMenuButtons->makeColoredButton("TEST", 60, { 850,450 }, { 350,80 });
+    //mainMenuButtons->makeColoredButton("TEST", 60, { 850,450 }, { 350,80 });
     mainMenuButtons->makeColoredButton("EXIT", 60, {850, 600}, {350,80});
     
     //====================================================================================================TESTING
@@ -274,12 +274,12 @@ int main()
             root->setLevel(SETTINGS);
         }
 
-        if(mainMenuButtons->get("TEST")->isPressed(window))
-        {
-            root->setLevel(TEST_PLAY);
-            //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
-            GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
-        }
+        // if(mainMenuButtons->get("TEST")->isPressed(window))
+        // {
+        //     root->setLevel(TEST_PLAY);
+        //     //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
+        //     GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
+        // }
 
         // if(testButtons->get("KILL")->isPressed(window))
         // {
@@ -332,12 +332,13 @@ int main()
         }
 
         GLOBAL_SOUND.update();
-        questCreator->update();
+        if (player->isActive())
+            questCreator->update();
 
         sf::Time delta = deltaClock.restart();
         window.clear(sf::Color(242,196,22));
 
-        if(!has_lost)
+        if(player->isActive() && !has_lost)
         {
             if(testScoreBox->isVisible())
             {
