@@ -74,7 +74,7 @@ void QuestCreator::update(){
             i=i-1;
         }
     }
-    if (activeQuests.size() == 0)
+    if (activeQuests.size() == 0 and failedQuests.size() == 0)
         addQuest(generateRandomQuest());
     sendPulse(CLEAR,"");
 };
