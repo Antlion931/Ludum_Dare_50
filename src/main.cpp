@@ -51,12 +51,14 @@ int main()
 
     sf::Font font;
 
+
     if (!font.loadFromFile("res/Comic_Book.otf"))
     {
         std::cerr << "font errore!\n";
         return 0;
     }
 
+    NPC::font = font;
 
     std::unique_ptr<Root> root = std::make_unique<Root>(Root(GLOBAL_MUSIC));
     root->setName("root");
