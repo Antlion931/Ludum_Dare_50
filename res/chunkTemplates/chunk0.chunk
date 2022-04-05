@@ -36,3 +36,13 @@ lamp_left 100 2 5 2 26 1 10
 lamp_right 100 29 5 29 26 1 10
 NPC 100 2 5 26 26 5 20
 NPC 50 2 5 26 26 5 20
+lamp_left 100 17 5 17 26 1 10
+lamp_right 100 14 5 14 26 1 10 
+
+hydrant 100 3 5 3 26 1 10
+hydrant 100 29 5 29 26 1 10
+hydrant 100 18 5 18 26 1 10
+hydrant 100 14 5 14 26 1 10 
+
+hydrant 100 3 5 3 26 1 10
+hydrant 100 29 5 29 26 1 10
