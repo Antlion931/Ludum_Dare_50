@@ -4,24 +4,41 @@
 #include <iostream>
 #include "Animation.hpp"
 
-Animation::Animation(std::string directoryPath, std::vector<float> _speeds, std::vector<int> _animationIndex) 
-: loader(directoryPath), speeds(_speeds), animationIndex(_animationIndex)
+Animation::Animation(std::shared_ptr<TextureLoader> _loader, std::vector<float> _speeds, std::vector<int> _animationIndex) 
+: speeds(_speeds), animationIndex(_animationIndex)
 {
+    loader = std::make_shared<TextureLoader>(TextureLoader(_loader));
     assert(speeds.size() == 5);
     assert(animationIndex.size() == 5);
 
     currentAnimation = IDLE;
     currentIndex = 1;
     currentTime = 0.0f;
-    intRect.height = loader.returnTexture("1.png")->getSize().y;
-    intRect.width = loader.returnTexture("1.png")->getSize().x;
+    intRect.height = loader->returnTexture("1.png")->getSize().y;
+    intRect.width = loader->returnTexture("1.png")->getSize().x;
 
     fileFormat = ".png";
 }
 
+Animation::Animation(std::string texturesDirectory, std::vector<float> _speeds, std::vector<int> _animationIndex) : speeds(_speeds), animationIndex(_animationIndex)
+{
+    loader = std::make_shared<TextureLoader>(TextureLoader(texturesDirectory));
+    assert(speeds.size() == 5);
+    assert(animationIndex.size() == 5);
+
+    currentAnimation = IDLE;
+    currentIndex = 1;
+    currentTime = 0.0f;
+    intRect.height = loader->returnTexture("1.png")->getSize().y;
+    intRect.width = loader->returnTexture("1.png")->getSize().x;
+
+    fileFormat = ".png";
+}
+
+
 std::shared_ptr<sf::Texture> Animation::getTexture()
 {
-    return loader.returnTexture(std::to_string(currentIndex) + fileFormat);
+    return loader->returnTexture(std::to_string(currentIndex) + fileFormat);
     return nullptr;
 }
 

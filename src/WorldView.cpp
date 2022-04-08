@@ -3,8 +3,7 @@
 #include <memory>
 
 const sf::Vector2f World_View_Scale = {4.f,4.f};
-const std::vector<std::string> POSSIBLE_NPCS = {"Alchemist", "Archer", "Blacksmith", "Butcher", "Female", "Herald", "King",
-    "Mage", "Male", "Merchant", "Princess", "Queen", "Thief"};
+const std::vector<std::string> POSSIBLE_NPCS = {"Female","Male"};
 
 WorldView::WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet)
 : player(_player), tileSet(_tileSet), soundSystem(_soundSystem)
@@ -64,6 +63,8 @@ void WorldView::loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f c
 
     std::random_device randomizer;
     std::uniform_int_distribution<int> spawningChanceGenerator(1, 100);
+
+
 
     if(ObjectType == "list" || ObjectType == "List")
     {
@@ -257,10 +258,10 @@ void WorldView::chunkChange(sf::Vector2i newCenterCoords)
                 }
             }
             else
-                allocateChunk({j,i}, newCenterCoords);
-            
+                allocateChunk({j,i}, newCenterCoords);            
         }
     }
+
     // deactivate old tilemaps
     for(int i = -1; i <= 1; i++)
     {
@@ -326,6 +327,7 @@ void WorldView::onUpdate(const sf::Time& delta)
 
 void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
 {
+
     sf::Vector2i relativeCoords = {relativeTo.x - chunkCoords.x, relativeTo.y - chunkCoords.y};
     if(chunkMap.contains(relativeCoords))
     {
@@ -341,6 +343,8 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
     // {
     // }
 
+
+
     // get global coords of the chunk
     sf::Vector2f trans = {relativeCoords.x * WorldChunkSize.x, relativeCoords.y * WorldChunkSize.y};
     chunk->translate(trans);
@@ -355,7 +359,6 @@ void WorldView::allocateChunk(sf::Vector2i chunkCoords, sf::Vector2i relativeTo)
     ChunkContainer->addChild(chunk);
     chunkMap.insert({relativeCoords, chunk});
 }
-
 
 void WorldView::deallocateChunk(sf::Vector2i chunkCoords)
 {
