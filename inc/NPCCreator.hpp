@@ -21,4 +21,5 @@ private:
     std::shared_ptr<CollisionLayer> collisionLayer;
     std::shared_ptr<CollisionLayer> interactionLayer;
     std::shared_ptr<std::vector<std::shared_ptr<Node>>> objectVector;
+    std::map<std::string, std::shared_ptr<TextureLoader>> textureLoaderPrototypes;
 };

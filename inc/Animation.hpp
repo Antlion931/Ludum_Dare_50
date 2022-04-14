@@ -17,7 +17,8 @@ PUNCHING
 class Animation
 {
 public:
-    Animation(std::string directoryPath, std::vector<float> _speeds, std::vector<int> _animationIndex);
+    Animation(std::shared_ptr<TextureLoader> _loader, std::vector<float> _speeds, std::vector<int> _animationIndex);
+    Animation(std::string texturesDirectory, std::vector<float> _speeds, std::vector<int> _animationIndex);
     std::shared_ptr<sf::Texture> getTexture();
     sf::IntRect getIntRect();
     void changeAnimation(AnimationType newAnimationType);
@@ -32,7 +33,7 @@ protected:
     int currentIndex;
     float currentTime;
 
-    TextureLoader loader;
+    std::shared_ptr<TextureLoader> loader;
     std::string fileFormat;
     sf::IntRect intRect;
 };

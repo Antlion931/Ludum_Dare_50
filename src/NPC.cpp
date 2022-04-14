@@ -94,8 +94,8 @@ void NPC::onUpdate(const sf::Time &delta)
         }
         if(db!=nullptr && db->isHidden()){
             talkable = true;
-            db = nullptr;
             removeChild(db);
+            db = nullptr;
         }
     }
     updateBody(delta);

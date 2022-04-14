@@ -10,6 +10,7 @@ class TextureLoader{
             directoryPath = _directoryPath;
             loadTextures();
         }
+        TextureLoader(std::shared_ptr<TextureLoader> loader);
         std::shared_ptr<sf::Texture> returnTexture(std::string _fileName);
         int getAmountOfTextures();
 
