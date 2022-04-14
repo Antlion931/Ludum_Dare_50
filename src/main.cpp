@@ -207,10 +207,10 @@ int main()
                 {
                     std::cout << "button _1920x1080 is: " << (settingsButtons->get("1920 x 1080")->isActive() ? "active\n" : "inactive\n");
                 }
-                else if (event.key.code == sf::Keyboard::Space)
-                {
-                    root->printTree();
-                }
+                // else if (event.key.code == sf::Keyboard::Space)
+                // {
+                //     root->printTree();
+                // }
                 break;
             }
         }
