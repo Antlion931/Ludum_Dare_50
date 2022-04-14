@@ -16,10 +16,8 @@ if(STATIC_LIBS)
     set(SFML_STATIC_LIBRARIES TRUE)
 endif()
 
-set(SFML_DIR "./lib/SFML/lib/cmake/SFML")
+set(SFML_DIR "lib/SFML/lib/cmake/SFML")
 find_package(SFML COMPONENTS system audio window graphics REQUIRED)
-
-#set(SFML_DIR "C:/DevStuff/SFML/Windows_MinGW_Installed/lib/cmake/SFML")
 
 target_link_libraries(main sfml-graphics sfml-audio)
 
