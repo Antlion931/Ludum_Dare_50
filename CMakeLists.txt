@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.20.0 FATAL_ERROR)
 project(Ludum_dare_50_game)
 
 file(GLOB_RECURSE SRC "src/*.cpp")
+file(GLOB_RECURSE INC "inc/*.hpp")
 
-add_executable(main ${SRC})
+add_executable(main ${SRC} ${INC})
 
 target_include_directories(main PRIVATE inc)
 target_compile_features(main PRIVATE cxx_std_20)
