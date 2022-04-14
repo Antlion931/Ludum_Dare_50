@@ -1,14 +1,18 @@
-cmake_minimum_required(VERSION 3.2.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.20.0 FATAL_ERROR)
 project(Ludum_dare_50_game)
-
-include_directories(inc)
-include_directories(src)
 
 file(GLOB_RECURSE SRC "src/*.cpp")
 
-set (CMAKE_CXX_FLAGS -std=c++2a)
-
 add_executable(main ${SRC})
-target_link_libraries(main sfml-graphics sfml-window sfml-system sfml-audio)
-target_link_libraries(main ${OPENGL_LIBRARIES})
-set_property(TARGET main PROPERTY CXX_STANDARD 20)
+
+target_include_directories(main PRIVATE inc)
+target_compile_features(main PRIVATE cxx_std_20)
+#target_compile_options(main PRIVATE -Wall -Wextra -Wpedantic)
+
+set(SFML_DIR "./lib/SFML/lib/cmake/SFML")
+#set(SFML_DIR "C:/DevStuff/SFML/Windows_MinGW_Installed/lib/cmake/SFML")
+set(SFML_STATIC_LIBRARIES TRUE)
+find_package(SFML COMPONENTS system audio window graphics REQUIRED)
+
+target_link_libraries(main sfml-graphics sfml-audio)
+

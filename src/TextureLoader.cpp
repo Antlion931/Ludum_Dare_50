@@ -7,11 +7,11 @@
 void TextureLoader::loadTextures(){
     for(const auto &entry: std::filesystem::directory_iterator(directoryPath)){
         sf::Texture texture;
-        if(!texture.loadFromFile(entry.path())){
+        if(!texture.loadFromFile(entry.path().string())){
             std::cerr<<"Error while loading audio!"<<std::endl;
             continue;
         };
-        std::string str = entry.path();
+        std::string str = entry.path().string();
         str.erase(0,directoryPath.length()+1);
         textures.insert({str,std::make_shared<sf::Texture>(texture)});
         //std::cout << "Loaded Texture with id: " << str << std::endl;

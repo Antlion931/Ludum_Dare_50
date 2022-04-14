@@ -5,11 +5,11 @@
 SoundSystem::SoundSystem(){
     for(const auto &entry: std::filesystem::directory_iterator("./res/sounds/")){
         sf::SoundBuffer sb;
-        if(!sb.loadFromFile(entry.path())){
+        if(!sb.loadFromFile(entry.path().string())){
             std::cerr<<"Error while loading audio!"<<std::endl;
             continue;
         };
-        std::string str = entry.path();
+        std::string str = entry.path().string();
         str.erase(0,13);
         soundBuffer.insert({str,sb});
     }
