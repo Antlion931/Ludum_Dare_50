@@ -17,8 +17,8 @@ std::vector<std::string> const RANDOM_QUOTES = {
     "Good morning"
 };
 
-NPC::NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
-Character(soundSystem, position, size, _speed, _animation, _dyingTime)
+NPC::NPC(sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
+Character(position, size, _speed, _animation, _dyingTime)
 {
     //font.loadFromFile("res/Comic_Book.otf");
     randomVelocityAndTimes();

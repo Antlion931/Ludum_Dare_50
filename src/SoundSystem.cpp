@@ -2,6 +2,8 @@
 #include<iostream>
 #include<filesystem>
 
+SoundSystem* SoundSystem::instance = nullptr;
+
 SoundSystem::SoundSystem(){
     for(const auto &entry: std::filesystem::directory_iterator("./res/sounds/")){
         sf::SoundBuffer sb;
@@ -20,6 +22,7 @@ void SoundSystem::playSound(std::string _fileName){
     soundQueque.back().setVolume(volume);
     soundQueque.back().play();
 }
+
 void SoundSystem::playSound(std::string _fileName, sf::Vector2f _position){
     soundQueque.push_back(sf::Sound(soundBuffer.at(_fileName)));
     sf::Sound &ref = soundQueque.back();
@@ -40,6 +43,17 @@ void SoundSystem::update(){
 void SoundSystem::setVolume(float _volume){
     volume = _volume;
 }
+
 float SoundSystem::returnVolume() const{
     return volume;
+}
+
+SoundSystem* SoundSystem::getInstance()
+{
+    if(instance == nullptr)
+    {
+        instance = new SoundSystem();
+    }
+
+    return instance;
 }

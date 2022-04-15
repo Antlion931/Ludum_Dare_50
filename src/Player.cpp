@@ -57,7 +57,7 @@ void Player::onUpdate(const sf::Time &delta)
             //colliders["100-unit"]->setActive(false);
             colliders["KILL"]->setActive(true);
             animation.changeAnimation(PUNCHING);
-            soundSystem.playSound(punchSoundDirectory);
+            soundSystem->playSound(punchSoundDirectory);
         }
         else 
         {
@@ -83,8 +83,8 @@ void Player::onUpdate(const sf::Time &delta)
     updateBody(delta);
 }
 
-Player::Player(SoundSystem& soundSystem,sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, float _punchTime) : 
-Character(soundSystem, position, size, _speed, _animation, _dyingTime), punchTime(_punchTime)
+Player::Player(sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, float _punchTime) : 
+Character(position, size, _speed, _animation, _dyingTime), punchTime(_punchTime)
 {
     offsetTexture({0.0, -20.0});
 
@@ -129,8 +129,8 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
     snipersRedDot->setVelocity(newVelocity);
 }
 
-Player::Player(SoundSystem& soundSystem)
-: Player(soundSystem, {100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
+Player::Player()
+: Player ({100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
 {
     setName("player");
     setDyingSoundName("gunShotMono.wav");

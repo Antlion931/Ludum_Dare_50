@@ -22,10 +22,10 @@ NPCCreator::NPCCreator(std::shared_ptr<CollisionLayer> _collisionLayer,  std::sh
     textureLoaderPrototypes["Shop"] = std::make_shared<TextureLoader>(TextureLoader("./res/textures/npc/Shop"));
 }
 
-std::shared_ptr<NPC> NPCCreator::makeNPC(std::string NPCName, SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float speed, std::vector<float> speeds, std::vector<int> indexes)
+std::shared_ptr<NPC> NPCCreator::makeNPC(std::string NPCName, sf::Vector2f position, sf::Vector2f size, float speed, std::vector<float> speeds, std::vector<int> indexes)
 {
     //std::cout << NPCName << std::endl;
-    auto npc = std::make_shared<NPC>(NPC(soundSystem, position, size, speed, Animation(textureLoaderPrototypes[NPCName], speeds, indexes), 0.4));
+    auto npc = std::make_shared<NPC>(NPC(position, size, speed, Animation(textureLoaderPrototypes[NPCName], speeds, indexes), 0.4));
     //NPCs.push_back(npc);
     npc->setName(NPCName);
     npc->setDyingSoundName("dead.wav");

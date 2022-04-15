@@ -8,7 +8,7 @@
 class Character : public DynamicNode
 {
 public:
-    Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime);
+    Character( sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime);
 
     void setAnimation(std::string directoryPath, std::vector<float> _speeds, std::vector<int> _animationIndex);
 
@@ -38,6 +38,6 @@ protected:
 
     Animation animation;
     std::string dyingSoundName;
-    SoundSystem& soundSystem;
+    SoundSystem* soundSystem;
 };
 

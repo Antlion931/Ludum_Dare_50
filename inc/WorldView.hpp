@@ -13,6 +13,19 @@
 
 class WorldView : public Node
 {
+public:
+    std::shared_ptr<YSort> loadedObjects;
+    std::shared_ptr<std::vector<std::shared_ptr<Node>>> allObjects;
+
+    SoundSystem* soundSystem;
+
+    WorldView(std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
+
+    void reset();
+    
+protected:
+    void onUpdate(const sf::Time& delta) override;
+
 private:
     struct KeyHasher
     {
@@ -46,15 +59,4 @@ private:
 
     void loadObject(std::shared_ptr<std::ifstream> loader, sf::Vector2f chunk_pos, bool overrideSpawn = 1);
 
-public:
-    std::shared_ptr<YSort> loadedObjects;
-    std::shared_ptr<std::vector<std::shared_ptr<Node>>> allObjects;
-
-    SoundSystem& soundSystem;
-
-    WorldView(SoundSystem& _soundSystem, std::shared_ptr<Player> _player, std::shared_ptr<sf::Texture> _tileSet);
-
-    void reset();
-protected:
-    void onUpdate(const sf::Time& delta) override;
 };

@@ -12,16 +12,16 @@ void Root::setLevel(int level)
         
     break;
     case TEST_PLAY:
-        GLOBAL_MUSIC.stopMusic();
-        GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");    
+        musicSystem->stopMusic();
+        musicSystem->setTrack("GamePlayMusic.wav");    
     break;
     
     case SETTINGS:
-        GLOBAL_MUSIC.stopMusic();    
+        musicSystem->stopMusic();    
     break;
 
     case MAIN_MENU:
-        GLOBAL_MUSIC.stopMusic();  
+        musicSystem->stopMusic();  
     break;
     }
 }
@@ -38,5 +38,7 @@ void Root::setGame(std::shared_ptr<LevelLoader> _game)
     game = _game;
 }
 
-Root::Root(Music& _GLOBAL_MUSIC) : GLOBAL_MUSIC(_GLOBAL_MUSIC)
-{}
+Root::Root()
+{
+    musicSystem = MusicSystem::getInstance();
+}

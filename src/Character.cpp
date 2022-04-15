@@ -4,9 +4,11 @@
 #include "Animation.hpp"
 #include "SoundSystem.hpp"
 
-Character::Character(SoundSystem& _soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
-soundSystem(_soundSystem), speed(_speed), body(size), animation(_animation), dyingTime(_dyingTime)
+Character::Character(sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime) : 
+speed(_speed), body(size), animation(_animation), dyingTime(_dyingTime)
 {
+    soundSystem = SoundSystem::getInstance();
+
     body.setSize({_animation.getIntRect().width, _animation.getIntRect().height});
     setTranslation(position);
     body.setPosition({-body.getSize().x/2, -body.getSize().y/2});
@@ -50,7 +52,7 @@ void Character::kill()
         velocity.y = 0.0f;
         currentTime = 0.0f;
         animation.changeAnimation(DYING);
-        soundSystem.playSound(dyingSoundName);
+        soundSystem->playSound(dyingSoundName);
     }
 }
 

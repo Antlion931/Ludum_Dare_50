@@ -20,7 +20,7 @@ private:
     inline static std::shared_ptr<QuestCreator> qC;
 public:
     inline static sf::Font font;
-    NPC(SoundSystem& soundSystem, sf::Vector2f position, sf::Vector2f size, float _speed, Animation, float _dyingTime);
+    NPC(sf::Vector2f position, sf::Vector2f size, float _speed, Animation, float _dyingTime);
     void setUpByName(std::string name);
     inline void setTalkable(bool _talkable){talkable = _talkable;};
     inline void setDead(bool _dead){dead = _dead;};

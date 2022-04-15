@@ -15,7 +15,7 @@
 #include "ColoredButton.hpp"
 #include "Collision.hpp"
 #include "Player.hpp"
-#include "Music.hpp"
+#include "MusicSystem.hpp"
 #include "SoundSystem.hpp"
 #include "Animation.hpp"
 #include "DialogueBox.hpp"
@@ -40,10 +40,10 @@
 
 int main()
 {
-    SoundSystem GLOBAL_SOUND;
-    Music GLOBAL_MUSIC;
-    GLOBAL_MUSIC.setRepeat(true);
-    GLOBAL_MUSIC.stopMusic();
+    SoundSystem* soundSystem = SoundSystem::getInstance();
+    MusicSystem* musicSystem = MusicSystem::getInstance();
+    musicSystem->setRepeat(true);
+    musicSystem->stopMusic();
 
     std::srand(std::time(NULL));
     Resolution resolution(Resolution::resolution::_1280x720);
@@ -60,7 +60,7 @@ int main()
 
     NPC::font = font;
 
-    std::unique_ptr<Root> root = std::make_unique<Root>(Root(GLOBAL_MUSIC));
+    std::unique_ptr<Root> root = std::make_unique<Root>(Root());
     root->setName("root");
 
     std::shared_ptr<LevelLoader> game = std::make_shared<LevelLoader>(LevelLoader(4));
@@ -71,7 +71,7 @@ int main()
     GUI->setName("GUI");
     root->setGUI(GUI);
 
-    LevelSetUpper levelSetUpper(game, GUI, font, &GLOBAL_SOUND);
+    LevelSetUpper levelSetUpper(game, GUI, font);
 
     //================================================================================================MAIN MENU
     std::shared_ptr<Node> mainMenuLevel;
@@ -102,11 +102,11 @@ int main()
     levelSetUpper.setUp(testLevel, testLevelGUI, testButtons, TEST_PLAY); 
     
     TextureLoader tileSets("./res/textures/TileSets");
-    std::shared_ptr<Player> player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+    std::shared_ptr<Player> player = std::make_shared<Player>(Player());
     player->scale({1.6, 1.6});
     
 
-    std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
+    std::shared_ptr<WorldView> worldView = std::make_shared<WorldView>(WorldView( player, tileSets.returnTexture("outdoors.png")));
     worldView->setName("world view");
     testLevel->addChild(worldView);
 
@@ -152,8 +152,8 @@ int main()
     volumeBar->setPosition({100, 30});
     settingsLevelGUI->addChild(volumeBar);
 
-    GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
-    GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
+    musicSystem->setVolume(volumeBar->getProgress() * 50.0f);
+    soundSystem->setVolume(volumeBar->getProgress() * 70.0f);
 
     //========================================================================================CUTSCENE
     std::shared_ptr<Node> cutsceneLevel;
@@ -266,7 +266,7 @@ int main()
         if(mainMenuButtons->get("PLAY")->isPressed(window))
         {
             root->setLevel(CUTSCENE);
-            GLOBAL_SOUND.playSound("notification.wav");
+            soundSystem->playSound("notification.wav");
         }
 
         if(mainMenuButtons->get("SETTINGS")->isPressed(window))
@@ -296,19 +296,19 @@ int main()
 
         if(testButtons->get("TRY AGAIN")->isPressed(window))
         {
-            player = std::make_shared<Player>(Player(GLOBAL_SOUND));
+            player = std::make_shared<Player>(Player());
             player->scale({1.6, 1.6});
             cameraController = std::make_shared<CameraController>(CameraController(player));
             cameraController->setName("Player's camera control");
             player->addChild(cameraController);
 
             testLevel->removeChild(worldView);
-            worldView = std::make_shared<WorldView>(WorldView(GLOBAL_SOUND, player, tileSets.returnTexture("outdoors.png")));
+            worldView = std::make_shared<WorldView>(WorldView(player, tileSets.returnTexture("outdoors.png")));
             testLevel->addChild(worldView);
             has_lost = false;
             questCreator->failedQuests.clear();
             testInfoBox->setText("New Quest!");
-            GLOBAL_MUSIC.playMusic();
+            musicSystem->playMusic();
         }
 
         if(testButtons->get("MENU")->isPressed(window))
@@ -319,8 +319,8 @@ int main()
         if(volumeBar->isVisible())
         {
             volumeBar->update(window);
-            GLOBAL_MUSIC.setVolume(volumeBar->getProgress() * 50.0f);
-            GLOBAL_SOUND.setVolume(volumeBar->getProgress() * 70.0f);
+            musicSystem->setVolume(volumeBar->getProgress() * 50.0f);
+            soundSystem->setVolume(volumeBar->getProgress() * 70.0f);
         }
 
         if(cutescene->isVisible())
@@ -331,7 +331,7 @@ int main()
             }
         }
 
-        GLOBAL_SOUND.update();
+        soundSystem->update();
         if (player->isActive())
             questCreator->update();
 
@@ -371,7 +371,7 @@ int main()
                 testInfoBox->setText("You lost!");
                 testInfoBox->setVisible(1);
                 has_lost = true;
-                GLOBAL_MUSIC.stopMusic();
+                musicSystem->stopMusic();
             }
             else 
             {
