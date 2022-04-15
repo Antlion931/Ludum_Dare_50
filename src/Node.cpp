@@ -33,7 +33,7 @@ void Node::draw(sf::RenderTarget &target)
     // let the node draw itself
     onDraw(target);
 
-    if(debug_visible) 
+    if(DEBUG) 
         onDrawDebug(target);
 
     for(auto &child : m_children)

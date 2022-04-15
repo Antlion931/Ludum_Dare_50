@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 
+#include "DebugFlag.hpp"
 #include "Player.hpp"
 #include "Toolkit.hpp"
 
@@ -45,16 +46,22 @@ void Player::onUpdate(const sf::Time &delta)
     {
         updateVelocty(delta);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
-            //colliders["100-unit"]->setActive(false);
+            #if(DEBUG)
+            colliders["100-unit"]->setActive(false);
+            #endif
             colliders["TALK"]->setActive(true);
         }else{
-            //colliders["100-unit"]->setActive(true);
+            #if(DEBUG)
+            colliders["100-unit"]->setActive(true);
+            #endif
             colliders["TALK"]->setActive(false);
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            //colliders["100-unit"]->setActive(false);
+            #if(DEBUG)
+            colliders["100-unit"]->setActive(false);
+            #endif
             colliders["KILL"]->setActive(true);
             animation.changeAnimation(PUNCHING);
             soundSystem->playSound(punchSoundDirectory);
@@ -62,7 +69,9 @@ void Player::onUpdate(const sf::Time &delta)
         else 
         {
             colliders["KILL"]->setActive(false);
-            //colliders["100-unit"]->setActive(true);
+            #if(DEBUG)
+            colliders["100-unit"]->setActive(true);
+            #endif
             if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
             {
                 animation.changeAnimation(RUN);
@@ -129,6 +138,15 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
     snipersRedDot->setVelocity(newVelocity);
 }
 
+#if(DEBUG)
+Player::Player()
+: Player ({100,100}, {100, 100}, 800, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
+{
+    setName("player");
+    setDyingSoundName("gunShotMono.wav");
+    punchSoundDirectory = "punch.wav";
+}
+#else
 Player::Player()
 : Player ({100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
 {
@@ -136,6 +154,7 @@ Player::Player()
     setDyingSoundName("gunShotMono.wav");
     punchSoundDirectory = "punch.wav";
 }
+#endif
 
 void Player::updateVelocty(const sf::Time& delta)
 {

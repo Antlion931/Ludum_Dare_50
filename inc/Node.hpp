@@ -1,4 +1,5 @@
 #pragma once
+#include "DebugFlag.hpp"
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <iostream>
@@ -34,7 +35,6 @@ public:
 
     sf::Transformable getGlobalTransform() const;
 
-    bool debug_visible = false;
     virtual void printDebug() const;
 
     void setActive(bool _active);

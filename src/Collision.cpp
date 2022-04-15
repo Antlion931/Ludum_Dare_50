@@ -116,14 +116,14 @@ void Collider::onDrawDebug(sf::RenderTarget &target) const
     if (collision_type == ShapeType::CIRCLE)
     {
         sf::CircleShape debug_circle = sf::CircleShape(shape_info.radius);
-        debug_circle.setFillColor(sf::Color(20, 100, 100, 50));
+        debug_circle.setFillColor(sf::Color(100, 100, 100, 70));
         debug_circle.move(-shape_info.radius, -shape_info.radius);
         target.draw(debug_circle, getGlobalTransform().getTransform());
     }
     else if (collision_type == ShapeType::RECTANGLE)
     {
         sf::RectangleShape debug_rect = sf::RectangleShape(shape_info.rectangle);
-        debug_rect.setFillColor(sf::Color(20, 100, 100, 50));
+        debug_rect.setFillColor(sf::Color(100, 100, 100, 70));
         debug_rect.move(-shape_info.rectangle.x/2, -shape_info.rectangle.y/2);
         target.draw(debug_rect, getGlobalTransform().getTransform());
     }

@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "DebugFlag.hpp"
 #include "Progressbar.hpp"
 #include "MouseChangeableProgressbar.hpp"
 #include "Resolution.hpp"
@@ -92,7 +93,9 @@ int main()
 
     mainMenuButtons->makeColoredButton("PLAY", 60, { 850,150 }, { 350,80 });
     mainMenuButtons->makeColoredButton("SETTINGS", 60, { 850,300 }, { 350,80 });
-    //mainMenuButtons->makeColoredButton("TEST", 60, { 850,450 }, { 350,80 });
+    #if(DEBUG)
+    mainMenuButtons->makeColoredButton("TEST", 60, { 850,450 }, { 350,80 });
+    #endif
     mainMenuButtons->makeColoredButton("EXIT", 60, {850, 600}, {350,80});
     
     //====================================================================================================TESTING
@@ -194,6 +197,7 @@ int main()
                 window.close();
                 break;
 
+            #if(DEBUG)
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::Num1)
                 {
@@ -207,11 +211,13 @@ int main()
                 {
                     std::cout << "button _1920x1080 is: " << (settingsButtons->get("1920 x 1080")->isActive() ? "active\n" : "inactive\n");
                 }
-                // else if (event.key.code == sf::Keyboard::Space)
-                // {
-                //     root->printTree();
-                // }
+                else if (event.key.code == sf::Keyboard::Space)
+                {
+                    root->printTree();
+                }
+
                 break;
+            #endif
             }
         }
 
@@ -274,21 +280,6 @@ int main()
             root->setLevel(SETTINGS);
         }
 
-        // if(mainMenuButtons->get("TEST")->isPressed(window))
-        // {
-        //     root->setLevel(TEST_PLAY);
-        //     //questCreator->addQuest(Quest(test_NPCCreator->NPCs.at(0).get(),kill));
-        //     GLOBAL_MUSIC.setTrack("GamePlayMusic.wav");
-        // }
-
-        // if(testButtons->get("KILL")->isPressed(window))
-        // {
-        //     if(index < test_NPCCreator->NPCs.size())
-        //     {
-        //         test_NPCCreator->NPCs[index]->kill();
-        //         index++;
-        //     }
-        // }
         if(mainMenuButtons->get("EXIT")->isPressed(window))
         {
             window.close();
@@ -310,6 +301,13 @@ int main()
             testInfoBox->setText("New Quest!");
             musicSystem->playMusic();
         }
+
+        #if(DEBUG)
+        if(mainMenuButtons->get("TEST")->isPressed(window))
+        {
+            root->setLevel(TEST_PLAY);
+        }
+        #endif
 
         if(testButtons->get("MENU")->isPressed(window))
         {
@@ -381,7 +379,6 @@ int main()
         }
 
         root->update(delta);
-        //std::cout << "Delta: " << delta.asMilliseconds() << "\n";
 
         sf::View new_view = window.getView();
         new_view.setCenter(cameraController->getRequiredTranslation());
