@@ -18,7 +18,6 @@
 #include "Player.hpp"
 #include "MusicSystem.hpp"
 #include "SoundSystem.hpp"
-#include "Animation.hpp"
 #include "DialogueBox.hpp"
 #include "TileMap.hpp"
 #include "NPC.hpp"
@@ -120,15 +119,19 @@ int main()
     testButtons->makeColoredButton("MENU", 30, {25,25}, {200,50});
 
     std::shared_ptr<TextBox> testQuestBox = std::make_shared<TextBox>(TextBox({490, 90}, {200, 60}, sf::Text("Place holder", font, 40)));
+    testQuestBox->setName("quest textbox");
     testLevelGUI->addChild(testQuestBox);
 
     std::shared_ptr<TextBox> testTimeBox = std::make_shared<TextBox>(TextBox({490, 20}, {200, 60}, sf::Text("Place holder", font, 40)));
+    testTimeBox->setName("time textbox");
     testLevelGUI->addChild(testTimeBox);
 
     std::shared_ptr<TextBox> testScoreBox = std::make_shared<TextBox>(TextBox({1100, 20}, {100, 60}, sf::Text("Place holder", font, 40)));
+    testScoreBox->setName("score textbox");
     testLevelGUI->addChild(testScoreBox);
 
     std::shared_ptr<TextBox> testInfoBox = std::make_shared<TextBox>(TextBox({550, 300}, {200, 60}, sf::Text("New Quest!", font, 60)));
+    testInfoBox->setName("info textbox");
     testLevelGUI->addChild(testInfoBox);
     
     std::shared_ptr<CameraController> cameraController = std::make_shared<CameraController>(CameraController(player));

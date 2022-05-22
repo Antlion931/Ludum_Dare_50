@@ -1,18 +1,16 @@
 #pragma once
 #include <vector>
 
-#include "Character.hpp"
+#include "GameObject.hpp"
 #include "QuestCreator.hpp"
 #include "DialogueBox.hpp"
 
-class NPC : public Character
+class NPC : public GameObject
 {
 private:
     float walkTime;
     float waitTime;
     bool talkable = true;
-    bool dead = false;
-    bool killable = true;
 
     void onUpdate(const sf::Time &delta) override;
     void randomVelocityAndTimes();
@@ -20,11 +18,7 @@ private:
     inline static std::shared_ptr<QuestCreator> qC;
 public:
     inline static sf::Font font;
-    NPC(sf::Vector2f position, sf::Vector2f size, float _speed, Animation, float _dyingTime);
-    void setUpByName(std::string name);
-    inline void setTalkable(bool _talkable){talkable = _talkable;};
-    inline void setDead(bool _dead){dead = _dead;};
-    inline void setKillable(bool _killable){killable = _killable;};
+    NPC(sf::Vector2f position, sf::Vector2f size, float _speed, AnimationManager _animationManager, float _dyingTime);
 
     inline static void setQuestCreator(std::shared_ptr<QuestCreator> _qC){qC = _qC;};
 };

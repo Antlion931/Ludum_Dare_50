@@ -1,14 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "Character.hpp"
+#include "GameObject.hpp"
 #include "SoundSystem.hpp"
 #include "MovingCircle.hpp"
 
-class Player : public Character
+class Player : public GameObject
 {
 public:
-    Player(sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, float _punchTime);
+    Player(sf::Vector2f position, sf::Vector2f size, float _speed, AnimationManager _animation, float _dyingTime, float _punchTime);
     Player();
 
 protected:

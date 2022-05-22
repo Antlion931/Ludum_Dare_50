@@ -4,6 +4,8 @@
 #include<iostream>
 #include<filesystem>
 
+std::string TextureLoader::fileFormat = ".png";
+
 void TextureLoader::loadTextures(){
     for(const auto &entry: std::filesystem::directory_iterator(directoryPath)){
         sf::Texture texture;
@@ -25,11 +27,15 @@ TextureLoader::TextureLoader(std::shared_ptr<TextureLoader> loader)
 }
 
 std::shared_ptr<sf::Texture> TextureLoader::returnTexture(std::string _fileName){
-    //std::cout << "return texture " + _fileName << std::endl;
-    return textures.at(_fileName);
+    return textures.at(_fileName + fileFormat);
 }
 
 int TextureLoader::getAmountOfTextures()
 {
     return textures.size();
+}
+
+bool TextureLoader::checkIfThereIs(std::string fileName)
+{
+    return textures.count(fileName);
 }
