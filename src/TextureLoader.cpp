@@ -20,10 +20,10 @@ void TextureLoader::loadTextures(){
     }
 }
 
-TextureLoader::TextureLoader(std::shared_ptr<TextureLoader> loader)
+TextureLoader::TextureLoader(TextureLoader& loader)
 {
-    directoryPath = loader->directoryPath;
-    textures = loader->textures;
+    directoryPath = loader.directoryPath;
+    textures = loader.textures;
 }
 
 std::shared_ptr<sf::Texture> TextureLoader::returnTexture(std::string _fileName){
@@ -37,5 +37,6 @@ int TextureLoader::getAmountOfTextures()
 
 bool TextureLoader::checkIfThereIs(std::string fileName)
 {
-    return textures.count(fileName);
+    std::cout << "wants to check " << fileName + fileFormat << " for " << directoryPath << " and count = " << textures.count(fileName + fileFormat) << std::endl;
+    return textures.count(fileName + fileFormat);
 }

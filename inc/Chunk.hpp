@@ -2,7 +2,6 @@
 #include "Node.hpp"
 #include "TileMap.hpp"
 #include "NPC.hpp"
-#include "NPCCreator.hpp"
 
 #include <fstream>
 #include <random>

@@ -27,21 +27,23 @@
 #include "CameraController.hpp"
 #include "Root.hpp"
 #include "ButtonsContainer.hpp"
-#include "NPCCreator.hpp"
 #include "WorldView.hpp"
 #include "LevelSetUpper.hpp"
 #include "DialogueBox.hpp"
 #include "Toolkit.hpp"
 #include "StaticObject.hpp"
-#include "EntityPrefabs.hpp"
 #include "QuestCreator.hpp"
 #include "TextBox.hpp"
 #include "Cutescene.hpp"
+#include "TextureLoaderPrototypeFactory.hpp"
 
 int main()
 {
     SoundSystem* soundSystem = SoundSystem::getInstance();
     MusicSystem* musicSystem = MusicSystem::getInstance();
+    TextureLoaderPrototypeFactory::getInstance("res/textures/gameObjects/");
+
+
     musicSystem->setRepeat(true);
     musicSystem->stopMusic();
 

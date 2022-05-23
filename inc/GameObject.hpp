@@ -5,6 +5,11 @@
 #include "AnimationManager.hpp"
 #include "SoundSystem.hpp"
 
+const std::string IDLE = "idle";
+const std::string DYING = "dying";
+const std::string DEAD = "dead";
+const std::string RUN = "run";
+
 class GameObject : public DynamicNode
 {
 public:
@@ -15,15 +20,12 @@ public:
 
     void kill();
     bool isDead();
-
-    void setSpeed(float _speed){speed = _speed;}
    
 protected:
 
     bool dead = false;
     bool dying = false;
     bool isFaceingRight;
-    float speed;
 
     sf::RectangleShape body;
     AnimationManager animationManager;

@@ -1,6 +1,6 @@
 #include"Quest.hpp"
 
-Quest::Quest(Character* _questObjective,QuestType _questType,int _remainingMiliseconds){
+Quest::Quest(GameObject* _questObjective,QuestType _questType,int _remainingMiliseconds){
     questObjectiveType = _questObjective->getName();
     questObjective = _questObjective;
     questType = _questType;
@@ -54,7 +54,7 @@ QuestType Quest::returnQuestType() const{
     return questType;
 };
 
-Character* Quest::returnQuestObjective()const{
+GameObject* Quest::returnQuestObjective()const{
     return questObjective;
 };
 std::string Quest::returnQuestObjectiveType() const{

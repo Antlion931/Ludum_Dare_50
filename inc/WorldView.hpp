@@ -4,9 +4,7 @@
 #include "Y-sort.hpp"
 #include "Player.hpp"
 #include "StaticNode.hpp"
-#include "EntityPrefabs.hpp"
 #include "ChunkTemplateLoader.hpp"
-#include "NPCCreator.hpp"
 #include <unordered_map>
 #include <map>
 
@@ -36,15 +34,12 @@ private:
     };
 
     std::shared_ptr<sf::Texture> tileSet;
-
-    EntityPrefabs entityPrefabs;
     
     std::unordered_map<sf::Vector2i, std::shared_ptr<Chunk>, KeyHasher> chunkMap;
     std::shared_ptr<Node> ChunkContainer;
 
     std::shared_ptr<CollisionLayer> static_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
     std::shared_ptr<CollisionLayer> interaction_layer = std::make_shared<CollisionLayer>(CollisionLayer());;
-    std::shared_ptr<NPCCreator> NPCcreator;
 
     std::shared_ptr<Player> player;
     sf::Vector2i currentCenterCoords = {0,0};

@@ -4,10 +4,6 @@
 #include "AnimationManager.hpp"
 #include "SoundSystem.hpp"
 
-const std::string IDLE = "idle";
-const std::string DYING = "dying";
-const std::string DEAD = "dead";
-
 GameObject::GameObject(sf::Vector2f position, std::string animationDirectoryName, float idleTime, float dyingTime, float deadTime) :
 animationManager(animationDirectoryName, { {IDLE,idleTime}, {DYING,dyingTime}, {DEAD,deadTime} }, IDLE)
 {

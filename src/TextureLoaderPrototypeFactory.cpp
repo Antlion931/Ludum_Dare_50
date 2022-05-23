@@ -1,8 +1,9 @@
-#pragma once
 #include <filesystem>
 #include <assert.h>
 
 #include "TextureLoaderPrototypeFactory.hpp"
+
+TextureLoaderPrototypeFactory* TextureLoaderPrototypeFactory::instance = nullptr;
 
 std::shared_ptr<TextureLoader> TextureLoaderPrototypeFactory::make(std::string name)
 {

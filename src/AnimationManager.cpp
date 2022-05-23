@@ -25,7 +25,7 @@ AnimationManager::AnimationManager(std::string animationDirectoryName, std::map<
 void AnimationManager::addAnimation(std::string name, float time)
 {
     int amount = 0;
-    while(loader->checkIfThereIs(fileName(name, amount)))
+    while(loader->checkIfThereIs(fileName(name, amount + 1)))
         amount++;
     
     assert(amount > 0);
@@ -41,7 +41,7 @@ std::string AnimationManager::fileName(std::string animation, int index)
 void AnimationManager::changeAndReset(std::string animation, bool isPlayOnce)
 {
     currentAnimation = animation;
-    currentIndex = 0;
+    currentIndex = 1;
     currentTime = 0.0f;
     animationPlayOnce = isPlayOnce;
 }
@@ -87,7 +87,7 @@ void AnimationManager::update(const sf::Time& delta, bool isFacedRight)
             if(animationPlayOnce)
                 changeAndReset(defaultAnimation);
             else
-                currentIndex = 0;
+                currentIndex = 1;
         }
     }
 

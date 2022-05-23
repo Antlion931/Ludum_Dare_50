@@ -12,7 +12,11 @@ class TextureLoader{
             loadTextures();
         }
         
-        TextureLoader(std::shared_ptr<TextureLoader> loader);
+        TextureLoader(TextureLoader& loader);
+        TextureLoader()
+        {
+            directoryPath = "BROKEN!";
+        }
         std::shared_ptr<sf::Texture> returnTexture(std::string fileName);
         bool checkIfThereIs(std::string fileName);
         int getAmountOfTextures();

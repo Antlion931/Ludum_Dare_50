@@ -5,14 +5,15 @@
 #include "SoundSystem.hpp"
 #include "MovingCircle.hpp"
 
+const std::string PUNCH = "punch";
+
 class Player : public GameObject
 {
 public:
-    Player(sf::Vector2f position, sf::Vector2f size, float _speed, AnimationManager _animation, float _dyingTime, float _punchTime);
+    Player(sf::Vector2f position, std::string animationDirectoryName, float idleTime, float dyingTime, float deadTime, float runTime, float _punchTime, float _speed);
     Player();
 
 protected:
-    float punchTime;
 
     std::string punchSoundDirectory; 
 
@@ -21,9 +22,12 @@ protected:
 
     void onDraw(sf::RenderTarget &target) override;
     void onUpdate(const sf::Time &delta) override;
-    //void onResize(Resolution resolution) override;
 
 private:
+    float currentTime;
+    float speed;
+    float punchTime;
+    bool punching;
     void randHeadPositon();
     void updateSinpersRedDot(const sf::Time& delta);
     void updateVelocty(const sf::Time& delta);

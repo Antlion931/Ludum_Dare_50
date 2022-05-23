@@ -17,17 +17,16 @@ std::vector<std::string> const RANDOM_QUOTES = {
     "Good morning"
 };
 
-NPC::NPC(sf::Vector2f position, sf::Vector2f size, float _speed, AnimationManager _animationManager, float _dyingTime) : 
-GameObject(position, size, _speed, _animationManager, _dyingTime)
+NPC::NPC(sf::Vector2f position, std::string animationDirectoryName, float idleTime, float dyingTime, float deadTime, float runTime, float _speed) : 
+GameObject(position, animationDirectoryName, idleTime, dyingTime, deadTime), speed(_speed)
 {
-    //font.loadFromFile("res/Comic_Book.otf");
+    animationManager.addAnimation(RUN, runTime);
     randomVelocityAndTimes();
-    animation.changeAnimation(RUN);
 }
 
 void NPC::onUpdate(const sf::Time &delta)
 {
-    if(animation.getCurrentAnimation() == RUN)
+    if(dot(velocity, velocity) > 0.0f)
     {
         if(velocity.x > 0.0f)
         {
@@ -42,32 +41,23 @@ void NPC::onUpdate(const sf::Time &delta)
         if(currentTime >= walkTime)
         {
             currentTime = 0.0f;
-            animation.changeAnimation(IDLE);
+            animationManager.play(IDLE);
             velocity.x = 0.0f;
             velocity.y = 0.0f;
         }
     }
-    else if(animation.getCurrentAnimation() == IDLE)
+    else if(!dying && !dead)
     {
         currentTime += delta.asSeconds();
 
         if(currentTime >= waitTime)
         {
             currentTime = 0.0f;
-            animation.changeAnimation(RUN);
+            animationManager.play(RUN);
             randomVelocityAndTimes();
         }
     }
-    else if (animation.getCurrentAnimation() == DYING)
-    {
-        currentTime += delta.asSeconds();
 
-        if(currentTime > dyingTime)
-        {
-            currentTime = 0.0f;
-            animation.changeAnimation(DEAD);
-        }
-    }
     auto interaction_result = scanCollisions("INTERACTION");
     if(!dead){
         if (interaction_result.collider.contains("KILL"))

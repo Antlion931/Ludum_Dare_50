@@ -9,40 +9,35 @@
 void Player::onUpdate(const sf::Time &delta)
 {
     velocity = {0,0};
-    if(isFaceingRight){
+    if(isFaceingRight)
+    {
             colliders["KILL"]->setTranslation({30.f,0.f});
             colliders["TALK"]->setTranslation({30.f,0.f});
     }
-        else{
-            colliders["KILL"]->setTranslation({-30.f,0.f});
-            colliders["TALK"]->setTranslation({-30.f,0.f});
-        }
-    if(animation.getCurrentAnimation() == DYING)
+    else
     {
-        currentTime += delta.asSeconds();
-
-        if(currentTime > dyingTime)
-        {
-            currentTime -= dyingTime;
-            animation.changeAnimation(DEAD);
-            snipersRedDot->setVisible(false);
-        }
+        colliders["KILL"]->setTranslation({-30.f,0.f});
+        colliders["TALK"]->setTranslation({-30.f,0.f});
     }
-    else if(animation.getCurrentAnimation() == PUNCHING)
+
+    if(dying || dead)
+    {
+        snipersRedDot->setVisible(false);
+    }
+    if(punching)
     {   
         colliders["KILL"]->setActive(true);
         currentTime += delta.asSeconds();
         if(currentTime > punchTime)
         {
             colliders["KILL"]->setActive(false);
-            currentTime -= punchTime;
-            animation.changeAnimation(IDLE);
+            currentTime = 0.0f;
         }
 
         const float punchingSlow = 0.5;
         updateVelocty(delta * punchingSlow);
     }
-    else if( animation.getCurrentAnimation() != DEAD)
+    else
     {
         updateVelocty(delta);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)){
@@ -63,7 +58,7 @@ void Player::onUpdate(const sf::Time &delta)
             colliders["100-unit"]->setActive(false);
             #endif
             colliders["KILL"]->setActive(true);
-            animation.changeAnimation(PUNCHING);
+            animationManager.playOnce(PUNCH);
             soundSystem->playSound(punchSoundDirectory);
         }
         else 
@@ -74,11 +69,11 @@ void Player::onUpdate(const sf::Time &delta)
             #endif
             if(std::abs(velocity.x) > 0.0f || std::abs(velocity.y) > 0.0f)
             {
-                animation.changeAnimation(RUN);
+                animationManager.play(RUN);
             }
             else
             {
-                animation.changeAnimation(IDLE);
+                animationManager.play(IDLE);
             }
         }
     }
@@ -92,10 +87,13 @@ void Player::onUpdate(const sf::Time &delta)
     updateBody(delta);
 }
 
-Player::Player(sf::Vector2f position, sf::Vector2f size, float _speed, Animation _animation, float _dyingTime, float _punchTime) : 
-Character(position, size, _speed, _animation, _dyingTime), punchTime(_punchTime)
+Player::Player(sf::Vector2f position, std::string animationDirectoryName, float idleTime, float dyingTime, float deadTime, float runTime, float _punchTime, float _speed) : 
+GameObject(position, animationDirectoryName, idleTime, dyingTime, deadTime), speed(_speed), punchTime(_punchTime)
 {
     offsetTexture({0.0, -20.0});
+
+    animationManager.addAnimation(RUN, runTime);
+    animationManager.addAnimation(PUNCH, _punchTime);
 
     snipersRedDot = std::make_shared<MovingCircle>(MovingCircle(position, 3));
     snipersRedDot->setName("snipers red dot");
@@ -122,7 +120,7 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
 {
     float snipersVelocityMultiplayer = 2;
 
-    if(animation.getCurrentAnimation() != IDLE)
+    if(dot(velocity, velocity) > 0.0f)
     {
         randHeadPositon();
         snipersVelocityMultiplayer = 40;
@@ -140,7 +138,7 @@ void Player::updateSinpersRedDot(const sf::Time& delta)
 
 #if(DEBUG)
 Player::Player()
-: Player ({100,100}, {100, 100}, 800, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
+: Player ({100,100}, "Player", 1, 1, 1, 1, 1, 800)
 {
     setName("player");
     setDyingSoundName("gunShotMono.wav");
@@ -148,7 +146,7 @@ Player::Player()
 }
 #else
 Player::Player()
-: Player ({100,100}, {100, 100}, 300, Animation("./res/textures/Player", {0.15, 0.1, 0.1, 1, 0.1}, {29,45,53,54,63}), 1.1, 0.8)
+: Player ({100,100}, "Player", 1, 1, 1, 1, 1, 300)
 {
     setName("player");
     setDyingSoundName("gunShotMono.wav");

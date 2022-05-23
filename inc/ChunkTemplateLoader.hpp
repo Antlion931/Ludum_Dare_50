@@ -7,7 +7,7 @@
 #include <sstream>
 #include <map>
 #include <filesystem>
-
+#include <unordered_map>
 
 class ChunkTemplateLoader
 {

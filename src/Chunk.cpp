@@ -68,5 +68,4 @@ std::shared_ptr<std::ifstream> Chunk::loadChunk(std::shared_ptr<sf::Texture> _ti
 
 Chunk::~Chunk()
 {
-
 }
